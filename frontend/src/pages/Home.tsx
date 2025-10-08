@@ -2,9 +2,12 @@ import React from "react";
 
 function Home() {
     return <>
-        <h2>
-            Home Page
-        </h2>
+    <div className="home">
+        <h1 className="home__title">Welcome to Line Manager</h1>
+        <div className="home__content">
+        {/* Content here */}
+      </div>
+    </div>
     </>
 }
 

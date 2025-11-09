@@ -3,21 +3,18 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './pages/Home'
 import MainTemplater from './pages/MainTemplater'
 import './styles/global.scss';
+import MyNavbar from './pages/Navbar';
 
 function App() {  
   return (
    <>
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/templater">Templater</Link></li>
-          </ul>
-        </nav>
-
+        <div className="navbar">
+          <MyNavbar/>
+        </div>
         <Switch>
-          <Route exact path="/" component={Home}/>
+          <Route path="/" component={Home}/>
           <Route path="/templater" component={MainTemplater}/>
         </Switch>
       </div>

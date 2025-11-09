@@ -1,0 +1,18 @@
+{
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "error" : "Error",
+    "errorLogin" : "Error, please try again",
+    "invalid": "Invalid email or password",
+    "failure": "Failed to Log In",
+    "success": "Succesfully Logged In",
+    "inputEmail" : "Enter your email",
+    "inputPassword": "Enter your password",
+    "requiredEmail": "Email is required",
+    "requiredPassword":"Password is required",
+    "formatEmail":"Please use the correct email format"
+  }
+}

@@ -1,0 +1,12 @@
+// // 1. Import variables and mixins first
+@import './variables';
+@import './mixins';
+
+// // 2. Import Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}

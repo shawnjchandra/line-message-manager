@@ -1,23 +1,21 @@
-import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Home from './pages/Home'
-import MainTemplater from './pages/MainTemplater'
+import react from 'react';
+import Home from './pages/Home';
+import MainTemplater from './pages/MainTemplater';
 import './styles/global.scss';
-import MyNavbar from './pages/Navbar';
+import MyNavbar from './pages/MyNavbar';  
 
 function App() {  
   return (
    <>
     <Router>
-      <div>
-        <div className="navbar">
-          <MyNavbar/>
-        </div>
-        <Switch>
-          <Route path="/" component={Home}/>
-          <Route path="/templater" component={MainTemplater}/>
-        </Switch>
-      </div>
+      <MyNavbar/>
+        <main>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/templater" component={MainTemplater}/>
+          </Switch>
+        </main>
     </Router>
    </>
   );

@@ -12,19 +12,5 @@ body {
   font-family: 'Roboto', sans-serif;
   color: $text-color;
   background-color: $background-color;
-  min-width: 1280px; // As per requirements
-}
-
-div.navbar {
-  height: 10vh;
-  font-weight: bold;
-}
-
-div.navbar * {
-  display: flex;
-  flex-direction: row;
-  color: white;
-  background-color: #00b84f;
-  width: 100vw;
-  height: 10vh;
+  min-width: 1280px;
 }

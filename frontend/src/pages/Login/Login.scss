@@ -1,0 +1,140 @@
+@import '../../styles/variables';
+
+.login-page {
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $aos, lighten($primary, 45%));
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 340px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: $border-radius-lg;
+  
+  .error {
+    color: $danger;
+    font-weight: 500;
+  }
+
+  .card-header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: white;
+    padding: 1.5rem 1rem 1rem; 
+  }
+
+  .card-img {
+    max-width: 100px; 
+    max-height: 150px; 
+    border-radius: 10px;
+    border: 1px;
+    border-color: black;
+  }
+
+  .card-body {
+    padding: 1.5rem; // Control body padding
+  }
+
+  h2 {
+    margin-top: 1rem;
+    margin-bottom: 1.25rem; 
+    color: $black;
+    text-align: center;
+    font-size: 1.4rem;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group {
+    margin-top: 0;
+    margin-bottom: 1rem; 
+  }
+
+  .form-control {
+    font-size: 0.95rem; 
+    padding: 0.65rem 0.75rem; 
+    
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+    }
+  }
+  
+  .btn {
+    padding: 0.65rem; 
+    font-size: 1rem;
+    width: 100%; 
+    margin-top: 0.5rem;
+  }
+  
+
+  @media (min-width: 768px) {
+    max-width: 400px; 
+    
+    .card-body {
+      padding: 2rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    .form-label {
+      font-size: 1rem;
+    }
+    
+    .form-control {
+      font-size: 1rem;
+      padding: 0.75rem;
+    }
+  }
+  
+
+  @media (min-width: 1280px) {
+    max-width: 420px; 
+    
+    .card-body {
+      padding: 2.25rem;
+    }
+    
+    h2 {
+      font-size: 1.65rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.25rem;
+      font-size: 1.05rem;
+    }
+  }
+  
+  // Large desktop (1920px+) 
+  @media (min-width: 1920px) {
+    max-width: 440px; 
+    
+    .card-body {
+      padding: 2.5rem;
+    }
+    
+    h2 {
+      font-size: 1.75rem;
+    }
+  }
+}

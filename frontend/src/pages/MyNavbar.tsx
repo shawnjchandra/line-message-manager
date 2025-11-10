@@ -1,33 +1,33 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import '../styles/_navbar.scss';
 import farsLogo from '../assets/FARS_logo.png';
+import { Link } from 'react-router-dom';
 
 function MyNavbar() {
   return (
     <Navbar collapseOnSelect expand="lg" className="custom-navbar">
-      <Container className="navbar-container">
+      <div className="navbar-container">
         <div className="nav-left">
             <img src={farsLogo} className='fars-logo' />
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse className="left-navbar-nav">
-                <Nav className="me-auto">
-                <Nav.Link href="#features">Home</Nav.Link>
-                <Nav.Link href="#pricing">Editor</Nav.Link>
-            </Nav>
+            <Navbar.Collapse>
+                <Nav className="nav-left-links">
+                    <Link to="/">Home</Link>
+                    <Link to="/templater">Editor</Link>
+                </Nav>
             </Navbar.Collapse>
         </div>
         <div className="nav-right">
-            <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav>
-                <Nav.Link href="#deets">Sign Up</Nav.Link>
-                <Nav.Link href="#login">Login</Nav.Link>
+            <Navbar.Collapse>
+            <Nav className="nav-right-links">
+                <Link to="/sign-up">Sign Up</Link>
+                <Link to="/login">Login</Link>
             </Nav>
             </Navbar.Collapse>
         </div>
-      </Container>
+      </div>
     </Navbar>
   );
 }

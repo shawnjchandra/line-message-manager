@@ -1,5 +1,4 @@
 import React from "react";
-import '../styles/global.scss';
 import Navbar from "./MyNavbar";
 
 function Home() {

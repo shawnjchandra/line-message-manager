@@ -1,3 +1,8 @@
+a {
+  text-decoration: none;
+  font-size:larger;
+}
+
 .custom-navbar {
     display: flex;
     justify-content: space-between;
@@ -6,13 +11,16 @@
     background-color: white;
     color: white;
     padding: 0;
-    position: fixed;
+    position: relative;
     font-weight: bold;
 }
 
 .navbar-container {
   margin: 0;
   width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
 }
 
 .nav-left {
@@ -21,15 +29,14 @@
     gap: 2rem;
 }
 
-.nav-links-main {
+.nav-left-links {
   display: flex;
-  list-style: none;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .fars-logo {
-    width: 2.7vw;
-    height: 7vh;
+    width: 50px;
+    height: 64px;
 }
 
 .nav-right {
@@ -38,10 +45,9 @@
     gap: 2rem;
 }
 
-.nav-links-auth {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
+.nav-right-links {
+  display: flex;
+  gap: 2rem;
 }
 
 .nav-links-main a,

@@ -1,18 +1,17 @@
 {
   "login": {
-    "title": "Masuk",
+    "login": "Masuk",
     "email": "Email",
     "password": "Kata Sandi",
-    "loginButton": "Masuk",
     "error" : "Eror",
-    "errorLogin" : "Terjadi kesalahan, mohon coba ulang",
-    "invalid": "Email atau kata sandi salah",
-    "failure": "Gagal untuk masuk",
-    "success": "Berhasil untuk masuk",
-    "inputEmail" : "Masukkan email",
-    "inputPassword": "Masukkan kata sandi",
-    "requiredEmail": "Email diperlukan",
-    "requiredPassword":"Kata sandi diperlukan",
-    "formatEmail":"Mohon gunakan format email yang benar"
+    "errorPleaseTryAgain" : "Terjadi kesalahan, mohon coba ulang",
+    "invalidEmailOrPassword": "Email atau kata sandi salah",
+    "failedToLogIn": "Gagal untuk masuk",
+    "successfullyLoggedIn": "Berhasil untuk masuk",
+    "enterYourEmail" : "Masukkan email",
+    "enterYourPassword": "Masukkan kata sandi",
+    "emailIsRequired": "Email diperlukan",
+    "passwordIsRequired":"Kata sandi diperlukan",
+    "pleaseUseTheCorrectEmailFormat":"Mohon gunakan format email yang benar"
   }
 }

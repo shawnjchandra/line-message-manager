@@ -1,11 +1,11 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import '../styles/_navbar.scss';
-import farsLogo from '../assets/FARS_logo.png';
+import '../../styles/_navbar.scss';
+import farsLogo from '../../assets/FARS_logo.png';
 import { Link } from 'react-router-dom';
 
-function MyNavbar() {
+function CustomNavbar() {
   return (
     <Navbar collapseOnSelect expand="lg" className="custom-navbar">
       <div className="navbar-container">
@@ -32,7 +32,7 @@ function MyNavbar() {
   );
 }
 
-export default MyNavbar;
+export default CustomNavbar;
 
 // import react from 'react';
 // import { Link } from 'react-router-dom';

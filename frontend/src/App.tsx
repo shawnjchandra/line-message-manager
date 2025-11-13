@@ -1,17 +1,18 @@
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Home from './pages/Home'
-import MainTemplater from './pages/MainTemplater'
+import reat from 'react';
+import Home from './pages/Home/Home';
+import MainTemplater from './pages/MainTemplater';
 import Login from './pages/Login/Login';
-import TranslationButton  from './components/TranslationButton/TranslationButton'
-import './utils/i18n'
-import MyNavbar from './pages/MyNavbar';
+import TranslationButton  from './components/TranslationButton/TranslationButton';
+import './utils/i18n';
+import CustomNavbar from './components/Navbar/CustomeNavbar';
 
-function App() {  
+function App() {
   return (
    <>
     <Router>
       <div>
-        <MyNavbar/>
+        <CustomNavbar/>
         
         <Switch>
           <Route exact path="/" component={Home}/>

@@ -1,5 +1,5 @@
 import farsLogo from "../../assets/FARS_logo.png";
-import VantaBackground from "../../assets/js/VantaBackground";
+import VantaBackground from "../../components/VantaBackground/VantaBackground";
 import '../../styles/_home.scss';
 
 function Home() {

@@ -10,8 +10,13 @@
     "password": "user123"
   },
   {
-    "id":3,
+    "id": 3,
     "email": "a123@example.com",
-    "password":"a123"
+    "password": "a123"
+  },
+  {
+    "id": 3,
+    "email": "asd@gmail.com",
+    "password": "asd123"
   }
 ]

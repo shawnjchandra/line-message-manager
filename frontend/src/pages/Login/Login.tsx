@@ -86,9 +86,9 @@ function Login() {
       );
 
       if (user) {
-        localStorage.setItem('user',JSON.stringify({ 
-          // id: user.id,
-          email: user.email,
+        localStorage.setItem('id',JSON.stringify({ 
+          id: user.id,
+          // email: user.email,
         }
         ));
 
@@ -199,7 +199,7 @@ function Login() {
             >
               {isLoading? 
                 <Spinner animation={'border'}/>
-                 : 'Login'}
+                 : t('login.login')}
             </Button>
           </Form>
         </Card.Body>

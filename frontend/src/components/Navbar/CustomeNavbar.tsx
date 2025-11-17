@@ -22,7 +22,7 @@ function CustomNavbar() {
         <div className="nav-right">
             <Navbar.Collapse>
             <Nav className="nav-right-links">
-                <Link to="/sign-up">Sign Up</Link>
+                <Link to="/register">Register</Link>
                 <Link to="/login">Login</Link>
             </Nav>
             </Navbar.Collapse>

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "three": "^0.124.0",
+    "three": "^0.152.2",
     "vanta": "^0.5.24"
   }
 }

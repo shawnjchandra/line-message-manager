@@ -3,40 +3,51 @@ import * as THREE from 'three';
 import WAVES from 'vanta/dist/vanta.waves.min';
 
 const VantaBackground = () => {
-    const [vantaEffect, setVantaEffect] = useState(null);
-    const myRef = useRef(null);
+  const [vantaEffect, setVantaEffect] = useState(null);
+  const myRef = useRef(null);
 
-    useEffect(() => {
-        if (!vantaEffect) {
-            setVantaEffect(
-                WAVES({
-                el: "#your-element-selector",
-                mouseControls: true,
-                touchControls: true,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 1.00,
-                color: 0x2d6626,
-                shininess: 38.00,
-                waveHeight: 12.50,
-                waveSpeed: 0.90,
-                zoom: 0.93
-                })
-            );
-        }
+  useEffect(() => {
+    if (vantaEffect) {
+      vantaEffect.destroy();
+    }
 
-        return () => {
-            if (vantaEffect) vantaEffect.destroy();
-        };
-    }, [vantaEffect]);
+    if (myRef.current) {
+      const effect = WAVES({
+        el: myRef.current, 
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x2d6626,
+        shininess: 38.0,
+        waveHeight: 12.5,
+        waveSpeed: 0.9,
+        zoom: 0.93,
+      });
+      setVantaEffect(effect);
+    }
 
-    return (
-        <div ref={myRef} style={{ width: '100vw', height: '100vh' }}>
-            
-        </div>
-    )
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, []); 
+
+  return (
+    <div
+      ref={myRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1, 
+      }}
+    />
+  );
 };
 
 export default VantaBackground;

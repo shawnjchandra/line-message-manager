@@ -1,9 +1,11 @@
 import farsLogo from "../../assets/FARS_logo.png";
+import VantaBackground from "../../assets/js/VantaBackground";
 import '../../styles/_home.scss';
 
 function Home() {
     return <>
       <div className="home">
+        <VantaBackground/>
         <div className="home-title-container">
           <div className="home-titles">
             <div className="fars-logo-container">

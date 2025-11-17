@@ -13,5 +13,25 @@
     "emailIsRequired": "Email diperlukan",
     "passwordIsRequired":"Kata sandi diperlukan",
     "pleaseUseTheCorrectEmailFormat":"Mohon gunakan format email yang benar"
+  },
+  "register": {
+    "register": "Daftar",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "confirmPassword": "Konfirmasi Kata Sandi",
+    "error" : "Eror",
+    "errorPleaseTryAgain" : "Terjadi kesalahan, mohon coba ulang",
+    "registerError":"Eror Registrasi",
+    "invalidEmailOrPassword": "Email atau kata sandi salah",
+    "successfullyRegistered": "Berhasil Registrasi",
+    "enterYourEmail" : "Masukkan email",
+    "enterYourPassword": "Masukkan kata sandi",
+    "emailIsRequired": "Email diperlukan",
+    "passwordLength": "Kata sandi tidak bisa kurang dari 6",
+    "reenterYourPassword":"Masukkan kembali password",
+    "pleaseUseTheCorrectEmailFormat":"Mohon gunakan format email yang benar",
+    "failedToRegister":"Gagal Registrasi",
+    "passwordMismatch":"Password tidak sama",
+    "somethingWentWrong":"Ada sesuatu yang salah"
   }
 }

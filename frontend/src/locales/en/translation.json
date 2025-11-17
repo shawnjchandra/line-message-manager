@@ -13,5 +13,26 @@
     "emailIsRequired": "Email is required",
     "passwordIsRequired":"Password is required",
     "pleaseUseTheCorrectEmailFormat":"Please use the correct email format"
+  },
+  "register": {
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "error" : "Error",
+    "errorPleaseTryAgain" : "Error, please try again",
+    "registerError":"Register Error",
+    "invalidEmailOrPassword": "Invalid email or password",
+    "successfullyRegistered": "Succesfully Registered",
+    "enterYourEmail" : "Enter your email",
+    "enterYourPassword": "Enter your password",
+    "emailIsRequired": "Email is required",
+    "passwordIsRequired":"Password is required",
+    "passwordLength": "Password length can't be less than 6",
+    "reenterYourPassword":"Reenter Your Password",
+    "pleaseUseTheCorrectEmailFormat":"Please use the correct email format",
+    "failedToRegister":"Failed to Register",
+    "passwordMismatch":"Password Mismatch",
+    "somethingWentWrong":"Something Went Wrong"
   }
 }

@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import TranslationButton  from './components/TranslationButton/TranslationButton';
 import './utils/i18n';
 import CustomNavbar from './components/Navbar/CustomeNavbar';
+import Register from './pages/Register/Register';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/" component={Home}/>
           <Route path="/templater" component={MainTemplater}/>
           <Route path="/login" component={Login}/>
+          <Route path="/register" component={Register}/>
         </Switch>
           <TranslationButton/>
       </div>

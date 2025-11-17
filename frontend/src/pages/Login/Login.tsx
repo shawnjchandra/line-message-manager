@@ -53,13 +53,13 @@ function Login() {
     const newErrors: Partial<FormLoginBase> = {};
 
     if(!formData.email) {
-      newErrors.email = t('login.requiredEmail');
+      newErrors.email = t('login.emailIsRequired');
     } else if (!formData.email.includes('@') || !formData.email.endsWith('.com')  ) {
-       newErrors.email = t('login.formatEmail');
+       newErrors.email = t('login.pleaseUseTheCorrectEmailFormat');
     }
 
     if(!formData.password) {
-      newErrors.password = t('login.requiredPassword');
+      newErrors.password = t('login.passwordIsRequired');
     } 
 
     setErrors(newErrors as FormLoginBase);
@@ -70,7 +70,7 @@ function Login() {
     e.preventDefault();
 
     if(!validateForm()) {
-      setLoginError(t('login.errorLogin'));
+      setLoginError(t('login.errorPleaseTryAgain'));
       return;
     };
 
@@ -86,9 +86,9 @@ function Login() {
       );
 
       if (user) {
-        localStorage.setItem('user',JSON.stringify({ 
-          // id: user.id,
-          email: user.email,
+        localStorage.setItem('id',JSON.stringify({ 
+          id: user.id,
+          // email: user.email,
         }
         ));
 
@@ -96,7 +96,7 @@ function Login() {
         // alert('Sukses');
         setToastConfig({
           type: 'success',
-          message: t('login.success'),
+          message: t('login.successfullyLoggedIn'),
           title: 'Success',
         });
         setShowToast(true);
@@ -108,7 +108,7 @@ function Login() {
       } else {
         setToastConfig({
           type: 'failed',
-          message: t('login.failure'),
+          message: t('login.invalidEmailOrPassword'),
           title: 'Error',
         });
         setShowToast(true);
@@ -122,7 +122,7 @@ function Login() {
       setLoginError(t('login.errorLogin'));
       setToastConfig({
           type: 'failed',
-          message: t('login.failure'),
+          message: t('login.failedToLogIn'),
           title: 'Error',
         });
       setShowToast(true)
@@ -142,7 +142,7 @@ function Login() {
             <Card.Img src="/imgs/FARS_logo.png"/>
 
           </Card.Header>
-          <h2>{t('login.title')}</h2>
+          <h2>{t('login.login')}</h2>
           <Form>
             <Form.Group  controlId='formEmail'>
               <Form.Label>{t('login.email')}</Form.Label>
@@ -151,7 +151,7 @@ function Login() {
               name='email'
               value={formData.email} 
               onChange={handleChange}
-              placeholder={t('login.inputEmail')}
+              placeholder={t('login.enterYourEmail')}
               disabled={isLoading}
               id='formEmail'
               />
@@ -171,7 +171,7 @@ function Login() {
               name='password'
               value={formData.password} 
               onChange={handleChange}
-              placeholder={t('login.inputPassword')}
+              placeholder={t('login.enterYourPassword')}
               disabled={isLoading}
               id='formPassword'
                />
@@ -199,7 +199,7 @@ function Login() {
             >
               {isLoading? 
                 <Spinner animation={'border'}/>
-                 : 'Login'}
+                 : t('login.login')}
             </Button>
           </Form>
         </Card.Body>

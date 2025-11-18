@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import WAVES from 'vanta/dist/vanta.waves.min';
+import WAVES from 'vanta/src/vanta.waves';
 
 const VantaBackground = () => {
   const [vantaEffect, setVantaEffect] = useState(null);
@@ -37,6 +37,7 @@ const VantaBackground = () => {
 
   return (
     <div
+      id="#vanta-bg"
       ref={myRef}
       style={{
         position: 'fixed',

@@ -1,9 +1,8 @@
 {
   "login": {
-    "title": "Login",
+    "login": "Login",
     "email": "Email",
     "password": "Password",
-    "loginButton": "Login",
     "error" : "Error",
     "errorLogin" : "Error, please try again",
     "invalid": "Invalid email or password",
@@ -16,13 +15,25 @@
     "formatEmail":"Please use the correct email format"
   },
 
-  "editor": {
-    "title": "Editor",  
-    "description": "Editor is a tool that allows you to create and edit content for your website",
-    "create": "Create",
-    "edit": "Edit",
-    "delete": "Delete",
-    "save": "Save",
-    "cancel": "Cancel"
+  "register": {
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "error" : "Error",
+    "errorPleaseTryAgain" : "Error, please try again",
+    "registerError":"Register Error",
+    "invalidEmailOrPassword": "Invalid email or password",
+    "successfullyRegistered": "Succesfully Registered",
+    "enterYourEmail" : "Enter your email",
+    "enterYourPassword": "Enter your password",
+    "emailIsRequired": "Email is required",
+    "passwordIsRequired":"Password is required",
+    "passwordLength": "Password length can't be less than 6",
+    "reenterYourPassword":"Reenter Your Password",
+    "pleaseUseTheCorrectEmailFormat":"Please use the correct email format",
+    "failedToRegister":"Failed to Register",
+    "passwordMismatch":"Password Mismatch",
+    "somethingWentWrong":"Something Went Wrong"
   }
 }

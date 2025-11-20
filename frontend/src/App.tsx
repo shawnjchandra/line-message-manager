@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Home from './pages/Home'
+import Home from './pages/Home/Home'
 import MainTemplater from './pages/MainTemplater'
 import Login from './pages/Login/Login';
 import TranslationButton  from './components/TranslationButton/TranslationButton'

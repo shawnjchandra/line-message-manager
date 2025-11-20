@@ -14,5 +14,15 @@
     "requiredEmail": "Email is required",
     "requiredPassword":"Password is required",
     "formatEmail":"Please use the correct email format"
+  },
+
+  "editor": {
+    "title": "Editor",  
+    "description": "Editor is a tool that allows you to create and edit content for your website",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }

@@ -3,3 +3,40 @@
     @content;
   }
 }
+
+//Untuk page editor
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin card {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: $spacing-md;
+}
+
+@mixin button-base {
+  cursor: pointer;
+  transition: $transition-base;
+  border: none;
+  font-weight: 500;
+}
+
+@mixin form-input-base {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid $color-gray-300;
+  border-radius: $border-radius-md;
+  font-size: 0.875rem;
+  background-color: $color-white;
+  transition: $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+}

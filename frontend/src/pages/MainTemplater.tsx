@@ -39,14 +39,12 @@ const MainTemplater: React.FC = () => {
 
   return (
     <div className="templater-bg">
-      {/* ganti bahasa */}
       <div className="templater-lang-switch">
         <TranslationButton />
       </div>
 
       {/* MAIN */}
       <main className="templater-main">
-        {/* Search */}
         <section className="templater-toolbar">
   <div className="templater-search">
     <div className="templater-search-box">
@@ -81,8 +79,6 @@ const MainTemplater: React.FC = () => {
   </div>
 </section>
 
-
-        {/* GRID */}
       <section className="templater-grid">
       {filtered.map((p) => (
         <article key={p.id} className="templater-card">

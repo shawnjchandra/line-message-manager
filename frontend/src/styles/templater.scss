@@ -1,0 +1,366 @@
+.templater-bg {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(54, 199, 120, 0.18) 0%,
+    rgba(125, 209, 165, 0.18) 40%,
+    rgba(152, 221, 210, 0.18) 100%
+  );
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Language switch button (kanan bawah) */
+.templater-lang-switch {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 5;
+}
+
+/* ====== HEADER (top bar) ====== */
+.templater-header {
+  background: #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+}
+
+.templater-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.templater-logo {
+  width: 56px;
+  height: 32px;
+  border-radius: 4px;
+  background: #9ca3af;
+  color: #111827;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.templater-slogan {
+  font-weight: 600;
+  color: #111827;
+}
+
+.templater-nav {
+  display: flex;
+  gap: 12px;
+  margin-left: 12px;
+}
+
+.templater-nav-item {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.templater-nav-item--active {
+  background: #d1d5db;
+  color: #111827;
+  font-weight: 600;
+}
+
+.templater-header-right {
+  font-size: 14px;
+  color: #111827;
+}
+
+.templater-user-email {
+  font-weight: 600;
+}
+
+/* ====== MAIN LAYOUT ====== */
+.templater-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+/* Search + info row */
+.templater-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.templater-search {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.templater-search-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.templater-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 9999px;
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  max-width: 340px;
+}
+
+.templater-search-icon {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.templater-search-input {
+  flex: 1;
+  border: none;
+  font-size: 14px;
+  padding: 2px 0;
+  background: transparent;
+}
+
+.templater-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.templater-search-input:focus {
+  outline: none;
+}
+
+/* responsive: search full-width di layar kecil */
+@media (max-width: 768px) {
+  .templater-search-box {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+
+.templater-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.templater-count {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.templater-create-btn {
+  border: none;
+  background: #0b63ce;        // biru seperti contoh
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 24px;
+  border-radius: 9999px;      // pill
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(11, 99, 206, 0.35);
+  transition: background 120ms ease, transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.templater-create-btn:hover {
+  background: #0953aa;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(11, 99, 206, 0.4);
+}
+
+.templater-create-btn:active {
+  background: #074083;
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(11, 99, 206, 0.4);
+}
+
+
+/* ====== GRID TEMPLATES ====== */
+/* ====== GRID TEMPLATES ====== */
+.templater-grid {
+  background: transparent;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* kartu template */
+.templater-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.templater-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  border-color: #0b63ce;
+}
+
+/* area preview di atas kartu */
+.templater-card-preview {
+  height: 80px;
+  background: repeating-linear-gradient(
+      135deg,
+      #e5f0ff,
+      #e5f0ff 8px,
+      #d7e4ff 8px,
+      #d7e4ff 16px
+    );
+}
+
+/* body kartu */
+.templater-card-body {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.templater-card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.templater-card-meta {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+
+/* ====== MODAL ====== */
+.templater-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(1px);
+  z-index: 10;
+}
+
+.templater-modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  max-width: 90vw;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 11;
+}
+
+.templater-modal-title {
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  text-align: center;
+}
+
+.templater-modal-body {
+  padding: 18px 4px 4px;
+}
+
+.templater-radio {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  user-select: none;
+}
+
+.templater-radio-label {
+  font-weight: 600;
+}
+
+.templater-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  padding-top: 16px;
+}
+
+.templater-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.templater-btn--ghost {
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+}
+
+.templater-btn--primary {
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.templater-btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive kecil */
+@media (max-width: 768px) {
+  .templater-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .templater-nav {
+    flex-wrap: wrap;
+  }
+
+  .templater-main {
+    padding-inline: 16px;
+  }
+
+  .templater-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .templater-toolbar-right {
+    justify-content: space-between;
+  }
+
+  .templater-search-input {
+    width: 100%;
+  }
+}

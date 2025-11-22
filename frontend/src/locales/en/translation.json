@@ -35,5 +35,33 @@
     "failedToRegister":"Failed to Register",
     "passwordMismatch":"Password Mismatch",
     "somethingWentWrong":"Something Went Wrong"
+  },
+  "templater": {
+    "newProject": "New project",
+    "allProjects": "All projects",
+    "menuAll": "All projects",
+    "menuYours": "Your projects",
+    "menuArchived": "Archived projects",
+    "menuTrash": "Trashed projects",
+    "organizeTags": "ORGANIZE TAGS",
+    "newTag": "New tag",
+    "searchPlaceholder": "Search in all projects...",
+    "colTitle": "Title",
+    "colOwner": "Owner",
+    "colLastModified": "Last modified",
+    "colActions": "Actions",
+    "actOpen": "Open",
+    "actDownload": "Download",
+    "actDuplicate": "Duplicate",
+    "actShare": "Share",
+    "actDelete": "Delete",
+    "showing": "Showing {{count}} project(s)",
+    "selectAssetType": "Select Asset Type",
+    "card": "Card"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }
+

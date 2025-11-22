@@ -33,5 +33,32 @@
     "failedToRegister":"Gagal Registrasi",
     "passwordMismatch":"Password tidak sama",
     "somethingWentWrong":"Ada sesuatu yang salah"
+  },
+    "templater": {
+    "newProject": "Proyek baru",
+    "allProjects": "Semua proyek",
+    "menuAll": "Semua proyek",
+    "menuYours": "Proyek Anda",
+    "menuArchived": "Proyek diarsipkan",
+    "menuTrash": "Dibuang",
+    "organizeTags": "ATUR TAG",
+    "newTag": "Tag baru",
+    "searchPlaceholder": "Cari di semua proyek...",
+    "colTitle": "Judul",
+    "colOwner": "Pemilik",
+    "colLastModified": "Terakhir diubah",
+    "colActions": "Aksi",
+    "actOpen": "Buka",
+    "actDownload": "Unduh",
+    "actDuplicate": "Duplikasi",
+    "actShare": "Bagikan",
+    "actDelete": "Hapus",
+    "showing": "Menampilkan {{count}} proyek",
+    "selectAssetType": "Pilih Jenis Asset",
+    "card": "Kartu"
+  },
+  "common": {
+    "cancel": "Batal",
+    "confirm": "Ya"
   }
 }

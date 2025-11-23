@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TranslationButton from "../components/TranslationButton/TranslationButton";
-import "../styles/templater.scss";
+import TranslationButton from "../../components/TranslationButton/TranslationButton";
+import "./Workspace.scss";
+import { useHistory } from "react-router-dom";
 
 type Project = {
   id: string;
@@ -10,16 +11,17 @@ type Project = {
   updatedAgo: string;
 };
 
-const MainTemplater: React.FC = () => {
+const Workspace: React.FC = () => {
+  const history = useHistory();
   const { t } = useTranslation();
 
   // dummy data
   const [projects] = useState<Project[]>([
-    { id: "1", title: "Coba", owner: "You", updatedAgo: "30 minutes ago" },
-    { id: "2", title: "Project", owner: "You", updatedAgo: "an hour ago" },
-    { id: "3", title: "Lihat3", owner: "You", updatedAgo: "2 hours ago" },
-    { id: "4", title: "Template", owner: "You", updatedAgo: "3 months ago" },
-    { id: "5", title: "Figma", owner: "You", updatedAgo: "3 years ago" },
+    // { id: "1", title: "Coba", owner: "You", updatedAgo: "30 minutes ago" },
+    // { id: "2", title: "Project", owner: "You", updatedAgo: "an hour ago" },
+    // { id: "3", title: "Lihat3", owner: "You", updatedAgo: "2 hours ago" },
+    // { id: "4", title: "Template", owner: "You", updatedAgo: "3 months ago" },
+    // { id: "5", title: "Figma", owner: "You", updatedAgo: "3 years ago" },
   ]);
 
   const [q, setQ] = useState("");
@@ -32,10 +34,11 @@ const MainTemplater: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
 
-  function confirmNewProject() {
+  const newProject = () => {
     // TODO: create project
-    setOpenModal(false);
-  }
+    // setOpenModal(false);
+    history.push("/editor")
+  };
 
   return (
     <div className="templater-bg">
@@ -46,18 +49,18 @@ const MainTemplater: React.FC = () => {
       {/* MAIN */}
       <main className="templater-main">
         <section className="templater-toolbar">
-  <div className="templater-search">
-    <div className="templater-search-box">
-      <input
-        id="templater-search"
-        className="templater-search-input"
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        placeholder={t(
-          "templater.searchPlaceholder",
-          "by name..."
-        ) as string}
-      />
+          <div className="templater-search">
+          <div className="templater-search-box">
+          <input
+            id="templater-search"
+            className="templater-search-input"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder={t(
+              "templater.searchPlaceholder",
+              "by name..."
+            ) as string}
+          />
     </div>
   </div>
 
@@ -72,7 +75,7 @@ const MainTemplater: React.FC = () => {
     <button
       type="button"
       className="templater-create-btn"
-      onClick={() => setOpenModal(true)}
+      onClick={newProject}
     >
       {t("templater.createTemplate", "Create new template")}
     </button>
@@ -144,8 +147,8 @@ const MainTemplater: React.FC = () => {
                 type="button"
                 className="templater-btn templater-btn--primary"
                 disabled={!assetType}
-                onClick={confirmNewProject}
-              >
+                onClick={newProject}
+               >
                 {t("common.confirm", "Confirm")}
               </button>
             </div>
@@ -156,4 +159,4 @@ const MainTemplater: React.FC = () => {
   );
 };
 
-export default MainTemplater;
+export default Workspace;

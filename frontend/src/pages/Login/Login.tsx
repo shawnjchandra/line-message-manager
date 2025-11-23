@@ -5,6 +5,7 @@ import CustomToast from '../../components/CustomToast/CustomToast';
 import { CustomToastInterface } from '../../components/CustomToast/CustomToastInterface';
 import { useTranslation } from 'react-i18next';
 import './Login.scss';
+import { authService } from '../../services/auth';
 
 interface FormLoginBase {
   email:string;
@@ -81,16 +82,9 @@ function Login() {
       const response = await fetch('/data/users.json');
       const users = await response.json();
 
-      const user = users.find(
-        (u: any) => u.email === formData.email && u.password === formData.password
-      );
+      const user = authService.login(formData.email, formData.password, users);
 
       if (user) {
-        localStorage.setItem('id',JSON.stringify({ 
-          id: user.id,
-          // email: user.email,
-        }
-        ));
 
         console.log('Login: ',user)
         // alert('Sukses');
@@ -144,7 +138,7 @@ function Login() {
           </Card.Header>
           <h2>{t('login.login')}</h2>
           <Form>
-            <Form.Group  controlId='formEmail'>
+            <Form.Group>
               <Form.Label>{t('login.email')}</Form.Label>
               <Form.Control 
               type="email" 
@@ -164,7 +158,7 @@ function Login() {
                )}
             
             </Form.Group>
-            <Form.Group controlId='formPassword'>
+            <Form.Group>
               <Form.Label>{t('login.password')}</Form.Label>
               <Form.Control 
               type="password"

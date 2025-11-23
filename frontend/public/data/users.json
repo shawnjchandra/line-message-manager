@@ -18,5 +18,10 @@
     "id": 3,
     "email": "asd@gmail.com",
     "password": "asd123"
+  },
+  {
+    "id": 3,
+    "email": "test@gmail.com",
+    "password": "asdasd"
   }
 ]

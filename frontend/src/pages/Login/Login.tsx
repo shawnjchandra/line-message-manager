@@ -6,6 +6,7 @@ import { CustomToastInterface } from '../../components/CustomToast/CustomToastIn
 import { useTranslation } from 'react-i18next';
 import './Login.scss';
 import { authService } from '../../services/auth';
+import useAuthStore from '../../stores/authStore';
 
 interface FormLoginBase {
   email:string;
@@ -32,6 +33,9 @@ function Login() {
     message:'',
     title:'',
   });
+
+  const { isAuthenticated, user, login, logout } = useAuthStore();
+  
 
   useEffect(()=>{
     return ()=>{
@@ -87,6 +91,8 @@ function Login() {
       if (user) {
 
         console.log('Login: ',user)
+        
+        login(user);
         // alert('Sukses');
         setToastConfig({
           type: 'success',
@@ -98,7 +104,7 @@ function Login() {
         setTimeout(()=>{
           history.push('/');
 
-        },3000)
+        },1000)
       } else {
         setToastConfig({
           type: 'failed',

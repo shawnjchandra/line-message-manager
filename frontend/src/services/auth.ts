@@ -45,7 +45,7 @@ export const authService = {
         }
     },
 
-    login(email: string , password:string, users: User[] ) : boolean {
+    login(email: string , password:string, users: User[] ) : User | null {
       const user = users.find(
         (u: any) => u.email === email  && u.password === password
       ); 
@@ -59,9 +59,9 @@ export const authService = {
         const encryptedToken = crypto.encryptObject(token);
         localStorage.setItem("token", encryptedToken);
 
-        return true;
+        return user;
       }else {
-        return false;
+        return null;
       }
     },
 
@@ -105,14 +105,18 @@ export const authService = {
 
     validateToken(): boolean {
       const tokenData = this.getToken();
+      
+      
       if (tokenData) {
         // Batas 30 menit
         const isExpired = Date.now() - tokenData.timestamp > 30 * 60 * 1000;
         
+        console.log("berhasil")
         // Kalau diatas (true), berarti ga valid (false)
         // Dan sebaliknya
         return !isExpired;
       }else {
+        console.log("gagal")
         return false;
       }
     }

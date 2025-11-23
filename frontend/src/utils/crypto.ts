@@ -17,11 +17,12 @@ export const crypto = {
     encrypt(data:string) : string {
         try {
             let result = '';
-            const sk = process.env.SECRET_KEY || "";
+            const sk = process.env.REACT_APP_SECRET_KEY || "";
             for (let i =0 ; i <data.length ; i++ ){
                 const charCode = data.charCodeAt(i) ^ sk?.charCodeAt(i % sk.length);
                 result += String.fromCharCode(charCode);
             }
+            console.log(sk,result, btoa(result))
 
             return btoa(result);
         } catch (error) {
@@ -33,13 +34,15 @@ export const crypto = {
         try {
             const decoded = atob(encryptedData);
             let result = '';
-            const sk = process.env.SECRET_KEY || "";
-            for (let i =0 ; i <encryptedData.length ; i++ ){
-                const charCode = encryptedData.charCodeAt(i) ^ sk?.charCodeAt(i % sk.length);
+            
+            const sk = process.env.REACT_APP_SECRET_KEY || "";
+            
+            for (let i =0 ; i <decoded.length ; i++ ){
+                const charCode = decoded.charCodeAt(i) ^ sk?.charCodeAt(i % sk.length);
                 result += String.fromCharCode(charCode);
             }
-
-            return result;
+            console.log(result)
+            return result;  
 
         } catch (error) {
             throw new Error("Failed to decrypt data");

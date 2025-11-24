@@ -5,6 +5,7 @@ interface AuthState {
     user : User | null,
     login: (user:User) => void,
     logout: ()=> void,
+    refresh: ()=> void,
 };
 
 export default AuthState;

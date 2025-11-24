@@ -88,10 +88,7 @@ function Login() {
 
       const user = authService.login(formData.email, formData.password, users);
 
-      if (user) {
-
-        console.log('Login: ',user)
-        
+      if (user) {        
         login(user);
         // alert('Sukses');
         setToastConfig({

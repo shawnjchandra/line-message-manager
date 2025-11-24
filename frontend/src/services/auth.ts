@@ -1,6 +1,6 @@
 import User from "../types/User";
 import { crypto } from "../utils/crypto";
-
+import { FileService } from "../utils/fileService";
 
 declare global {
   interface Window {
@@ -24,27 +24,6 @@ declare global {
 }
 
 export const authService = {
-    async saveUsersToFile(users:User[]) : Promise<void> {
-        try {
-            const handle = await window.showSaveFilePicker({
-                suggestedName: 'users.json',
-                types: [{
-                description: 'JSON Files',
-                accept: { 'application/json': ['.json'] }
-                }]
-            });
-
-            const writable = await handle.createWritable();
-
-            await writable.write(JSON.stringify(users,null,2));
-
-            await writable.close();
-
-        } catch (error) {
-            console.error('Failed to save file:', error);
-        }
-    },
-
     login(email: string , password:string, users: User[] ) : User | null {
       const user = users.find(
         (u: any) => u.email === email  && u.password === password
@@ -58,7 +37,7 @@ export const authService = {
 
         const encryptedToken = crypto.encryptObject(token);
         localStorage.setItem("token", encryptedToken);
-
+        
         return user;
       }else {
         return null;
@@ -83,13 +62,13 @@ export const authService = {
           };
           users.push(newUser)
           
-          await this.saveUsersToFile(users);
+          await FileService.saveToFile(users, "users.json");
         } catch (error) {
             throw new Error("Registration failed");
         }    
     },
 
-    getToken() : { userId : number, email: string, timestamp: number}| null {
+    getToken() : { id : number, email: string, timestamp: number}| null {
       const token = localStorage.getItem("token");
       if (token) {
         try {
@@ -119,6 +98,18 @@ export const authService = {
         console.log("gagal")
         return false;
       }
+    },
+
+    getUser(): User | null{
+      const token = authService.getToken();
+      if (token) {
+        return {
+          id: token.id,
+          email: token.email
+        }
+      }
+
+      return null;
     }
 }
 

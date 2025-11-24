@@ -20,10 +20,8 @@ function App() {
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register} /> 
 
-
             <ProtectedRoute path="/workspace" component={Workspace}/>
-            <ProtectedRoute path="/editor" component={Editor} /> 
-            
+            <ProtectedRoute path="/editor" component={Editor} />            
           
             <Route path="*">
               <Redirect to="/"/>

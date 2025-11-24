@@ -7,22 +7,36 @@ import { Link } from 'react-router-dom';
 import { NavbarBrand, NavDropdown } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import useAuthStore  from '../../stores/authStore';
+import UserProfile from '../UserProfile/UserProfile';
+import { useEffect, useState } from 'react';
+import { authService } from '../../services/auth';
 
 function CustomNavbar() {
-  const { isAuthenticated, user, login, logout } = useAuthStore();
+  const { isAuthenticated, user, logout, refresh } = useAuthStore();
+  const [showProfile, setShowProfile] = useState(false);
   const history=useHistory();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
     logout();
-
     history.replace(window.location.pathname);
 
   }
 
+  const handleProfile = () => {
+    setShowProfile(true);
+  }
+
+
+  useEffect(()=>{
+    const shouldHydrate = authService.validateToken() && !user;
+
+    if (shouldHydrate) {
+      refresh()
+    }
+  }, []);
 
   return (
-    <Navbar expand="lg" className="custom-navbar">
+    <><Navbar expand="lg" className="custom-navbar">
       <Container fluid className="navbar-inner-container">
         
         <Navbar.Brand href="/">
@@ -40,7 +54,7 @@ function CustomNavbar() {
           <Nav className="nav-auth-profile"> 
             {user?.email ? (
               <NavDropdown title={user.email} id="user-dropdown">
-                <NavDropdown.Item href="#profile">Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleProfile}>Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>
             ) : (
@@ -50,10 +64,14 @@ function CustomNavbar() {
               </div>
             )}
           </Nav>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    <UserProfile 
+        show={showProfile} 
+        onHide={() => setShowProfile(false)} 
+      />
+      </>
   );
 }
 

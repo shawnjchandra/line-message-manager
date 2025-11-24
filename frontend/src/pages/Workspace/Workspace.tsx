@@ -1,44 +1,49 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TranslationButton from "../../components/TranslationButton/TranslationButton";
 import "./Workspace.scss";
 import { useHistory } from "react-router-dom";
-
-type Project = {
-  id: string;
-  title: string;
-  owner: string;
-  updatedAgo: string;
-};
+import Project from "../../types/Project";
+import { ProjectService } from "../../services/ProjectService";
 
 const Workspace: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
 
   // dummy data
-  const [projects] = useState<Project[]>([
-    // { id: "1", title: "Coba", owner: "You", updatedAgo: "30 minutes ago" },
-    // { id: "2", title: "Project", owner: "You", updatedAgo: "an hour ago" },
-    // { id: "3", title: "Lihat3", owner: "You", updatedAgo: "2 hours ago" },
-    // { id: "4", title: "Template", owner: "You", updatedAgo: "3 months ago" },
-    // { id: "5", title: "Figma", owner: "You", updatedAgo: "3 years ago" },
-  ]);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(()=>{
+    const loadExistingProject = async ()=>{
+      try {
+        const loadedProjects = await ProjectService.getAll();
+      
+        setProjects(loadedProjects);
+      } catch (error) {
+        console.error("gagal load workspace")
+      }
+    };
+
+    loadExistingProject();
+  },[])
 
   const [q, setQ] = useState("");
-  const filtered = useMemo(() => {
-    const s = q.trim().toLowerCase();
-    if (!s) return projects;
-    return projects.filter((p) => p.title.toLowerCase().includes(s));
-  }, [q, projects]);
+  // const filtered = useMemo(() => {
+  //   const s = q.trim().toLowerCase();
+  //   if (!s) return projects;
+  //   return projects.filter((p) => p.title.toLowerCase().includes(s));
+  // }, [q, projects]);
 
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
 
   const newProject = () => {
-    // TODO: create project
-    // setOpenModal(false);
     history.push("/editor")
   };
+
+  const handleEdit = (id:number) => {
+    history.push(`/editor/${id}`);
+  }
 
   return (
     <div className="templater-bg">
@@ -68,7 +73,7 @@ const Workspace: React.FC = () => {
     <span className="templater-count">
       {t("templater.templatesFound", {
         defaultValue: "{{count}} templates found",
-        count: filtered.length,
+        // count: filtered.length,
       })}
     </span>
 
@@ -83,16 +88,20 @@ const Workspace: React.FC = () => {
 </section>
 
       <section className="templater-grid">
-      {filtered.map((p) => (
-        <article key={p.id} className="templater-card">
+      {projects.map((p) => (
+        <article 
+        key={p.templateId}
+        className="templater-card"
+        onClick={()=>handleEdit(p.templateId)}
+        >
           <div className="templater-card-preview" />
           <div className="templater-card-body">
-            <h3 className="templater-card-title">{p.title}</h3>
+            <h3 className="templater-card-title">Test</h3>
             <p className="templater-card-meta">
               {t("templater.cardMeta", {
                 defaultValue: "{{owner}}, {{time}}",
-                owner: p.owner,
-                time: p.updatedAgo,
+                // owner: p.owner,
+                // time: p.updatedAgo,
               })}
             </p>
           </div>

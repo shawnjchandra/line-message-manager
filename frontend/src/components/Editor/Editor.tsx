@@ -7,6 +7,8 @@ import TypeSelector from './TypeSelector/TypeSelector';
 import AssetItem from './AssetItem/AssetItem';
 import LinePreview from '../LinePreview/LinePreview';
 import './Editor.scss';
+import { ProjectService } from '../../services/ProjectService';
+import { useParams } from 'react-router-dom';
 
 const MultiAssetManager: React.FC = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
@@ -14,6 +16,29 @@ const MultiAssetManager: React.FC = () => {
   const [insertAfterIndex, setInsertAfterIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   
+  const { id } = useParams<{id:string}>();
+  const [ currentProjectId, setCurrentProjectId] = useState<number | null>(null)
+
+  useEffect(()=>{
+    console.log(id)
+    if (id) {
+      const loadExistingProject = async ()=>{
+        try {
+          const projectData = await ProjectService.getById(parseInt(id));
+          console.log(projectData)
+          if (projectData) {
+            setAssets(projectData.assets);
+            setCurrentProjectId(projectData.templateId)
+          }
+        } catch (e){
+          console.error("Failed to load project")
+        }
+      };
+
+      loadExistingProject();
+    }
+  },[id])
+
   const handleShowTypeSelector = (afterIndex: number | null = null): void => {
     setInsertAfterIndex(afterIndex);
     setShowTypeSelector(true);
@@ -92,7 +117,9 @@ const MultiAssetManager: React.FC = () => {
     setLoading(true);
     try {
       // await saveAssets(assets);
+      const savedId = await ProjectService.saveProjects(assets, currentProjectId);
 
+      setCurrentProjectId(savedId);
       alert('Assets saved successfully!');
     } catch (error) {
       alert('Failed to save assets. Please try again.');

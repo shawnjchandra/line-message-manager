@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import './Login.scss';
 import { authService } from '../../services/auth';
 import useAuthStore from '../../stores/authStore';
+import { FileService } from '../../services/FileService';
+import User from '../../types/User';
 
 interface FormLoginBase {
   email:string;
@@ -83,9 +85,10 @@ function Login() {
     setLoginError('');
 
     try {
-      const response = await fetch('/data/users.json');
-      const users = await response.json();
+      
+      const users = await FileService.load<User[]>('users.json');
 
+      if (users){
       const user = authService.login(formData.email, formData.password, users);
 
       if (user) {        
@@ -113,7 +116,7 @@ function Login() {
         setTimeout(()=>{
           setIsLoading(false);
         },2000)
-      } 
+      } }
 
     } catch (error){
       setLoginError(t('login.errorLogin'));

@@ -1,27 +1,6 @@
 import User from "../types/User";
 import { crypto } from "../utils/crypto";
-import { FileService } from "../utils/fileService";
-
-declare global {
-  interface Window {
-    showSaveFilePicker(options?: {
-      suggestedName?: string;
-      types?: Array<{
-        description: string;
-        accept: Record<string, string[]>;
-      }>;
-    }): Promise<FileSystemFileHandle>;
-  }
-  
-  interface FileSystemFileHandle {
-    createWritable(): Promise<FileSystemWritableFileStream>;
-  }
-  
-  interface FileSystemWritableFileStream {
-    write(data: string): Promise<void>;
-    close(): Promise<void>;
-  }
-}
+import { FileService } from "../services/FileService";
 
 export const authService = {
     login(email: string , password:string, users: User[] ) : User | null {
@@ -62,7 +41,7 @@ export const authService = {
           };
           users.push(newUser)
           
-          await FileService.saveToFile(users, "users.json");
+          await FileService.save( "users.json",users);
         } catch (error) {
             throw new Error("Registration failed");
         }    

@@ -1,6 +1,6 @@
 import User from "../types/User";
-import { FileService } from "../utils/fileService";
 import { authService } from "./auth";
+import { FileService } from "./FileService";
 
 export const AccountManagement = {
     async changePassword (users: User[],newPassword:string) : Promise<boolean> {
@@ -13,9 +13,10 @@ export const AccountManagement = {
         if (index != -1) {
             users[index].password = newPassword;
 
-            const success = await FileService.saveToFile(users, "users");
+            const success = await FileService.save("users",users);
             
             if (success) {
+                
                 return true;
             }
         }
@@ -36,7 +37,7 @@ export const AccountManagement = {
           const remainingUsers = users.filter(u => u.email !== email);
 
           console.log(remainingUsers);
-          await FileService.saveToFile(remainingUsers,"users");
+          await FileService.save("users",remainingUsers);
           authService.logout();
           return true;
         }

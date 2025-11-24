@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import './Register.scss';
 import User from '../../types/User';
 import { authService } from '../../services/auth';
+import { FileService } from '../../services/FileService';
 
 interface FormRegisterBase {
   email:string;
@@ -100,9 +101,9 @@ function Register(){
     setRegisterError('');
 
     try {
-      const response = await fetch('/data/users.json');
-      const users: User[] = await response.json();
+      const users = await FileService.load<User[]>('users.json');
 
+      if(users){
       const userExists = users.find(
         (u: any) => u.email === formData.email
       );
@@ -124,7 +125,7 @@ function Register(){
             history.push('/login');
   
           },3000)
-        }
+        }}
     } catch (error) {
         setRegisterError(t('register.somethingWentWrong'))
               setToastConfig({

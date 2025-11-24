@@ -3,8 +3,9 @@ import { Container, Card, Button, Modal, Form } from 'react-bootstrap';
 import useAuthStore from '../../stores/authStore';
 import './UserProfile.scss'
 import UserProfileProps from '../../types/UserProfileProps';
-import { FileService } from '../../utils/fileService';
 import { AccountManagement } from '../../services/accountManagement';
+import { FileService } from '../../services/FileService';
+import User from '../../types/User';
 
 const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
   const { user } = useAuthStore();
@@ -22,12 +23,17 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/data/users.json');
-      const users = await response.json();
+
+      const users = await FileService.load<User[]>('users.json');
       
-      if (!await AccountManagement.changePassword(users, newPassword)) {
-        setPasswordError("Something went wrong")
-      }      
+      if (users){
+        if (!await AccountManagement.changePassword(users, newPassword)) {
+          setPasswordError("Something went wrong")
+        } else {
+          togglePass()
+          setNewPassword("");
+        }       
+     }
       
 
     } catch (error) {
@@ -58,10 +64,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
       e.preventDefault();
 
     try {
-      const response = await fetch('/data/users.json');
-      const users = await response.json();     
+      const users = await FileService.load<User[]>('users.json');     
       
-      AccountManagement.deleteAccount(users);
+      if(users){
+        AccountManagement.deleteAccount(users);
+
+      }
     } catch (error) {
       
     }

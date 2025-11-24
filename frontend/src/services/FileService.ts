@@ -1,6 +1,5 @@
-// src/services/FileService.ts
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const FileService = {
 
@@ -9,9 +8,11 @@ export const FileService = {
   async load<T>(filename: string): Promise<T | null> {
     try {
       const response = await fetch(`${API_URL}/data/${filename}`);
+
       if (!response.ok) throw new Error(`Failed to load ${filename}`);
       return await response.json();
-    } catch (error) {
+    }
+     catch (error) {
       console.error(`Error loading ${filename}:`, error);
       return null;
     }

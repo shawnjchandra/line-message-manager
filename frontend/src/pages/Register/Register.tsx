@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import './Register.scss';
 import User from '../../types/User';
 import { authService } from '../../services/auth';
+import { FileService } from '../../services/FileService';
 
 interface FormRegisterBase {
   email:string;
@@ -89,7 +90,6 @@ function Register(){
     e.preventDefault();
 
     const valid = validateForm();
-    console.log(valid)
 
     if(!valid) {
       setRegisterError(t('register.errorPleaseTryAgain'));
@@ -101,47 +101,31 @@ function Register(){
     setRegisterError('');
 
     try {
-      const response = await fetch('/data/users.json');
-      const users: User[] = await response.json();
+      const users = await FileService.load<User[]>('users.json');
 
+      if(users){
       const userExists = users.find(
         (u: any) => u.email === formData.email
       );
-
-      console.log(userExists)
       
       if(userExists)  {
         setRegisterError(t('register.registerError'));
         setIsLoading(false);
       } else {
-          let id = 0;
-          users.forEach(element => {
-            id = id < element.id ? element.id : id;
-          });
-        
-          const newUser:User = {
-            id: id,
-            email: formData.email,
-            password: formData.password
-          };
-          users.push(newUser)
           
-          await authService.saveUsersToFile(users);
-        
+          authService.register(users, formData.email, formData.password);
+          
           setToastConfig({
           type: 'success',
           message: t('register.sucessfullyRegistered'),
           title: 'Success',
         });
           setShowToast(true);
-          localStorage.setItem('id', JSON.stringify({
-            id: id
-          }))
             setTimeout(()=>{
             history.push('/login');
   
           },3000)
-        }
+        }}
     } catch (error) {
         setRegisterError(t('register.somethingWentWrong'))
               setToastConfig({
@@ -169,7 +153,7 @@ return (
           </Card.Header>
           <h2>{t('register.register')}</h2>
           <Form>
-            <Form.Group  controlId='formEmail'>
+            <Form.Group >
               <Form.Label>{t('register.email')}</Form.Label>
               <Form.Control 
               type="email" 
@@ -189,7 +173,7 @@ return (
                )}
             
             </Form.Group>
-            <Form.Group controlId='formPassword'>
+            <Form.Group>
               <Form.Label>{t('register.password')}</Form.Label>
               <Form.Control 
               type="password"
@@ -210,7 +194,6 @@ return (
                
             </Form.Group>
             <Form.Group
-              controlId='formConfirmPassword'
             >
               <Form.Label>{t('register.confirmPassword')}</Form.Label>
                <Form.Control

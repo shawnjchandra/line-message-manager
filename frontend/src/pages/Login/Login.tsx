@@ -5,6 +5,10 @@ import CustomToast from '../../components/CustomToast/CustomToast';
 import { CustomToastInterface } from '../../components/CustomToast/CustomToastInterface';
 import { useTranslation } from 'react-i18next';
 import './Login.scss';
+import { authService } from '../../services/auth';
+import useAuthStore from '../../stores/authStore';
+import { FileService } from '../../services/FileService';
+import User from '../../types/User';
 
 interface FormLoginBase {
   email:string;
@@ -31,6 +35,9 @@ function Login() {
     message:'',
     title:'',
   });
+
+  const { isAuthenticated, user, login, logout } = useAuthStore();
+  
 
   useEffect(()=>{
     return ()=>{
@@ -78,21 +85,14 @@ function Login() {
     setLoginError('');
 
     try {
-      const response = await fetch('/data/users.json');
-      const users = await response.json();
+      
+      const users = await FileService.load<User[]>('users.json');
 
-      const user = users.find(
-        (u: any) => u.email === formData.email && u.password === formData.password
-      );
+      if (users){
+      const user = authService.login(formData.email, formData.password, users);
 
-      if (user) {
-        localStorage.setItem('id',JSON.stringify({ 
-          id: user.id,
-          // email: user.email,
-        }
-        ));
-
-        console.log('Login: ',user)
+      if (user) {        
+        login(user);
         // alert('Sukses');
         setToastConfig({
           type: 'success',
@@ -104,7 +104,7 @@ function Login() {
         setTimeout(()=>{
           history.push('/');
 
-        },3000)
+        },1000)
       } else {
         setToastConfig({
           type: 'failed',
@@ -116,7 +116,7 @@ function Login() {
         setTimeout(()=>{
           setIsLoading(false);
         },2000)
-      } 
+      } }
 
     } catch (error){
       setLoginError(t('login.errorLogin'));
@@ -144,7 +144,7 @@ function Login() {
           </Card.Header>
           <h2>{t('login.login')}</h2>
           <Form>
-            <Form.Group  controlId='formEmail'>
+            <Form.Group>
               <Form.Label>{t('login.email')}</Form.Label>
               <Form.Control 
               type="email" 
@@ -164,7 +164,7 @@ function Login() {
                )}
             
             </Form.Group>
-            <Form.Group controlId='formPassword'>
+            <Form.Group>
               <Form.Label>{t('login.password')}</Form.Label>
               <Form.Control 
               type="password"

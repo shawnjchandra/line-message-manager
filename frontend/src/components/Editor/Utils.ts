@@ -39,10 +39,6 @@ export const setNestedValue = (obj: any, path: string, value: any): any => {
 export const validateAsset = (asset: Asset): string[] => {
   const errors: string[] = [];
 
-  if (!asset.data.channel) {
-    errors.push('Channel is required');
-  }
-
   if (asset.type === 'card') {
     const cardAsset = asset as CardAsset;
     if (!cardAsset.data.title) errors.push('Title is required');

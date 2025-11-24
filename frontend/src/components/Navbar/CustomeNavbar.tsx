@@ -15,7 +15,7 @@ function CustomNavbar() {
             <Navbar.Collapse>
                 <Nav className="nav-left-links">
                     <Link to="/">Home</Link>
-                    <Link to="/templater">Editor</Link>
+                    <Link to="/editor">Editor</Link>
                 </Nav>
             </Navbar.Collapse>
         </div>

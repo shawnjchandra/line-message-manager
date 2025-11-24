@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Asset } from './types';
 import { createNewAsset, setNestedValue, validateAllAssets } from './Utils';
 import { saveAssets } from './api';
@@ -8,6 +9,7 @@ import AssetItem from './AssetItem';
 import './Editor.scss';
 
 const MultiAssetManager: React.FC = () => {
+  const { t } = useTranslation();
   const [assets, setAssets] = useState<Asset[]>([]);
   const [showTypeSelector, setShowTypeSelector] = useState<boolean>(false);
   const [insertAfterIndex, setInsertAfterIndex] = useState<number | null>(null);
@@ -34,7 +36,7 @@ const MultiAssetManager: React.FC = () => {
   };
 
   const handleDeleteAsset = (id: string): void => {
-    if (window.confirm('Are you sure you want to delete this asset?')) {
+    if (window.confirm(t('editor.deleteConfirm'))) {
       setAssets(assets.filter((asset) => asset.id !== id));
     }
   };
@@ -87,23 +89,23 @@ const MultiAssetManager: React.FC = () => {
 
   const handleSave = async (): Promise<void> => {
     if (!validateAllAssets(assets)) {
-      alert('Please fill in all required fields');
+      alert(t('editor.validationError'));
       return;
     }
 
     setLoading(true);
     try {
       await saveAssets(assets);
-      alert('Assets saved successfully!');
+      alert(t('editor.saveSuccess'));
     } catch (error) {
-      alert('Failed to save assets. Please try again.');
+      alert(t('editor.saveError'));
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = (): void => {
-    if (window.confirm('Are you sure you want to cancel? All changes will be lost.')) {
+    if (window.confirm(t('editor.cancelConfirm'))) {
       setAssets([]);
     }
   };
@@ -111,7 +113,7 @@ const MultiAssetManager: React.FC = () => {
   return (
     <div className="multi-asset-manager">
       <div className="manager-header">
-        <h1 className="manager-title">Create New Template</h1>
+        <h1 className="manager-title">{t('editor.createNewTemplate')}</h1>
       </div>
 
       <div className="manager-content">
@@ -147,7 +149,7 @@ const MultiAssetManager: React.FC = () => {
             disabled={loading}
             type="button"
           >
-            Cancel
+            {t('editor.cancel')}
           </button>
           <button 
             className="btn btn-primary" 
@@ -155,7 +157,7 @@ const MultiAssetManager: React.FC = () => {
             disabled={loading}
             type="button"
           >
-            {loading ? 'Saving...' : 'Save All Assets'}
+            {loading ? t('editor.saving') : t('editor.saveAllAssets')}
           </button>
         </div>
       )}

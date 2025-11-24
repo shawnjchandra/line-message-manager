@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, ChevronDown, ChevronRight, ChevronUp, Plus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Asset } from './types';
 import CardForm from './CardForm';
 import ConfirmForm from './ConfirmForm';
@@ -31,6 +32,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
   onImageUpload,
   onRemoveImage
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="asset-item">
       <div className="asset-header">
@@ -41,7 +43,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
         >
           {asset.expanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
           <span className="asset-title">
-            Asset {index + 1} - {asset.type === 'card' ? 'Card' : 'Confirm'}
+            {`${t('editor.asset')} ${index + 1} - ${asset.type === 'card' ? t('editor.card') : t('editor.confirm')}`}
           </span>
         </button>
 
@@ -50,7 +52,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
             className="asset-action-btn"
             onClick={onMoveUp}
             disabled={index === 0}
-            title="Move up"
+            title={t('editor.moveUp')}
             type="button"
           >
             <ChevronUp size={18} />
@@ -59,7 +61,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
             className="asset-action-btn"
             onClick={onMoveDown}
             disabled={index === totalAssets - 1}
-            title="Move down"
+            title={t('editor.moveDown')}
             type="button"
           >
             <ChevronDown size={18} />
@@ -67,7 +69,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
           <button
             className="asset-action-btn asset-delete-btn"
             onClick={onDelete}
-            title="Delete"
+            title={t('editor.delete')}
             type="button"
           >
             <X size={18} />
@@ -97,7 +99,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
             type="button"
           >
             <Plus size={18} />
-            <span>Add Asset Below</span>
+            <span>{t('editor.addAssetBelow')}</span>
           </button>
         </div>
       )}

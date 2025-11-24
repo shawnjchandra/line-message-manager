@@ -6,21 +6,14 @@ import TranslationButton  from './components/TranslationButton/TranslationButton
 import Editor from './pages/EditorPage';
 
 import './utils/i18n'
+import CustomNavbar from './components/Navbar/CustomeNavbar';
 
 function App() {
   return (
    <>
     <Router>
       <div>
-        <nav >
-        
-          <ul style={{display:'flex'}}>    {/*  Hanya untuk nyoba saja, nanti hilangin semua inline styling*/}
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/editor">Editor</Link></li>
-          </ul>
-        </nav>
-
+        <CustomNavbar/>
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route path="/login" component={Login}/>

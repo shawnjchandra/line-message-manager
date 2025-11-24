@@ -14,6 +14,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [newPassword, setNewPassword] = useState("");
+  
   const togglePass = () => setShowPassModal(!showPassModal);
   const toggleDelete = () => setShowDeleteModal(!showDeleteModal);
 

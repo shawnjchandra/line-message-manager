@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Asset } from './types';
-import { createNewAsset, setNestedValue, validateAllAssets } from './Utils';
-import { saveAssets } from './api';
-import InitialState from './InitialState';
-import TypeSelector from './TypeSelector';
-import AssetItem from './AssetItem';
+import React, { useEffect, useState } from 'react';
+import { Asset } from '../../types/Asset';
+import { createNewAsset, setNestedValue, validateAllAssets } from '../../utils/AssetUtils';
+// import { saveAssets } from './api';
+import InitialState from './InitialState/InitialState';
+import TypeSelector from './TypeSelector/TypeSelector';
+import AssetItem from './AssetItem/AssetItem';
+import LinePreview from '../LinePreview/LinePreview';
 import './Editor.scss';
 
 const MultiAssetManager: React.FC = () => {
@@ -12,7 +13,7 @@ const MultiAssetManager: React.FC = () => {
   const [showTypeSelector, setShowTypeSelector] = useState<boolean>(false);
   const [insertAfterIndex, setInsertAfterIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  
   const handleShowTypeSelector = (afterIndex: number | null = null): void => {
     setInsertAfterIndex(afterIndex);
     setShowTypeSelector(true);
@@ -20,7 +21,6 @@ const MultiAssetManager: React.FC = () => {
 
   const handleAddAsset = (type: 'card' | 'confirm'): void => {
     const newAsset = createNewAsset(type);
-    
     if (insertAfterIndex !== null) {
       const newAssets = [...assets];
       newAssets.splice(insertAfterIndex + 1, 0, newAsset);
@@ -28,7 +28,6 @@ const MultiAssetManager: React.FC = () => {
     } else {
       setAssets([...assets, newAsset]);
     }
-    
     setShowTypeSelector(false);
     setInsertAfterIndex(null);
   };
@@ -90,10 +89,10 @@ const MultiAssetManager: React.FC = () => {
       alert('Please fill in all required fields');
       return;
     }
-
     setLoading(true);
     try {
-      await saveAssets(assets);
+      // await saveAssets(assets);
+
       alert('Assets saved successfully!');
     } catch (error) {
       alert('Failed to save assets. Please try again.');
@@ -108,57 +107,71 @@ const MultiAssetManager: React.FC = () => {
     }
   };
 
+
   return (
-    <div className="multi-asset-manager">
-      <div className="manager-header">
+    <div className="multi-asset-manager container-fluid p-4"> {/* Added container-fluid */}
+      <div className="manager-header mb-4">
         <h1 className="manager-title">Create New Template</h1>
       </div>
 
-      <div className="manager-content">
-        {assets.length === 0 ? (
-          <InitialState onCreateAsset={() => handleShowTypeSelector()} />
-        ) : (
-          <div className="assets-list">
-            {assets.map((asset,index) => (
-              <AssetItem
-                key={asset.id}
-                asset={asset}
-                index={index}
-                totalAssets={assets.length}
-                onToggleExpand={() => toggleExpand(asset.id)}
-                onDelete={() => handleDeleteAsset(asset.id)}
-                onMoveUp={() => handleMoveUp(index)}
-                onMoveDown={() => handleMoveDown(index)}
-                onUpdate={(path, value) => updateAssetData(asset.id, path, value)}
-                onAddBelow={() => handleShowTypeSelector(index)}
-                onImageUpload={(e) => handleImageUpload(asset.id, e)}
-                onRemoveImage={() => handleRemoveImage(asset.id)}
-              />
-            ))}
+      <div className="row">
+        <div className="col-lg-7 col-md-12">
+          <div className="manager-content">
+            {assets.length === 0 ? (
+              <InitialState onCreateAsset={() => handleShowTypeSelector()} />
+            ) : (
+              <div className="assets-list">
+                {assets.map((asset, index) => (
+                  <AssetItem
+                    key={asset.id}
+                    asset={asset}
+                    index={index}
+                    totalAssets={assets.length}
+                    onToggleExpand={() => toggleExpand(asset.id)}
+                    onDelete={() => handleDeleteAsset(asset.id)}
+                    onMoveUp={() => handleMoveUp(index)}
+                    onMoveDown={() => handleMoveDown(index)}
+                    onUpdate={(path, value) => updateAssetData(asset.id, path, value)}
+                    onAddBelow={() => handleShowTypeSelector(index)}
+                    onImageUpload={(e) => handleImageUpload(asset.id, e)}
+                    onRemoveImage={() => handleRemoveImage(asset.id)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      {assets.length > 0 && (
-        <div className="manager-footer">
-          <button 
-            className="btn btn-secondary" 
-            onClick={handleCancel} 
-            disabled={loading}
-            type="button"
-          >
-            Cancel
-          </button>
-          <button 
-            className="btn btn-primary" 
-            onClick={handleSave} 
-            disabled={loading}
-            type="button"
-          >
-            {loading ? 'Saving...' : 'Save All Assets'}
-          </button>
+          {assets.length > 0 && (
+            <div className="manager-footer mt-4 d-flex gap-2">
+              <button 
+                className="btn btn-secondary" 
+                onClick={handleCancel} 
+                disabled={loading}
+                type="button"
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary" 
+                onClick={handleSave} 
+                disabled={loading}
+                type="button"
+              >
+                {loading ? 'Saving...' : 'Save All Assets'}
+              </button>
+            </div>
+          )}
         </div>
-      )}
+
+        {/* RIGHT COLUMN: The Live Preview */}
+        {/* d-none d-lg-block hides it on mobile to save space */}
+        <div className="preview-sidebar">
+          <div className="preview-fixed-wrapper">
+             <h5>Live Preview</h5>
+             <LinePreview assets={assets} />
+          </div>
+        </div>
+      </div>
 
       {showTypeSelector && (
         <TypeSelector

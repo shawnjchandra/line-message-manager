@@ -1,0 +1,98 @@
+@import '../../styles/variables';
+
+// Variables (tweak to match your theme)
+
+.profile-container {
+  max-width: 800px; // Keeps it from stretching too wide
+}
+
+.user-profile-modal {
+  
+  // This styles the actual "box" of the modal
+  .modal-content {
+    background-color: #e5e5e5; // The specific grey from your design
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  // Reuse your previous styles, just scoped correctly
+  .avatar-circle {
+    width: $avatar-size;
+    height: $avatar-size;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #ccc;
+  }
+
+  .section-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  .user-email {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .password-mask {
+    background-color: #aaa;
+    color: transparent;
+    border-radius: 4px;
+    padding: 0 5px 2px 5px;
+    display: inline-block;
+    height: 12px;
+    width: auto;
+    margin-bottom: 8px;
+    color:#000;
+  }
+
+  // The clickable links (Change Password, Delete)
+  .btn-link-action {
+    display: block; // puts it on its own line
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #666;
+    text-decoration: none; // No underline by default
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+      text-decoration: underline;
+      color: #000;
+    }
+
+    &.text-danger:hover {
+      color: #dc3545; // Bootstrap Red
+    }
+  }
+
+  .profile-divider {
+    border-top: 1px solid #999;
+    opacity: 0.5;
+  }
+}
+
+// Modal Tweaks to match the image style
+.modal-content {
+  border-radius: $card-border-radius;
+  border: none;
+  
+  .modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .modal-footer {
+    border-top: none;
+    padding-top: 0;
+    padding-bottom: 1.5rem;
+  }
+}

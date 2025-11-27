@@ -3,16 +3,16 @@
     "login": "Login",
     "email": "Email",
     "password": "Password",
-    "error": "Error",
-    "errorLogin": "Error, please try again",
-    "invalid": "Invalid email or password",
-    "failure": "Failed to log in",
-    "success": "Successfully logged in",
-    "inputEmail": "Enter your email",
-    "inputPassword": "Enter your password",
-    "requiredEmail": "Email is required",
-    "requiredPassword": "Password is required",
-    "formatEmail": "Please use the correct email format"
+    "error" : "Error",
+    "errorPleaseTryAgain" : "Error, please try again",
+    "invalidEmailOrPassword": "Invalid email or password",
+    "failedToLogIn": "Failed to login",
+    "successfullyLoggedIn": "Succesfully login",
+    "enterYourEmail" : "Enter your email",
+    "enterYourPassword": "Enter your password",
+    "emailIsRequired": "Email is required",
+    "passwordIsRequired":"Password is required",
+    "pleaseUseTheCorrectEmailFormat":"Please use the correct email format"
   },
   "register": {
     "register": "Register",
@@ -95,6 +95,47 @@
     "message": "Message",
     "enterMessage": "Enter message",
     "characters": "characters"
+  },
+  "templater": {
+    "newProject": "New project",
+    "allProjects": "All projects",
+    "menuAll": "All projects",
+    "menuYours": "Your projects",
+    "menuArchived": "Archived projects",
+    "menuTrash": "Trashed projects",
+    "organizeTags": "ORGANIZE TAGS",
+    "newTag": "New tag",
+    "searchPlaceholder": "Search in all projects...",
+    "colTitle": "Title",
+    "colOwner": "Owner",
+    "colLastModified": "Last modified",
+    "colActions": "Actions",
+    "actOpen": "Open",
+    "actDownload": "Download",
+    "actDuplicate": "Duplicate",
+    "actShare": "Share",
+    "actDelete": "Delete",
+    "showing": "Showing {{count}} project(s)",
+    "selectAssetType": "Select Asset Type",
+    "card": "Card",
+    "templatesFound": "{{count}} templates found",
+    "createTemplate": "Create new template",
+    "cardMeta": "{{owner}}, {{time}}"
+  },
+  "home": {
+    "title": "Welcome to Line Manager"
+  },
+  "navbar": {
+    "home": "Home",
+    "workspace": "Workspace",
+    "profile": "Profile",
+    "logout": "Logout",
+    "register": "Register",
+    "login": "Login"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }
 

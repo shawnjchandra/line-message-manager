@@ -1,26 +1,33 @@
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './pages/Home/Home'
-import MainTemplater from './pages/MainTemplater'
+import Workspace from './pages/Workspace/Workspace'
 import Login from './pages/Login/Login';
 import TranslationButton  from './components/TranslationButton/TranslationButton'
-import Editor from './pages/EditorPage';
+import Editor from './pages/AssetManager/AssetManager';
 
 import './utils/i18n'
-import CustomNavbar from './components/Navbar/CustomeNavbar';
+import CustomNavbar from './components/Navbar/CustomNavbar';
+import Register from './pages/Register/Register';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 function App() {
   return (
    <>
     <Router>
-      <div>
         <CustomNavbar/>
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/editor" component={Editor} /> 
-        </Switch>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/login" component={Login}/>
+            <Route path="/register" component={Register} /> 
+
+            <ProtectedRoute path="/workspace" component={Workspace}/>
+            <ProtectedRoute path="/editor" component={Editor} />            
+          
+            <Route path="*">
+              <Redirect to="/"/>
+            </Route>
+          </Switch>
           <TranslationButton/>
-      </div>
     </Router>
    </>
   );

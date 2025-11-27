@@ -1,0 +1,99 @@
+@import '../../styles/variables';
+
+
+// Variables for easy color management
+
+
+.custom-navbar {
+  background-color: white;
+  height: $nav-height;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); // Optional shadow
+  font-weight: bold;
+  position: sticky;  
+  top: 0;            // Sticks to the very top edge
+  z-index: 1020;
+
+  // 1. Control the Container Padding
+  .navbar-inner-container {
+    padding-left: $nav-padding;
+    padding-right: $nav-padding;
+  }
+
+  // 2. Logo Styling
+  .fars-logo {
+    height: 50px;
+    width: auto;
+    margin-right: 20px; // Space between logo and links
+  }
+
+  // 3. Left/Center Links
+  .nav-main-links {
+    // This is the Magic Trick:
+    // Setting margin-right to auto pushes the NEXT element (the profile)
+    // to the far right side of the screen.
+    margin-right: auto; 
+    
+    // Add gap between "Home" and "Workspace"
+    display: flex;
+    gap: 20px; 
+
+    .nav-link {
+      color: #333;
+      font-size: 16px;
+      
+      &:hover {
+        color: $fars-green;
+      }
+    }
+  }
+
+  // 4. Right Side Profile / Auth
+  .nav-auth-profile {
+    display: flex;
+    align-items: center;
+
+    // Styling the Email Dropdown
+    #user-dropdown {
+      color: #333;
+    }
+
+    // Styling the Login/Register buttons if user is logged out
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+
+      a {
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      .btn-register {
+        border: 1px solid $fars-green;
+        color: $fars-green;
+        &:hover { background-color: lighten($fars-green, 45%); }
+      }
+
+      .btn-login {
+        background-color: $fars-green;
+        color: white;
+        &:hover { background-color: darken($fars-green, 10%); }
+      }
+    }
+  }
+}
+
+// Mobile Responsiveness Fix
+// When the menu collapses on mobile, we don't want them side-by-side
+@media (max-width: 991px) {
+  .custom-navbar {
+    height: auto; // Allow height to grow when menu opens
+    padding: 1rem 0;
+
+    .nav-main-links {
+      margin-right: 0; // Reset the "push" margin on mobile
+      margin-bottom: 1rem; // Add space between links and profile
+    }
+  }
+}

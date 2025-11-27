@@ -94,5 +94,46 @@
     "message": "Pesan",
     "enterMessage": "Masukkan pesan",
     "characters": "karakter"
+  },
+    "templater": {
+    "newProject": "Proyek baru",
+    "allProjects": "Semua proyek",
+    "menuAll": "Semua proyek",
+    "menuYours": "Proyek Anda",
+    "menuArchived": "Proyek diarsipkan",
+    "menuTrash": "Dibuang",
+    "organizeTags": "ATUR TAG",
+    "newTag": "Tag baru",
+    "searchPlaceholder": "Cari di semua proyek...",
+    "colTitle": "Judul",
+    "colOwner": "Pemilik",
+    "colLastModified": "Terakhir diubah",
+    "colActions": "Aksi",
+    "actOpen": "Buka",
+    "actDownload": "Unduh",
+    "actDuplicate": "Duplikasi",
+    "actShare": "Bagikan",
+    "actDelete": "Hapus",
+    "showing": "Menampilkan {{count}} proyek",
+    "selectAssetType": "Pilih Jenis Asset",
+    "card": "Kartu",
+    "templatesFound": "{{count}} template ditemukan",
+    "createTemplate": "Buat template baru",
+    "cardMeta": "{{owner}}, {{time}}"
+  },
+  "home": {
+    "title": "Selamat datang di Line Manager"
+  },
+  "navbar": {
+    "home": "Beranda",
+    "workspace": "Ruang Kerja",
+    "profile": "Profil",
+    "logout": "Keluar",
+    "register": "Daftar",
+    "login": "Masuk"
+  },
+  "common": {
+    "cancel": "Batal",
+    "confirm": "Ya"
   }
 }

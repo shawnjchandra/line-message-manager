@@ -1,5 +1,5 @@
 import React from 'react';
-import MultiAssetManager from '../components/Editor/Editor';
+import MultiAssetManager from '../../components/Editor/Editor';
 
 function AssetManager(): JSX.Element {
   return (

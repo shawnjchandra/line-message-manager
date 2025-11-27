@@ -1,7 +1,7 @@
 interface User {
     id?: int,
     email : string,
-    password : string
+    password? : string
 }
 
 export default User;

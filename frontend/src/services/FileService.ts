@@ -1,4 +1,3 @@
-// src/services/FileService.ts
 
 const API_URL = "http://localhost:3001/api";
 

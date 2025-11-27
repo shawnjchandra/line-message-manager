@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, ChevronDown, ChevronRight, ChevronUp, Plus } from 'lucide-react';
-import { Asset } from './types';
-import CardForm from './CardForm';
-import ConfirmForm from './ConfirmForm';
+import { Asset } from '../../../types/Asset';
+import CardForm from '../Form/CardForm';
+import ConfirmForm from '../Form/ConfirmForm';
 
 interface AssetItemProps {
   asset: Asset;
@@ -31,6 +31,7 @@ const AssetItem: React.FC<AssetItemProps> = ({
   onImageUpload,
   onRemoveImage
 }) => {
+
   return (
     <div className="asset-item">
       <div className="asset-header">

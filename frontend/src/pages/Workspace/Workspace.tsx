@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TranslationButton from "../../components/TranslationButton/TranslationButton";
 import "./Workspace.scss";
 import { useHistory } from "react-router-dom";
+
+const API_URL = "http://localhost:3001/api";
 
 type Project = {
   id: string;
@@ -14,22 +16,32 @@ type Project = {
 const Workspace: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
+  const [projectsData, setProjectsData] = useState([]);
 
-  // dummy data
-  const [projects] = useState<Project[]>([
-    // { id: "1", title: "Coba", owner: "You", updatedAgo: "30 minutes ago" },
-    // { id: "2", title: "Project", owner: "You", updatedAgo: "an hour ago" },
-    // { id: "3", title: "Lihat3", owner: "You", updatedAgo: "2 hours ago" },
-    // { id: "4", title: "Template", owner: "You", updatedAgo: "3 months ago" },
-    // { id: "5", title: "Figma", owner: "You", updatedAgo: "3 years ago" },
-  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_URL}/save/projects.json`);
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch data!");
+        }
+
+        const result = await response.json();
+        setProjectsData(result);
+      } catch (err) { 
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [q, setQ] = useState("");
-  const filtered = useMemo(() => {
-    const s = q.trim().toLowerCase();
-    if (!s) return projects;
-    return projects.filter((p) => p.title.toLowerCase().includes(s));
-  }, [q, projects]);
+  // const filtered = useMemo(() => {
+  //   const s = q.trim().toLowerCase();
+  //   if (!s) return projectsData;
+  //   return projectsData.filter((q) => q.title.toLowerCase().includes(s));
+  // }, [q, projectsData]);
 
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
@@ -65,12 +77,12 @@ const Workspace: React.FC = () => {
   </div>
 
   <div className="templater-toolbar-right">
-    <span className="templater-count">
+    {/* <span className="templater-count">
       {t("templater.templatesFound", {
         defaultValue: "{{count}} templates found",
         count: filtered.length,
       })}
-    </span>
+    </span> */}
 
     <button
       type="button"
@@ -82,7 +94,7 @@ const Workspace: React.FC = () => {
   </div>
 </section>
 
-      <section className="templater-grid">
+      {/* <section className="templater-grid">
       {filtered.map((p) => (
         <article key={p.id} className="templater-card">
           <div className="templater-card-preview" />
@@ -98,7 +110,7 @@ const Workspace: React.FC = () => {
           </div>
         </article>
       ))}
-    </section>
+    </section> */}
 
       </main>
 

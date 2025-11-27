@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { ConfirmAsset } from './types';
-import { CHANNEL_OPTIONS, ACTION_OPTIONS } from './constants';
-import { FileService } from '../../services/FileService';
+import React, { useEffect } from 'react';
+import { ConfirmAsset } from '../../../types/Asset';
+import { CHANNEL_OPTIONS, ACTION_OPTIONS } from '../../../types/constants';
 
 interface ConfirmFormProps {
   asset: ConfirmAsset;
@@ -9,6 +8,7 @@ interface ConfirmFormProps {
 }
 
 const ConfirmForm: React.FC<ConfirmFormProps> = ({ asset, onUpdate }) => {
+
   return (
     <div className="asset-form">
       <div className="form-group">

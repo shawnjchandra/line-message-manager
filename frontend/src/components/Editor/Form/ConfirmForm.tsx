@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { ConfirmAsset } from '../../../types/Asset';
 import { useTranslation } from 'react-i18next';
-import { ConfirmAsset } from './types';
-import { ACTION_OPTIONS } from './constants';
+import { ACTION_OPTIONS } from '../../../types/constants';
 
 interface ConfirmFormProps {
   asset: ConfirmAsset;

@@ -21,6 +21,7 @@ function App() {
             <Route path="/register" component={Register} /> 
 
             <ProtectedRoute path="/workspace" component={Workspace}/>
+            <ProtectedRoute path="/editor/:id" component={Editor} />            
             <ProtectedRoute path="/editor" component={Editor} />            
           
             <Route path="*">

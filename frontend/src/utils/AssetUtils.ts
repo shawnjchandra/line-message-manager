@@ -1,5 +1,5 @@
-import { Asset, CardAsset, ConfirmAsset } from './types';
-import { DEFAULT_CARD_DATA, DEFAULT_CONFIRM_DATA } from './constants';
+import { Asset, CardAsset, ConfirmAsset } from '../types/Asset';
+import { DEFAULT_CARD_DATA, DEFAULT_CONFIRM_DATA } from '../types/constants';
 
 export const createNewAsset = (type: 'card' | 'confirm'): Asset => {
   const id = `asset-${Date.now()}-${Math.random()}`;

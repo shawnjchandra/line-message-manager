@@ -39,9 +39,9 @@ export const setNestedValue = (obj: any, path: string, value: any): any => {
 export const validateAsset = (asset: Asset): string[] => {
   const errors: string[] = [];
 
-  if (!asset.data.channel) {
-    errors.push('Channel is required');
-  }
+  // if (!asset.data.channel) {
+  //   errors.push('Channel is required');
+  // }
 
   if (asset.type === 'card') {
     const cardAsset = asset as CardAsset;
@@ -57,6 +57,7 @@ export const validateAsset = (asset: Asset): string[] => {
 };
 
 export const validateAllAssets = (assets: Asset[]): boolean => {
+  console.log(assets.length);
   if (assets.length === 0) return false;
   return assets.every((asset) => validateAsset(asset).length === 0);
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { X, Upload } from 'lucide-react';
 import { CardAsset } from '../../../types/Asset';
 import { CHANNEL_OPTIONS, ASPECT_RATIO_OPTIONS, IMAGE_SIZE_OPTIONS, ACTION_OPTIONS } from '../../../types/constants';
@@ -12,47 +12,39 @@ interface CardFormProps {
 
 const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onRemoveImage }) => {
   
+  const currentSize = asset.data.imageSize || 'Cover';
+  const imageSizeClass = currentSize === 'Contain' ? 'size-contain' : 'size-cover';
+
+  const containerStyle = asset.data.imageAspectRatio
+    ? { 
+        aspectRatio: asset.data.imageAspectRatio.replace(':', '/'),
+        height: 'auto' 
+      }
+    : undefined; // If undefined, it falls back to CSS default (150px)
+
+  
+
   return (
     <div className="asset-form">
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">
-            Channel <span className="required">*</span>
-          </label>
-          <select
-            value={asset.data.channel}
-            onChange={(e) => onUpdate('data.channel', e.target.value)}
-            className="form-select"
-          >
-            <option value="">Select channel</option>
-            {CHANNEL_OPTIONS.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Image Aspect Ratio</label>
-          <select
-            value={asset.data.imageAspectRatio}
-            onChange={(e) => onUpdate('data.imageAspectRatio', e.target.value)}
-            className="form-select"
-          >
-            <option value="">Select ratio</option>
-            {ASPECT_RATIO_OPTIONS.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
+  
       <div className="form-row">
         <div className="form-group">
           <label className="form-label">Upload Image</label>
-          <div className="image-upload-container">
+          
+          <div 
+            className="image-upload-container"
+            style={containerStyle} 
+          >
             {asset.data.image ? (
-              <div className="image-preview">
-                <img src={asset.data.image} alt="Preview" />
+              <div 
+                className="image-preview"
+                style={{ backgroundColor: asset.data.imageBackgroundColor || '#e9ecef' }}
+              >
+                <img 
+                  src={asset.data.image} 
+                  alt="Preview" 
+                  className={imageSizeClass} 
+                />
                 <button 
                   className="image-remove-btn" 
                   onClick={onRemoveImage}
@@ -64,7 +56,7 @@ const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onR
             ) : (
               <label className="image-upload-label">
                 <Upload size={24} />
-                <span>Click to upload</span>
+                <span>Click to upload (Max 50 MB)</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -77,15 +69,27 @@ const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onR
         </div>
 
         <div className="form-group">
+          <label className="form-label">Image Aspect Ratio</label>
+          <select
+            value={asset.data.imageAspectRatio}
+            onChange={(e) => onUpdate('data.imageAspectRatio', e.target.value)}
+            className="form-select"
+          >
+            <option value="">Select ratio (Default)</option>
+            {ASPECT_RATIO_OPTIONS.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
           <label className="form-label">Image Size</label>
           <select
-            value={asset.data.imageSize}
+            value={asset.data.imageSize || 'NULL'}
             onChange={(e) => onUpdate('data.imageSize', e.target.value)}
             className="form-select"
           >
-            <option value="">Select size</option>
-            {IMAGE_SIZE_OPTIONS.map((option) => (
-              <option key={option} value={option}>{option}</option>
+             {IMAGE_SIZE_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option === 'NULL' ? 'Cover (Default)' : option}
+              </option>
             ))}
           </select>
 

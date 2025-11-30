@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
 import { CardAsset } from '../../../types/Asset';
 import { CHANNEL_OPTIONS, ASPECT_RATIO_OPTIONS, IMAGE_SIZE_OPTIONS, ACTION_OPTIONS } from '../../../types/constants';
@@ -12,7 +12,6 @@ interface CardFormProps {
 
 const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onRemoveImage }) => {
   
-
   return (
     <div className="asset-form">
       <div className="form-row">

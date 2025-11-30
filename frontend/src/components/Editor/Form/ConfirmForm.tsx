@@ -13,24 +13,9 @@ const ConfirmForm: React.FC<ConfirmFormProps> = ({ asset, onUpdate }) => {
     <div className="asset-form">
       <div className="form-group">
         <label className="form-label">
-          Channel <span className="required">*</span>
-        </label>
-        <select
-          value={asset.data.channel}
-          onChange={(e) => onUpdate('data.channel', e.target.value)}
-          className="form-select"
-        >
-          <option value="">Select channel</option>
-          {CHANNEL_OPTIONS.map((option) => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">
           Title <span className="required">*</span>
         </label>
+
         <input
           type="text"
           value={asset.data.title}

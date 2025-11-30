@@ -70,12 +70,12 @@ const Workspace: React.FC = () => {
   </div>
 
   <div className="templater-toolbar-right">
-    <span className="templater-count">
+    {/* <span className="templater-count">
       {t("templater.templatesFound", {
         defaultValue: "{{count}} templates found",
         // count: filtered.length,
       })}
-    </span>
+    </span> */}
 
     <button
       type="button"

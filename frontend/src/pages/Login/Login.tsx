@@ -86,7 +86,7 @@ function Login() {
 
     try {
       
-      const users = await FileService.load<User[]>('users.json');
+      const users = await FileService.load<User[]>('users');
 
       if (users){
       const user = authService.login(formData.email, formData.password, users);

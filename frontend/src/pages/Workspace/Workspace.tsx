@@ -1,16 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TranslationButton from "../../components/TranslationButton/TranslationButton";
 import "./Workspace.scss";
 import { useHistory } from "react-router-dom";
 import Project from "../../types/Project";
 import { ProjectService } from "../../services/ProjectService";
+import { FileService } from "../../services/FileService";
+import User from "../../types/User";
 
 const Workspace: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
 
   const [projects, setProjects] = useState<Project[]>([]);
+  const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
   useEffect(()=>{
     const loadExistingProject = async ()=>{
@@ -26,17 +29,33 @@ const Workspace: React.FC = () => {
     loadExistingProject();
   },[])
 
-    const [q, setQ] = useState("");
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        const users = await FileService.load<User[]>("users");
+        if (users) {
+          const map = users.reduce<Record<number, string>>((acc, user) => {
+            if (typeof user.id === "number") {
+              acc[user.id] = user.username || user.email;
+            }
+            return acc;
+          }, {});
+          setUserLookup(map);
+        }
+      } catch (error) {
+        console.error("gagal load users");
+      }
+    };
 
-    const filtered = useMemo(() => {
-      const s = q.trim().toLowerCase();
-      if (!s) return projects;
+    loadUsers();
+  }, []);
 
-      return projects.filter((p) =>
-        (p.title || "").toLowerCase().includes(s)
-      );
-    }, [q, projects]);
-
+  const [q, setQ] = useState("");
+  // const filtered = useMemo(() => {
+  //   const s = q.trim().toLowerCase();
+  //   if (!s) return projects;
+  //   return projects.filter((p) => p.title.toLowerCase().includes(s));
+  // }, [q, projects]);
 
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
@@ -77,6 +96,7 @@ const Workspace: React.FC = () => {
     <span className="templater-count">
       {t("templater.templatesFound", {
         defaultValue: "{{count}} templates found",
+        count: projects.length,
       })}
     </span>
 
@@ -90,26 +110,40 @@ const Workspace: React.FC = () => {
   </div>
 </section>
 
-    <section className="templater-grid">
-      {projects.map((p) => (
-        <article 
-        key={p.templateId}
-        className="templater-card"
-        onClick={()=>handleEdit(p.templateId)}
-        >
-          <div className="templater-card-preview" />
-          <div className="templater-card-body">
-            <h3 className="templater-card-title">Test</h3>
-            <p className="templater-card-meta">
-              {t("templater.cardMeta", {
-                defaultValue: "{{owner}}, {{time}}",
-                // owner: p.owner,
-                // time: p.updatedAgo,
-              })}
-            </p>
-          </div>
-        </article>
-      ))}
+      <section className="templater-grid">
+      {projects.map((p) => {
+        const projectTitle =
+          p.title ||
+          t("templater.untitled", "Untitled template");
+        const ownerLabel =
+          p.ownerName ||
+          (typeof p.ownerName === "string" && userLookup[p.ownerName]) ||
+          t("templater.unknownOwner", "Unknown owner");
+        const timestamp = Number(p.templateId);
+        const timeLabel = Number.isFinite(timestamp)
+          ? new Date(timestamp).toLocaleString()
+          : t("templater.unknownTime", "Unknown time");
+
+        return (
+          <article
+            key={p.templateId}
+            className="templater-card"
+            onClick={() => handleEdit(p.templateId)}
+          >
+            <div className="templater-card-preview" />
+            <div className="templater-card-body">
+              <h3 className="templater-card-title">{projectTitle}</h3>
+              <p className="templater-card-meta">
+                {t("templater.cardMeta", {
+                  defaultValue: "{{owner}}, {{time}}",
+                  owner: ownerLabel,
+                  time: timeLabel,
+                })}
+              </p>
+            </div>
+          </article>
+        );
+      })}
     </section>
 
       </main>

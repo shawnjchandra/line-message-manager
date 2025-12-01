@@ -8,9 +8,12 @@ import AssetItem from './AssetItem/AssetItem';
 import LinePreview from '../LinePreview/LinePreview';
 import './Editor.scss';
 import { ProjectService } from '../../services/ProjectService';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const MultiAssetManager: React.FC = () => {
+  const { t } = useTranslation();
+  const history = useHistory();
   const [assets, setAssets] = useState<Asset[]>([]);
   const [showTypeSelector, setShowTypeSelector] = useState<boolean>(false);
   const [insertAfterIndex, setInsertAfterIndex] = useState<number | null>(null);
@@ -18,6 +21,7 @@ const MultiAssetManager: React.FC = () => {
   
   const { id } = useParams<{id:string}>();
   const [ currentProjectId, setCurrentProjectId] = useState<number | null>(null)
+  const isEditingExisting = Boolean(id);
 
   useEffect(()=>{
     console.log(id)
@@ -58,7 +62,7 @@ const MultiAssetManager: React.FC = () => {
   };
 
   const handleDeleteAsset = (id: string): void => {
-    if (window.confirm('Are you sure you want to delete this asset?')) {
+    if (window.confirm(t('editor.deleteConfirm'))) {
       setAssets(assets.filter((asset) => asset.id !== id));
     }
   };
@@ -109,9 +113,35 @@ const MultiAssetManager: React.FC = () => {
     updateAssetData(id, 'data.image', null);
   };
 
+  const handleDeleteTemplate = async (): Promise<void> => {
+    if (!currentProjectId) {
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      t('editor.deleteTemplateConfirm', 'Are you sure you want to delete this template?')
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await ProjectService.deleteProject(currentProjectId);
+      alert(t('editor.deleteTemplateSuccess', 'Template deleted successfully.'));
+      history.push('/workspace');
+    } catch (error) {
+      console.error('Failed to delete template', error);
+      alert(t('editor.deleteTemplateError', 'Failed to delete template. Please try again.'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSave = async (): Promise<void> => {
     if (!validateAllAssets(assets)) {
-      alert('Please fill in all required fields');
+      alert(t('editor.validationError'));
       return;
     }
     setLoading(true);
@@ -121,15 +151,21 @@ const MultiAssetManager: React.FC = () => {
 
       setCurrentProjectId(savedId);
       alert('Assets saved successfully!');
+      history.push('/workspace');
     } catch (error) {
-      alert('Failed to save assets. Please try again.');
+      alert(t('editor.saveError'));
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = (): void => {
-    if (window.confirm('Are you sure you want to cancel? All changes will be lost.')) {
+    if (isEditingExisting) {
+      history.push('/workspace');
+      return;
+    }
+
+    if (window.confirm(t('editor.cancelConfirm'))) {
       setAssets([]);
     }
   };
@@ -138,7 +174,7 @@ const MultiAssetManager: React.FC = () => {
   return (
     <div className="multi-asset-manager container-fluid p-4"> {/* Added container-fluid */}
       <div className="manager-header mb-4">
-        <h1 className="manager-title">Create New Template</h1>
+        <h1 className="manager-title">{t('editor.createNewTemplate')}</h1>
       </div>
 
       <div className="row">
@@ -170,13 +206,23 @@ const MultiAssetManager: React.FC = () => {
 
           {assets.length > 0 && (
             <div className="manager-footer mt-4 d-flex gap-2">
+              {isEditingExisting && currentProjectId && (
+                <button
+                  className="btn btn-danger ms-auto"
+                  onClick={handleDeleteTemplate}
+                  disabled={loading}
+                  type="button"
+                >
+                  {t('editor.deleteTemplate', 'Delete Template')}
+                </button>
+              )}
               <button 
                 className="btn btn-secondary" 
                 onClick={handleCancel} 
                 disabled={loading}
                 type="button"
               >
-                Cancel
+                {isEditingExisting ? t('editor.back', 'Back') : t('editor.cancel')}
               </button>
               <button 
                 className="btn btn-primary" 
@@ -184,7 +230,7 @@ const MultiAssetManager: React.FC = () => {
                 disabled={loading}
                 type="button"
               >
-                {loading ? 'Saving...' : 'Save All Assets'}
+                {loading ? t('editor.saving') : t('editor.saveAllAssets')}
               </button>
             </div>
           )}

@@ -14,7 +14,7 @@ const Workspace: React.FC = () => {
 
   // dummy data
   const [projects, setProjects] = useState<Project[]>([]);
-  const [userLookup, setUserLookup] = useState<Record<number, string>>({});
+  const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
   useEffect(()=>{
     const loadExistingProject = async ()=>{
@@ -113,13 +113,12 @@ const Workspace: React.FC = () => {
 
       <section className="templater-grid">
       {projects.map((p) => {
-        const firstAsset = p.assets?.[0] as any;
         const projectTitle =
-          firstAsset?.data?.title ||
+          p.title ||
           t("templater.untitled", "Untitled template");
         const ownerLabel =
           p.ownerName ||
-          (typeof p.userId === "number" && userLookup[p.userId]) ||
+          (typeof p.ownerName === "string" && userLookup[p.ownerName]) ||
           t("templater.unknownOwner", "Unknown owner");
         const timestamp = Number(p.templateId);
         const timeLabel = Number.isFinite(timestamp)

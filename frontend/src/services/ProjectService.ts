@@ -45,6 +45,7 @@ export const ProjectService = {
                 savedId = Date.now();
                 projects.push({
                   templateId: savedId,
+                  title: "temp",
                   userId: currentUser.id,
                   ownerName,
                   assets: assets

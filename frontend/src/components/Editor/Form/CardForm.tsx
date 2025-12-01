@@ -29,7 +29,6 @@ const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onR
                 <img 
                   src={asset.data.image} 
                   alt="Preview" 
-                  className={imageSizeClass} 
                 />
                 <button 
                   className="image-remove-btn" 

@@ -25,7 +25,7 @@ export const ProjectService = {
             let savedId;
 
             if (existingId) {
-                const index = projects.findIndex(p => p.templateId === existingId); 
+                const index = projects.findIndex(p => p.templateId === existingId);
 
                 if (index !== -1){
                     projects[index] = {
@@ -35,18 +35,20 @@ export const ProjectService = {
 
                     savedId = existingId;
                 } else {
-                savedId = Date.now();
-                projects.push({
-                templateId: savedId,
-                userId: 1,
-                assets: assets
-                });
-            } 
+                    savedId = Date.now();
+                    projects.push({
+                        templateId: savedId,
+                        title: "temp",
+                        userId: 1,
+                        assets: assets
+                    });
+                } 
             } else {
                 savedId = Date.now();
       
                 const newProject: Project = {
                     templateId: savedId,
+                    title: "temp",
                     userId: id, 
                     assets: assets,
                 };

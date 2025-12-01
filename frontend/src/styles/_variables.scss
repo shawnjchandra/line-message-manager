@@ -20,7 +20,11 @@ $spacer: 1rem;
 $border-radius: 0.5rem;
 $border-radius-lg: 0.75rem;
 
-// Add more Bootstrap variable overrides 
+$chat-bg-color: #849ebf;
+$header-bg-color: #232d3f;
+$line-primary-color: #42659a;
+$btn-bg-color: #f0f0f0;
+$card-radius: 12px;
 
 // Asset Manager Colors
 $color-primary: #3b82f6;
@@ -57,8 +61,16 @@ $transition-base: all 0.2s ease;
 
 $fars-green: #00b894;
 $nav-height: 85px;
-$nav-padding: 2rem; // Controls the spacing on far left/right
+$nav-padding: 2rem;
 
 $bg-light-grey: #f4f4f4;
 $card-border-radius: 12px;
 $avatar-size: 80px;
+
+//CardForm
+$border-color: #dee2e6;
+$bg-light: #f8f9fa;
+$text-muted: #6c757d;
+$danger-color: #dc3545;
+$primary-color: #42659a;
+$radius: 8px;

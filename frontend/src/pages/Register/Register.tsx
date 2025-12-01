@@ -10,6 +10,7 @@ import { authService } from '../../services/auth';
 import { FileService } from '../../services/FileService';
 
 interface FormRegisterBase {
+  username: string;
   email:string;
   password:string;
   confirmPassword: string;
@@ -25,12 +26,14 @@ function Register(){
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [registerError, setRegisterError] = useState<string>('');
   const [formData, setFormData] = useState<FormRegisterBase>({
+    username: '',
     email:'',
     password:'',
     confirmPassword:'',
   });
 
   const [errors, setErrors] = useState<FormRegisterBase>({
+    username: '',
     email:'',
     password:'',
     confirmPassword:''
@@ -60,6 +63,12 @@ function Register(){
   const validateForm = () : boolean => {
     const newErrors: Partial<FormRegisterBase> = {};
   
+    if(!formData.username) {
+      newErrors.username = t('register.usernameIsRequired');
+    } else if (formData.username.length < 3 ) {
+      newErrors.username = t('register.usernameLength');
+    }
+
     if(!formData.email) {
       newErrors.email = t('register.emailIsRequired');
     } else if (!formData.email.includes('@') || !formData.email.endsWith('.com')  ) {
@@ -101,10 +110,9 @@ function Register(){
     setRegisterError('');
 
     try {
-      const users = await FileService.load<User[]>('users.json');
-
-      if(users){
-      const userExists = users.find(
+      const users = await FileService.load<User[]>('users');
+      const userList = users ?? [];
+      const userExists = userList.find(
         (u: any) => u.email === formData.email
       );
       
@@ -113,11 +121,16 @@ function Register(){
         setIsLoading(false);
       } else {
           
-          authService.register(users, formData.email, formData.password);
+          await authService.register(
+            userList,
+            formData.email,
+            formData.password,
+            formData.username.trim()
+          );
           
           setToastConfig({
           type: 'success',
-          message: t('register.sucessfullyRegistered'),
+          message: t('register.successfullyRegistered'),
           title: 'Success',
         });
           setShowToast(true);
@@ -125,7 +138,7 @@ function Register(){
             history.push('/login');
   
           },3000)
-        }}
+        }
     } catch (error) {
         setRegisterError(t('register.somethingWentWrong'))
               setToastConfig({
@@ -153,6 +166,25 @@ return (
           </Card.Header>
           <h2>{t('register.register')}</h2>
           <Form>
+            <Form.Group >
+              <Form.Label>{t('register.username')}</Form.Label>
+              <Form.Control 
+              type="text" 
+              name='username'
+              value={formData.username} 
+              onChange={handleChange}
+              placeholder={t('register.enterYourUsername')}
+              disabled={isLoading}
+              />
+              { errors.username && (
+                <Form.Text
+                className='error'
+                >
+                  {errors.username}
+                </Form.Text>
+               )}
+            
+            </Form.Group>
             <Form.Group >
               <Form.Label>{t('register.email')}</Form.Label>
               <Form.Control 

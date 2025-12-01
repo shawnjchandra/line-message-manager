@@ -20,7 +20,7 @@ const useAuthStore = create<AuthState>((set) => ({
     try {
       // You need to re-fetch the user list to find the current user
       // based on the token (email)
-      const users= await FileService.load<User[]>('users.json');
+      const users= await FileService.load<User[]>('users');
       
       if (users){
       const foundUser = users.find(u => u.email === token.email);

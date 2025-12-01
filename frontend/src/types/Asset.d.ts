@@ -3,7 +3,6 @@ export interface CardAsset {
   type: 'card';
   expanded: boolean;
   data: {
-    channel: string;
     imageAspectRatio: string;
     image: string | null;
     imageSize: string;
@@ -23,7 +22,6 @@ export interface ConfirmAsset {
   type: 'confirm';
   expanded: boolean;
   data: {
-    channel: string;
     title: string;
     altText: string;
     actionButton1: {

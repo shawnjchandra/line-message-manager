@@ -2,20 +2,32 @@ import User from "../types/User";
 import { crypto } from "../utils/crypto";
 import { FileService } from "../services/FileService";
 
+type AuthToken = {
+  id: number;
+  email: string;
+  username?: string;
+  timestamp: number;
+};
+
+const storeToken = (token: AuthToken): void => {
+  const encryptedToken = crypto.encryptObject(token);
+  localStorage.setItem("token", encryptedToken);
+};
+
 export const authService = {
     login(email: string , password:string, users: User[] ) : User | null {
       const user = users.find(
         (u: any) => u.email === email  && u.password === password
       ); 
       if(user) {
-        const token = {
-          id: user.id,
+        const token: AuthToken = {
+          id: user.id ?? 0,
           email: email,
+          username: user.username,
           timestamp:  Date.now()
         }
 
-        const encryptedToken = crypto.encryptObject(token);
-        localStorage.setItem("token", encryptedToken);
+        storeToken(token);
         
         return user;
       }else {
@@ -27,27 +39,30 @@ export const authService = {
       localStorage.removeItem("token");
     },
 
-    async register(users: User[], email: string, password: string) {
+    async register(users: User[], email: string, password: string, username: string) {
         try {
-          let id = 0;
-          users.forEach(element => {
-            id = id < element.id ? element.id : id;
-          });
+          const sanitizedUsers = users ?? [];
+          const nextId =
+            sanitizedUsers.reduce((max, user) => {
+              const userId = user.id ?? 0;
+              return userId > max ? userId : max;
+            }, 0) + 1;
         
           const newUser:User = {
-            id: id,
+            id: nextId,
             email: email,
-            password: password
+            password: password,
+            username: username
           };
-          users.push(newUser)
+          sanitizedUsers.push(newUser)
           
-          await FileService.save( "users.json",users);
+          await FileService.save( "users",sanitizedUsers);
         } catch (error) {
             throw new Error("Registration failed");
         }    
     },
 
-    getToken() : { id : number, email: string, timestamp: number}| null {
+    getToken() : AuthToken | null {
       const token = localStorage.getItem("token");
       if (token) {
         try {
@@ -59,6 +74,16 @@ export const authService = {
       } else {
         return null;
       }
+    },
+
+    updateTokenUser(partial: Partial<AuthToken>) {
+      const token = this.getToken();
+      if (!token) return;
+      const updated: AuthToken = {
+        ...token,
+        ...partial,
+      };
+      storeToken(updated);
     },
 
     validateToken(): boolean {
@@ -84,7 +109,8 @@ export const authService = {
       if (token) {
         return {
           id: token.id,
-          email: token.email
+          email: token.email,
+          username: token.username
         }
       }
 

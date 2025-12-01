@@ -10,11 +10,13 @@ import useAuthStore  from '../../stores/authStore';
 import UserProfile from '../UserProfile/UserProfile';
 import { useEffect, useState } from 'react';
 import { authService } from '../../services/auth';
+import { useTranslation } from 'react-i18next';
 
 function CustomNavbar() {
   const { isAuthenticated, user, logout, refresh } = useAuthStore();
   const [showProfile, setShowProfile] = useState(false);
   const history=useHistory();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     logout();
@@ -47,19 +49,19 @@ function CustomNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           
           <Nav className="nav-main-links">
-            <Nav.Link as={Link} to="/home">Home</Nav.Link>
-            <Nav.Link as={Link} to="/workspace">Workspace</Nav.Link>
+            <Nav.Link as={Link} to="/home">{t('navbar.home')}</Nav.Link>
+            <Nav.Link as={Link} to="/workspace">{t('navbar.workspace')}</Nav.Link>
           </Nav>
           <Nav className="nav-auth-profile"> 
             {user?.email ? (
               <NavDropdown title={user.email} id="user-dropdown">
-                <NavDropdown.Item onClick={handleProfile}>Profile</NavDropdown.Item>
-                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleProfile}>{t('navbar.profile')}</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>{t('navbar.logout')}</NavDropdown.Item>
               </NavDropdown>
             ) : (
               <div className="auth-buttons">
-                <Link to="/register" className="btn-register">Register</Link>
-                <Link to="/login" className="btn-login">Login</Link>
+                <Link to="/register" className="btn-register">{t('navbar.register')}</Link>
+                <Link to="/login" className="btn-login">{t('navbar.login')}</Link>
               </div>
             )}
           </Nav>

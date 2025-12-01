@@ -21,7 +21,13 @@ export const ProjectService = {
         assets: Asset[], existingId: number | null ): Promise<number> 
         {
             const projects = await this.getAll();
-            const id = authService.getUser()?.id;
+            const currentUser = authService.getUser();
+
+            if (!currentUser || typeof currentUser.id !== "number") {
+                throw new Error("User not authenticated");
+            }
+
+            const ownerName = currentUser.username || currentUser.email;
             let savedId;
 
             if (existingId) {
@@ -30,26 +36,28 @@ export const ProjectService = {
                 if (index !== -1){
                     projects[index] = {
                         ...projects[index],
-                        assets: assets
+                        assets: assets,
+                        ownerName: ownerName || projects[index].ownerName
                     };
 
                     savedId = existingId;
                 } else {
-                    savedId = Date.now();
-                    projects.push({
-                        templateId: savedId,
-                        title: "temp",
-                        userId: 1,
-                        assets: assets
-                    });
-                } 
+                savedId = Date.now();
+                projects.push({
+                  templateId: savedId,
+                  userId: currentUser.id,
+                  ownerName,
+                  assets: assets
+                });
+            } 
             } else {
                 savedId = Date.now();
       
                 const newProject: Project = {
                     templateId: savedId,
                     title: "temp",
-                    userId: id, 
+                    userId: currentUser.id, 
+                    ownerName,
                     assets: assets,
                 };
                 
@@ -59,5 +67,16 @@ export const ProjectService = {
             await FileService.save(FILENAME, projects);
             return savedId;
 
+    },
+
+    async deleteProject(templateId: number): Promise<void> {
+        const projects = await this.getAll();
+        const filtered = projects.filter(project => project.templateId !== templateId);
+
+        if (filtered.length === projects.length) {
+            throw new Error("Template not found");
+        }
+
+        await FileService.save(FILENAME, filtered);
     }
 }

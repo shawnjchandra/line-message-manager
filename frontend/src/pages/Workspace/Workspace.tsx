@@ -26,12 +26,17 @@ const Workspace: React.FC = () => {
     loadExistingProject();
   },[])
 
-  const [q, setQ] = useState("");
-  // const filtered = useMemo(() => {
-  //   const s = q.trim().toLowerCase();
-  //   if (!s) return projects;
-  //   return projects.filter((p) => p.title.toLowerCase().includes(s));
-  // }, [q, projects]);
+    const [q, setQ] = useState("");
+
+    const filtered = useMemo(() => {
+      const s = q.trim().toLowerCase();
+      if (!s) return projects;
+
+      return projects.filter((p) =>
+        (p.title || "").toLowerCase().includes(s)
+      );
+    }, [q, projects]);
+
 
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
@@ -69,12 +74,11 @@ const Workspace: React.FC = () => {
   </div>
 
   <div className="templater-toolbar-right">
-    {/* <span className="templater-count">
+    <span className="templater-count">
       {t("templater.templatesFound", {
         defaultValue: "{{count}} templates found",
-        // count: filtered.length,
       })}
-    </span> */}
+    </span>
 
     <button
       type="button"
@@ -86,7 +90,7 @@ const Workspace: React.FC = () => {
   </div>
 </section>
 
-      <section className="templater-grid">
+    <section className="templater-grid">
       {projects.map((p) => (
         <article 
         key={p.templateId}

@@ -53,6 +53,7 @@ export const validateAsset = (asset: Asset): string[] => {
 };
 
 export const validateAllAssets = (assets: Asset[]): boolean => {
+  console.log(assets.length);
   if (assets.length === 0) return false;
   return assets.every((asset) => validateAsset(asset).length === 0);
 };

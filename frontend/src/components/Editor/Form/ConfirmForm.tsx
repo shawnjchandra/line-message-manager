@@ -16,6 +16,7 @@ const ConfirmForm: React.FC<ConfirmFormProps> = ({ asset, onUpdate }) => {
         <label className="form-label">
           {t('form.title')} <span className="required">*</span>
         </label>
+
         <input
           type="text"
           value={asset.data.title}

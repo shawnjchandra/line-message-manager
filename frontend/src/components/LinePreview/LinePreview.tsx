@@ -3,6 +3,7 @@ import PhoneFrame from '../PhoneFrame/PhoneFrame';
 import { Send, Menu, User } from 'lucide-react';
 import { Asset } from '../../types/Asset'; 
 import LinePreviewProps from '../../types/LinePreviewProps';
+import './LinePreview.scss';
 
 const ASPECT_RATIO_STYLES: Record<string, { aspectRatio: string; minHeight: string }> = {
   rectangle: { aspectRatio: '1.51 / 1', minHeight: '120px' },
@@ -31,6 +32,29 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
   const renderCard = (asset: Asset) => {
     const data = asset.data as any; 
     
+    const getAspectRatioStyle = (ratioName: string) => {
+      switch (ratioName) {
+        case 'Rectangle':
+          return '1.51 / 1'; 
+        case 'Square':
+          return '1 / 1';
+        default:
+          return ratioName ? ratioName.replace(':', '/') : undefined;
+      }
+    };
+
+    const isContain = data.imageSize === 'Contain';
+    const imageClass = isContain ? 'size-contain' : 'size-cover';
+
+    const ratioValue = getAspectRatioStyle(data.imageAspectRatio);
+    const ratioStyle = ratioValue ? { aspectRatio: ratioValue } : undefined;
+
+    const boxStyle = {
+      ...ratioStyle,
+      backgroundColor: data.imageBackgroundColor || '#eee',
+      minHeight: ratioValue ? 'auto' : '150px' 
+    };
+
     return (
       <div key={asset.id} className="card border-0 shadow-sm mb-3" style={{ maxWidth: '240px', borderRadius: '12px', overflow: 'hidden' }}>
         <div style={resolveImageStyle(data)}>
@@ -41,14 +65,14 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
           )}
         </div>
         
-        <div className="card-body p-3">
-          <h6 className="card-title fw-bold mb-1" style={{ fontSize: '14px' }}>
+        <div className="card-body">
+          <h6 className="card-title">
             {data.title || "No Title"}
           </h6>
-          <p className="card-text text-muted mb-3" style={{ fontSize: '12px', lineHeight: '1.4' }}>
+          <p className="card-desc">
             {data.description || data.text || "No description"}
           </p>
-          <button className="btn w-100 fw-bold border-0" style={{ backgroundColor: '#f0f0f0', color: '#42659a', fontSize: '13px', padding: '8px' }}>
+          <button className="action-btn">
             {data.defaultAction?.label || "Action"}
           </button>
         </div>
@@ -56,20 +80,20 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
     );
   };
 
-  const renderConfirm = (asset: Asset, index: number) => {
+  const renderConfirm = (asset: Asset) => {
     const data = asset.data as any;
 
     return (
-      <div key={asset.id} className="card border-0 shadow-sm mb-3" style={{ maxWidth: '240px', borderRadius: '12px', overflow: 'hidden' }}>
-        <div className="card-body p-3 text-center">
-          <h6 className="card-title fw-bold mb-3" style={{ fontSize: '14px' }}>
+      <div key={asset.id} className="line-card confirm-layout">
+        <div className="card-body">
+          <h6 className="title-confirm">
             {data.title || "Confirm?"}
           </h6>
-          <div className="d-flex gap-2">
-            <button className="btn flex-grow-1 fw-bold border-0" style={{ backgroundColor: '#f0f0f0', color: '#42659a', fontSize: '13px', padding: '8px' }}>
+          <div className="btn-group-confirm">
+            <button className="confirm-btn">
               {data.actionButton1?.label || "Yes"}
             </button>
-            <button className="btn flex-grow-1 fw-bold border-0" style={{ backgroundColor: '#f0f0f0', color: '#42659a', fontSize: '13px', padding: '8px' }}>
+            <button className="confirm-btn">
               {data.actionButton2?.label || "No"}
             </button>
           </div>
@@ -79,32 +103,32 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
   };
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className="line-preview-wrapper">
       <PhoneFrame>
-        <div className="d-flex flex-column h-100" style={{ backgroundColor: '#849ebf' }}>
-          
+        <div className="chat-interface">
           {/* Header */}
-          <div className="d-flex align-items-center px-3 py-2 text-white" style={{ backgroundColor: '#232d3f' }}>
+          <div className="chat-header">
              <Menu size={20} className="me-3" />
-             <span className="fw-bold">Bot Preview</span>
+             <span className="header-title">Bot Preview</span>
           </div>
 
           {/* Chat Area */}
-          <div className="flex-grow-1 p-3 overflow-auto">
-             <div className="d-flex align-items-center mb-3">
-               <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-2" style={{ width: '35px', height: '35px' }}>
+          <div className="chat-body">
+             <div className="bot-identity">
+               <div className="avatar-circle">
                  <User size={20} color="black" />
                </div>
-               <small className="text-white">Bot</small>
+               <small className="bot-name">Bot</small>
              </div>
 
-             {/* Render Loop */}
              {assets.length === 0 ? (
-                <div className="text-center text-white-50 mt-4"><small>No assets added...</small></div>
+                <div className="empty-state">
+                  <small>No assets added...</small>
+                </div>
              ) : (
-               assets.map((asset, index) => {
+               assets.map((asset) => {
                  if (asset.type === 'confirm') {
-                   return renderConfirm(asset, index);
+                   return renderConfirm(asset);
                  } else {
                   return renderCard(asset);
                  }
@@ -113,13 +137,12 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
           </div>
 
           {/* Footer */}
-          <div className="bg-white p-2 d-flex align-items-center">
-            <div className="flex-grow-1 bg-light rounded px-2 py-1 me-2 text-muted">
+          <div className="chat-footer">
+            <div className="input-mock">
               <small>Enter a message...</small>
             </div>
-            <Send size={20} color="#42659a" />
+            <Send size={20} className="send-icon" />
           </div>
-
         </div>
       </PhoneFrame>
     </div>

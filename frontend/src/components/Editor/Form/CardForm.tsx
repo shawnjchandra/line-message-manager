@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { X, Upload } from 'lucide-react';
 import { CardAsset } from '../../../types/Asset';
 import { useTranslation } from 'react-i18next';
@@ -13,31 +13,24 @@ interface CardFormProps {
 
 const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onRemoveImage }) => {
   const { t } = useTranslation();
+
   return (
     <div className="asset-form">
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">{t('form.imageAspectRatio')}</label>
-          <select
-            value={asset.data.imageAspectRatio}
-            onChange={(e) => onUpdate('data.imageAspectRatio', e.target.value)}
-            className="form-select"
-          >
-            <option value="">{t('form.selectRatio')}</option>
-            {ASPECT_RATIO_OPTIONS.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
+  
       <div className="form-row">
         <div className="form-group">
           <label className="form-label">{t('form.uploadImage')}</label>
           <div className="image-upload-container">
             {asset.data.image ? (
-              <div className="image-preview">
-                <img src={asset.data.image} alt="Preview" />
+              <div 
+                className="image-preview"
+                style={{ backgroundColor: asset.data.imageBackgroundColor || '#e9ecef' }}
+              >
+                <img 
+                  src={asset.data.image} 
+                  alt="Preview" 
+                  className={imageSizeClass} 
+                />
                 <button 
                   className="image-remove-btn" 
                   onClick={onRemoveImage}
@@ -64,7 +57,7 @@ const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onR
         <div className="form-group">
           <label className="form-label">{t('form.imageSize')}</label>
           <select
-            value={asset.data.imageSize}
+            value={asset.data.imageSize || 'NULL'}
             onChange={(e) => onUpdate('data.imageSize', e.target.value)}
             className="form-select"
           >

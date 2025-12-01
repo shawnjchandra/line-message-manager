@@ -21,7 +21,6 @@ function CustomNavbar() {
   const handleLogout = () => {
     logout();
     history.replace(window.location.pathname);
-
   }
 
   const handleProfile = () => {

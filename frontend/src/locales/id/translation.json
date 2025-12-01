@@ -16,6 +16,7 @@
   },
   "register": {
     "register": "Daftar",
+    "username": "Nama Pengguna",
     "email": "Email",
     "password": "Kata Sandi",
     "confirmPassword": "Konfirmasi Kata Sandi",
@@ -25,8 +26,11 @@
     "invalidEmailOrPassword": "Email atau kata sandi salah",
     "successfullyRegistered": "Berhasil Registrasi",
     "enterYourEmail" : "Masukkan email",
+    "enterYourUsername": "Masukkan nama pengguna",
     "enterYourPassword": "Masukkan kata sandi",
+    "usernameIsRequired": "Nama pengguna wajib diisi",
     "emailIsRequired": "Email wajib diisi",
+    "usernameLength": "Nama pengguna minimal 3 karakter",
     "passwordLength": "Kata sandi tidak boleh kurang dari 6 karakter",
     "reenterYourPassword": "Masukkan kembali kata sandi",
     "pleaseUseTheCorrectEmailFormat": "Mohon gunakan format email yang benar",
@@ -50,6 +54,7 @@
     "saveAllAssets": "Simpan Semua Aset",
     "saving": "Menyimpan...",
     "cancel": "Batal",
+    "back": "Kembali",
     "loading": "Memuat...",
     "asset": "Aset",
     "addAssetBelow": "Tambah Aset di Bawah",
@@ -59,6 +64,10 @@
     "expand": "Buka",
     "collapse": "Tutup",
     "deleteConfirm": "Yakin ingin menghapus aset ini?",
+    "deleteTemplate": "Hapus Template",
+    "deleteTemplateConfirm": "Yakin ingin menghapus template ini?",
+    "deleteTemplateSuccess": "Template berhasil dihapus!",
+    "deleteTemplateError": "Gagal menghapus template. Silakan coba lagi.",
     "cancelConfirm": "Yakin ingin membatalkan? Semua perubahan akan hilang.",
     "saveSuccess": "Aset berhasil disimpan!",
     "saveError": "Gagal menyimpan aset. Silakan coba lagi.",
@@ -119,7 +128,10 @@
     "card": "Kartu",
     "templatesFound": "{{count}} template ditemukan",
     "createTemplate": "Buat template baru",
-    "cardMeta": "{{owner}}, {{time}}"
+    "cardMeta": "{{owner}}, {{time}}",
+    "untitled": "Template tanpa judul",
+    "unknownOwner": "Pemilik tidak diketahui",
+    "unknownTime": "Waktu tidak diketahui"
   },
   "home": {
     "title": "Selamat datang di Line Manager"

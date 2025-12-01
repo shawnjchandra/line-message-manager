@@ -21,6 +21,7 @@ const MultiAssetManager: React.FC = () => {
   
   const { id } = useParams<{id:string}>();
   const [ currentProjectId, setCurrentProjectId] = useState<number | null>(null)
+  const isEditingExisting = Boolean(id);
 
   useEffect(()=>{
     console.log(id)
@@ -112,6 +113,32 @@ const MultiAssetManager: React.FC = () => {
     updateAssetData(id, 'data.image', null);
   };
 
+  const handleDeleteTemplate = async (): Promise<void> => {
+    if (!currentProjectId) {
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      t('editor.deleteTemplateConfirm', 'Are you sure you want to delete this template?')
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await ProjectService.deleteProject(currentProjectId);
+      alert(t('editor.deleteTemplateSuccess', 'Template deleted successfully.'));
+      history.push('/workspace');
+    } catch (error) {
+      console.error('Failed to delete template', error);
+      alert(t('editor.deleteTemplateError', 'Failed to delete template. Please try again.'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSave = async (): Promise<void> => {
     if (!validateAllAssets(assets)) {
       alert(t('editor.validationError'));
@@ -133,6 +160,11 @@ const MultiAssetManager: React.FC = () => {
   };
 
   const handleCancel = (): void => {
+    if (isEditingExisting) {
+      history.push('/workspace');
+      return;
+    }
+
     if (window.confirm(t('editor.cancelConfirm'))) {
       setAssets([]);
     }
@@ -174,13 +206,23 @@ const MultiAssetManager: React.FC = () => {
 
           {assets.length > 0 && (
             <div className="manager-footer mt-4 d-flex gap-2">
+              {isEditingExisting && currentProjectId && (
+                <button
+                  className="btn btn-danger ms-auto"
+                  onClick={handleDeleteTemplate}
+                  disabled={loading}
+                  type="button"
+                >
+                  {t('editor.deleteTemplate', 'Delete Template')}
+                </button>
+              )}
               <button 
                 className="btn btn-secondary" 
                 onClick={handleCancel} 
                 disabled={loading}
                 type="button"
               >
-                {t('editor.cancel')}
+                {isEditingExisting ? t('editor.back', 'Back') : t('editor.cancel')}
               </button>
               <button 
                 className="btn btn-primary" 

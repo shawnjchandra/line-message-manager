@@ -4,22 +4,42 @@ import { Send, Menu, User } from 'lucide-react';
 import { Asset } from '../../types/Asset'; 
 import LinePreviewProps from '../../types/LinePreviewProps';
 
+const ASPECT_RATIO_STYLES: Record<string, { aspectRatio: string; minHeight: string }> = {
+  rectangle: { aspectRatio: '1.51 / 1', minHeight: '120px' },
+  square: { aspectRatio: '1 / 1', minHeight: '160px' }
+};
+
+const resolveImageStyle = (data: any) => {
+  const normalizedRatio = (data.imageAspectRatio || 'rectangle').toLowerCase();
+  const ratioStyle = ASPECT_RATIO_STYLES[normalizedRatio] || ASPECT_RATIO_STYLES.rectangle;
+  const shouldContain = (data.imageSize || '').toLowerCase() === 'contain';
+
+  return {
+    width: '100%',
+    ...ratioStyle,
+    backgroundColor: data.imageBackgroundColor || '#eee',
+    backgroundImage: data.image ? `url(${data.image})` : 'none',
+    backgroundSize: shouldContain ? 'contain' : 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    borderBottom: '1px solid rgba(0, 0, 0, 0.05)'
+  } as React.CSSProperties;
+};
+
 const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
 
-  const renderCard = (asset: Asset, index: number) => {
+  const renderCard = (asset: Asset) => {
     const data = asset.data as any; 
     
     return (
       <div key={asset.id} className="card border-0 shadow-sm mb-3" style={{ maxWidth: '240px', borderRadius: '12px', overflow: 'hidden' }}>
-        {data.image && (
-          <div style={{ 
-            height: '120px', 
-            backgroundImage: `url(${data.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundColor: '#eee'
-          }} />
-        )}
+        <div style={resolveImageStyle(data)}>
+          {!data.image && (
+            <div className="d-flex h-100 w-100 align-items-center justify-content-center text-muted" style={{ fontSize: '12px' }}>
+              Image preview
+            </div>
+          )}
+        </div>
         
         <div className="card-body p-3">
           <h6 className="card-title fw-bold mb-1" style={{ fontSize: '14px' }}>
@@ -86,7 +106,7 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
                  if (asset.type === 'confirm') {
                    return renderConfirm(asset, index);
                  } else {
-                   return renderCard(asset, index);
+                  return renderCard(asset);
                  }
                })
              )}

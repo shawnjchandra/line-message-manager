@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Container, Card, Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import useAuthStore from '../../stores/authStore';
 import './UserProfile.scss'
 import UserProfileProps from '../../types/UserProfileProps';
@@ -8,24 +8,36 @@ import { FileService } from '../../services/FileService';
 import User from '../../types/User';
 
 const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
-  const { user } = useAuthStore();
+  const { user, login } = useAuthStore();
     
   const [showPassModal, setShowPassModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUsernameModal, setShowUsernameModal] = useState(false);
 
   const [newPassword, setNewPassword] = useState("");
+  const [newUsername, setNewUsername] = useState(user?.username ?? "");
   
   const togglePass = () => setShowPassModal(!showPassModal);
   const toggleDelete = () => setShowDeleteModal(!showDeleteModal);
+  const openUsernameModal = () => {
+    setNewUsername(user?.username ?? "");
+    setUsernameError("");
+    setShowUsernameModal(true);
+  };
+  const closeUsernameModal = () => {
+    setUsernameError("");
+    setShowUsernameModal(false);
+  };
 
   const [passwordError ,setPasswordError] = useState("");
+  const [usernameError ,setUsernameError] = useState("");
 
   const submitChange = async (e:FormEvent) => {
     e.preventDefault();
 
     try {
 
-      const users = await FileService.load<User[]>('users.json');
+      const users = await FileService.load<User[]>('users');
       
       if (users){
         if (!await AccountManagement.changePassword(users, newPassword)) {
@@ -45,6 +57,9 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
   const checkIsValid = (pwd: string): boolean => {
     return pwd.length >= 6;
   };
+  const checkUsernameValid = (name: string): boolean => {
+    return name.trim().length >= 3;
+  };
 
   const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -60,21 +75,61 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
        setPasswordError(""); // Clear error if valid
     }
   };
+  const handleChangeUsername = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length > 30) return;
+    setNewUsername(value);
+
+    if (!checkUsernameValid(value)) {
+       setUsernameError("Username must be at least 3 characters");
+    } else {
+       setUsernameError("");
+    }
+  };
 
   const submitDelete = async (e : FormEvent) => {
       e.preventDefault();
 
     try {
-      const users = await FileService.load<User[]>('users.json');     
+      const users = await FileService.load<User[]>('users');     
       
       if(users){
-        AccountManagement.deleteAccount(users);
-
+        await AccountManagement.deleteAccount(users);
       }
     } catch (error) {
       
     }
   }
+
+  const submitUsernameChange = async (e: FormEvent) => {
+    e.preventDefault();
+    const trimmed = newUsername.trim();
+
+    if (!checkUsernameValid(trimmed)) {
+      setUsernameError("Username must be at least 3 characters");
+      return;
+    }
+
+    try {
+      const users = await FileService.load<User[]>('users');
+
+      if (!users) {
+        setUsernameError("Failed to load users");
+        return;
+      }
+
+      const updatedUser = await AccountManagement.changeUsername(users, trimmed);
+      if (!updatedUser) {
+        setUsernameError("Failed to update username");
+        return;
+      }
+
+      login(updatedUser);
+      closeUsernameModal();
+    } catch (error) {
+      setUsernameError("Something went wrong");
+    }
+  };
 
   return (
     <>
@@ -90,7 +145,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
             </div>
 
             <div className="user-info ms-4">
-              <h5 className="section-title">Email & Password</h5>
+              <h5 className="section-title">Profile</h5>
+              <p className="user-email mb-1">Username: {user?.username || '-'}</p>
+              <button className="btn-link-action" onClick={openUsernameModal}>
+                Change username
+              </button>
+              <hr className="profile-divider" />
               <p className="user-email mb-1">{user?.email}</p>
               <div className="password-mask">******</div>
               <button className="btn-link-action" onClick={togglePass}>
@@ -138,6 +198,37 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="dark" onClick={submitChange}>Save</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showUsernameModal} onHide={closeUsernameModal} centered style={{ zIndex: 1060 }}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change username</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={submitUsernameChange}>
+            <Form.Group>
+              <Form.Label>New username</Form.Label>
+              <div className="d-flex align-items-center justify-content-between">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter new username"
+                  value={newUsername}
+                  onChange={handleChangeUsername}
+                />
+                <span className="text-muted ms-2 small">{newUsername.length}/30</span>
+              </div>
+            </Form.Group>
+            { usernameError ? 
+              <span>
+                {usernameError}
+            </span>
+            : <></> }
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={closeUsernameModal}>Cancel</Button>
+          <Button variant="dark" onClick={submitUsernameChange}>Save</Button>
         </Modal.Footer>
       </Modal>
 

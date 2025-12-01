@@ -25,6 +25,22 @@ export const AccountManagement = {
       return false;
     },
 
+    async changeUsername(users: User[], newUsername: string): Promise<User | null> {
+      const token = authService.getToken();
+      if (!token) return null;
+
+      const index = users.findIndex((u) => u.email === token.email);
+      if (index === -1) return null;
+
+      users[index].username = newUsername;
+
+      const success = await FileService.save("users", users);
+      if (!success) return null;
+
+      authService.updateTokenUser({ username: newUsername });
+      return users[index];
+    },
+
     async deleteAccount (users: User[]) {
       const token = authService.getToken();
       if (token) {

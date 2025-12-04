@@ -1,3 +1,14 @@
+export interface CardAction {
+  label: string;
+  action: string;
+}
+
+export interface ConfirmAction {
+  label: string;
+  action: string;
+  message: string;
+}
+
 export interface CardAsset {
   id: string;
   type: 'card';
@@ -10,10 +21,7 @@ export interface CardAsset {
     title: string;
     altText: string;
     description: string;
-    defaultAction: {
-      label: string;
-      action: string;
-    };
+    actions: CardAction[];
   };
 }
 
@@ -24,16 +32,7 @@ export interface ConfirmAsset {
   data: {
     title: string;
     altText: string;
-    actionButton1: {
-      label: string;
-      action: string;
-      message: string;
-    };
-    actionButton2: {
-      label: string;
-      action: string;
-      message: string;
-    };
+    actions: ConfirmAction[];
   };
 }
 

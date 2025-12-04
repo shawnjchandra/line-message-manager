@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Asset } from '../types/Asset';
 import Project from '../types/Project';
 import { authService } from './auth';
@@ -18,8 +17,10 @@ export const ProjectService = {
     },
 
     async saveProjects(
-        assets: Asset[], existingId: number | null ): Promise<number> 
-        {
+        assets: Asset[],
+        existingId: number | null,
+        title?: string
+    ): Promise<number> {
             const projects = await this.getAll();
             const currentUser = authService.getUser();
 
@@ -30,34 +31,43 @@ export const ProjectService = {
             const ownerName = currentUser.username || currentUser.email;
             let savedId;
 
+            const normalizedInputTitle =
+              typeof title === "string" ? title.trim() : "";
+
             if (existingId) {
-                const index = projects.findIndex(p => p.templateId === existingId); 
+                const index = projects.findIndex(p => p.templateId === existingId);
 
                 if (index !== -1){
                     projects[index] = {
                         ...projects[index],
-                        assets: assets,
-                        ownerName: ownerName || projects[index].ownerName
+                        assets,
+                        ownerName: ownerName || projects[index].ownerName,
+                        title:
+                          normalizedInputTitle ||
+                          projects[index].title ||
+                          'Untitled template'
                     };
 
                     savedId = existingId;
                 } else {
                 savedId = Date.now();
                 projects.push({
-                templateId: savedId,
-                userId: currentUser.id,
-                ownerName,
-                assets: assets
+                  templateId: savedId,
+                  title: normalizedInputTitle || 'Untitled template',
+                  userId: currentUser.id,
+                  ownerName,
+                  assets
                 });
             } 
             } else {
                 savedId = Date.now();
       
                 const newProject: Project = {
-                    templateId: savedId,
-                    userId: currentUser.id, 
-                    ownerName,
-                    assets: assets,
+                  templateId: savedId,
+                  title: normalizedInputTitle || 'Untitled template',
+                  userId: currentUser.id,
+                  ownerName,
+                  assets,
                 };
                 
                 projects.push(newProject);

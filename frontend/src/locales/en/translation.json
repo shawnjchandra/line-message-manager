@@ -42,6 +42,8 @@
   "editor": {
     "title": "Multi Asset Manager",
     "createNewTemplate": "Create New Template",
+    "templateTitle": "Template title",
+    "enterTemplateTitle": "Enter template title",
     "description": "Create and manage your LINE messaging assets",
     "createNewAsset": "Create New Asset",
     "noAssetsYet": "No Assets Yet",
@@ -88,8 +90,8 @@
     "imageSize": "Image Size",
     "selectSize": "Select size",
     "imageBackgroundColor": "Image Background Color",
-    "title": "Title",
-    "enterTitle": "Enter title",
+    "titleForm": "Form title",
+    "enterTitleForm": "Enter form title",
     "altText": "Alt Text",
     "enterAltText": "Enter alt text",
     "description": "Description",
@@ -101,6 +103,12 @@
     "selectAction": "Select action",
     "actionButton1": "Action Button 1",
     "actionButton2": "Action Button 2",
+    "cardActionsTitle": "Action Buttons",
+    "confirmActionsTitle": "Action Buttons",
+    "actionButtonDynamic": "Action Button {{index}}",
+    "addActionButton": "Add action button",
+    "removeActionButton": "Remove",
+    "actionButtonCount": "{{count}} / {{max}} actions",
     "message": "Message",
     "enterMessage": "Enter message",
     "characters": "characters"
@@ -132,7 +140,10 @@
     "cardMeta": "{{owner}}, {{time}}",
     "untitled": "Untitled template",
     "unknownOwner": "Unknown owner",
-    "unknownTime": "Unknown time"
+    "unknownTime": "Unknown time",
+    "emptyTitle": "No templates created yet 😢",
+    "emptySubtitle": "Click the button below to create your first template.",
+    "createFirstTemplate": "Create first template"
   },
   "home": {
     "title": "Welcome to Line Manager"

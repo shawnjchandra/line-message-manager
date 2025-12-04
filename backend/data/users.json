@@ -18,5 +18,27 @@
     "id": 4,
     "email": "asd@gmail.com",
     "password": "123123123"
+  },
+  {
+    "id": 4,
+    "email": "alexanderbilliantara@gmail.com",
+    "password": "Alex1609!@"
+  },
+  {
+    "id": 4,
+    "email": "asdasd@gmail.com",
+    "password": "123123123"
+  },
+  {
+    "id": 5,
+    "email": "test@gmail.com",
+    "password": "11111111",
+    "username": "siganteng"
+  },
+  {
+    "id": 6,
+    "email": "andreanathali24@gmail.com",
+    "password": "Andrea25",
+    "username": "si bro"
   }
 ]

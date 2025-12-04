@@ -14,7 +14,7 @@ const Workspace: React.FC = () => {
 
   // dummy data
   const [projects, setProjects] = useState<Project[]>([]);
-  const [userLookup, setUserLookup] = useState<Record<number, string>>({});
+  const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
   useEffect(()=>{
     const loadExistingProject = async ()=>{
@@ -69,6 +69,27 @@ const Workspace: React.FC = () => {
     history.push(`/editor/${id}`);
   }
 
+  const formatTimestampLabel = (templateId: number | string): string => {
+    const timestamp = Number(templateId);
+    if (!Number.isFinite(timestamp)) {
+      return t("templater.unknownTime", "Unknown time");
+    }
+
+    const date = new Date(timestamp);
+    const dateLabel = date.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const timeLabel = date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    return `${dateLabel}, ${timeLabel}`;
+  };
+
   return (
     <div className="templater-bg">
       <div className="templater-lang-switch">
@@ -78,75 +99,89 @@ const Workspace: React.FC = () => {
       {/* MAIN */}
       <main className="templater-main">
         <section className="templater-toolbar">
-          <div className="templater-search">
-          <div className="templater-search-box">
-          <input
-            id="templater-search"
-            className="templater-search-input"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder={t(
-              "templater.searchPlaceholder",
-              "by name..."
-            ) as string}
-          />
-    </div>
-  </div>
+          {projects.length > 0 && (
+            <div className="templater-search">
+              <div className="templater-search-box">
+                <input
+                  id="templater-search"
+                  className="templater-search-input"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder={t("templater.searchPlaceholder") as string}
+                />
+              </div>
+            </div>
+          )}
 
-  <div className="templater-toolbar-right">
-    <span className="templater-count">
-      {t("templater.templatesFound", {
-        defaultValue: "{{count}} templates found",
-        count: projects.length,
-      })}
-    </span>
+          <div className="templater-toolbar-right">
+            {/* <span className="templater-count">
+              {t("templater.templatesFound", {
+                defaultValue: "{{count}} templates found",
+                count: projects.length,
+              })}
+            </span> */}
 
-    <button
-      type="button"
-      className="templater-create-btn"
-      onClick={newProject}
-    >
-      {t("templater.createTemplate", "Create new template")}
-    </button>
-  </div>
-</section>
+            {projects.length > 0 && (
+              <button
+                type="button"
+                className="templater-create-btn"
+                onClick={newProject}
+              >
+                {t("templater.createTemplate")}
+              </button>
+            )}
+          </div>
+        </section>
 
       <section className="templater-grid">
-      {projects.map((p) => {
-        const firstAsset = p.assets?.[0] as any;
-        const projectTitle =
-          firstAsset?.data?.title ||
-          t("templater.untitled", "Untitled template");
-        const ownerLabel =
-          p.ownerName ||
-          (typeof p.userId === "number" && userLookup[p.userId]) ||
-          t("templater.unknownOwner", "Unknown owner");
-        const timestamp = Number(p.templateId);
-        const timeLabel = Number.isFinite(timestamp)
-          ? new Date(timestamp).toLocaleString()
-          : t("templater.unknownTime", "Unknown time");
+        {projects.length === 0 ? (
+          <div className="templater-empty-state">
+            <p className="templater-empty-title">
+              {t("templater.emptyTitle") as string}
+            </p>
+            <button
+              type="button"
+              className="templater-create-btn templater-create-btn--large"
+              onClick={newProject}
+            >
+              {t("templater.createFirstTemplate")}
+            </button>
+          </div>
+        ) : (
+          projects.map((p) => {
+            const explicitTitle =
+              typeof p.title === "string" ? p.title.trim() : "";
+            const projectTitle =
+              explicitTitle ||
+              (t("templater.untitled", "Untitled template") as string);
+            const ownerLabel =
+              p.ownerName ||
+              (typeof p.ownerName === "string" && userLookup[p.ownerName]) ||
+              (t("templater.unknownOwner", "Unknown owner") as string);
+            const timeLabel = formatTimestampLabel(p.templateId);
 
-        return (
-          <article
-            key={p.templateId}
-            className="templater-card"
-            onClick={() => handleEdit(p.templateId)}
-          >
-            <div className="templater-card-preview" />
-            <div className="templater-card-body">
-              <h3 className="templater-card-title">{projectTitle}</h3>
-              <p className="templater-card-meta">
-                {t("templater.cardMeta", {
-                  defaultValue: "{{owner}}, {{time}}",
-                  owner: ownerLabel,
-                  time: timeLabel,
-                })}
-              </p>
-            </div>
-          </article>
-        );
-      })}
-    </section>
+            return (
+              <article
+                key={p.templateId}
+                className="templater-card"
+                onClick={() => handleEdit(p.templateId)}
+              >
+                <div className="templater-card-preview" />
+                <div className="templater-card-body">
+                  <h3 className="templater-card-title">{projectTitle}</h3>
+                  <p className="templater-card-meta">
+                    {t("templater.cardMeta", {
+                      defaultValue: "{{owner}}, {{time}}",
+                      owner: ownerLabel,
+                      time: timeLabel,
+                    })}
+                  </p>
+                </div>
+              </article>
+            );
+          })
+        )}
+      </section>
 
       </main>
 

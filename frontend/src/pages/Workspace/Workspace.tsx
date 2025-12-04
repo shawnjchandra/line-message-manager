@@ -12,7 +12,6 @@ const Workspace: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
 
-  // dummy data
   const [projects, setProjects] = useState<Project[]>([]);
   const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
@@ -94,12 +93,12 @@ const Workspace: React.FC = () => {
   </div>
 
   <div className="templater-toolbar-right">
-    {/* <span className="templater-count">
+    <span className="templater-count">
       {t("templater.templatesFound", {
         defaultValue: "{{count}} templates found",
         count: projects.length,
       })}
-    </span> */}
+    </span>
 
     <button
       type="button"
@@ -164,7 +163,7 @@ const Workspace: React.FC = () => {
             aria-labelledby="templater-modal-title"
           >
             <h3 id="templater-modal-title" className="templater-modal-title">
-              {t("templater.selectAssetType", "Select asset type")}
+              {t("templater.selectAssetType", "Selfect asset type")}
             </h3>
 
             <div className="templater-modal-body">

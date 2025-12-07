@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TranslationButton from "../../components/TranslationButton/TranslationButton";
 import "./Workspace.scss";
@@ -15,28 +15,27 @@ const Workspace: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
-  useEffect(()=>{
-    const loadExistingProject = async ()=>{
+  useEffect(() => {
+    const loadExistingProject = async () => {
       try {
         const loadedProjects = await ProjectService.getAll();
-      
         setProjects(loadedProjects);
       } catch (error) {
-        console.error("gagal load workspace")
+        console.error("gagal load workspace");
       }
     };
 
     loadExistingProject();
-  },[])
+  }, []);
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const users = await FileService.load<User[]>("users");
         if (users) {
-          const map = users.reduce<Record<number, string>>((acc, user) => {
+          const map = users.reduce<Record<string, string>>((acc, user) => {
             if (typeof user.id === "number") {
-              acc[user.id] = user.username || user.email;
+              acc[String(user.id)] = user.username || user.email;
             }
             return acc;
           }, {});
@@ -51,22 +50,37 @@ const Workspace: React.FC = () => {
   }, []);
 
   const [q, setQ] = useState("");
-  // const filtered = useMemo(() => {
-  //   const s = q.trim().toLowerCase();
-  //   if (!s) return projects;
-  //   return projects.filter((p) => p.title.toLowerCase().includes(s));
-  // }, [q, projects]);
+
+  const filtered = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    if (!s) return projects;
+
+    return projects.filter((p) => {
+      const title = (p.title || "").toLowerCase();
+      const owner = (p.ownerName || "").toLowerCase();
+      const idStr =
+        p.templateId !== undefined && p.templateId !== null
+          ? String(p.templateId).toLowerCase()
+          : "";
+
+      return (
+        title.includes(s) ||
+        owner.includes(s) ||
+        idStr.includes(s)
+      );
+    });
+  }, [q, projects]);
 
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
 
   const newProject = () => {
-    history.push("/editor")
+    history.push("/editor");
   };
 
-  const handleEdit = (id:number) => {
+  const handleEdit = (id: number) => {
     history.push(`/editor/${id}`);
-  }
+  };
 
   return (
     <div className="templater-bg">
@@ -78,74 +92,78 @@ const Workspace: React.FC = () => {
       <main className="templater-main">
         <section className="templater-toolbar">
           <div className="templater-search">
-          <div className="templater-search-box">
-          <input
-            id="templater-search"
-            className="templater-search-input"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder={t(
-              "templater.searchPlaceholder",
-              "by name..."
-            ) as string}
-          />
-    </div>
-  </div>
-
-  <div className="templater-toolbar-right">
-    <span className="templater-count">
-      {t("templater.templatesFound", {
-        defaultValue: "{{count}} templates found",
-        count: projects.length,
-      })}
-    </span>
-
-    <button
-      type="button"
-      className="templater-create-btn"
-      onClick={newProject}
-    >
-      {t("templater.createTemplate", "Create new template")}
-    </button>
-  </div>
-</section>
-
-      <section className="templater-grid">
-      {projects.map((p) => {
-        const projectTitle =
-          p.title ||
-          t("templater.untitled", "Untitled template");
-        const ownerLabel =
-          p.ownerName ||
-          (typeof p.ownerName === "string" && userLookup[p.ownerName]) ||
-          t("templater.unknownOwner", "Unknown owner");
-        const timestamp = Number(p.templateId);
-        const timeLabel = Number.isFinite(timestamp)
-          ? new Date(timestamp).toLocaleString()
-          : t("templater.unknownTime", "Unknown time");
-
-        return (
-          <article
-            key={p.templateId}
-            className="templater-card"
-            onClick={() => handleEdit(p.templateId)}
-          >
-            <div className="templater-card-preview" />
-            <div className="templater-card-body">
-              <h3 className="templater-card-title">{projectTitle}</h3>
-              <p className="templater-card-meta">
-                {t("templater.cardMeta", {
-                  defaultValue: "{{owner}}, {{time}}",
-                  owner: ownerLabel,
-                  time: timeLabel,
-                })}
-              </p>
+            <div className="templater-search-box">
+              <input
+                id="templater-search"
+                className="templater-search-input"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={
+                  t(
+                    "templater.searchPlaceholder",
+                    "by name..."
+                  ) as string
+                }
+              />
             </div>
-          </article>
-        );
-      })}
-    </section>
+          </div>
 
+          <div className="templater-toolbar-right">
+            <span className="templater-count">
+              {t("templater.templatesFound", {
+                defaultValue: "{{count}} templates found",
+                count: filtered.length, 
+              })}
+            </span>
+
+            <button
+              type="button"
+              className="templater-create-btn"
+              onClick={newProject}
+            >
+              {t("templater.createTemplate", "Create new template")}
+            </button>
+          </div>
+        </section>
+
+        <section className="templater-grid">
+          {filtered.map((p) => {
+            const projectTitle =
+              p.title ||
+              t("templater.untitled", "Untitled template");
+            const ownerLabel =
+              p.ownerName ||
+              (typeof p.ownerName === "string" &&
+                userLookup[p.ownerName]) ||
+              t("templater.unknownOwner", "Unknown owner");
+            const timestamp = Number(p.templateId);
+            const timeLabel = Number.isFinite(timestamp)
+              ? new Date(timestamp).toLocaleString()
+              : t("templater.unknownTime", "Unknown time");
+
+            return (
+              <article
+                key={p.templateId}
+                className="templater-card"
+                onClick={() => handleEdit(p.templateId)}
+              >
+                <div className="templater-card-preview" />
+                <div className="templater-card-body">
+                  <h3 className="templater-card-title">
+                    {projectTitle}
+                  </h3>
+                  <p className="templater-card-meta">
+                    {t("templater.cardMeta", {
+                      defaultValue: "{{owner}}, {{time}}",
+                      owner: ownerLabel,
+                      time: timeLabel,
+                    })}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        </section>
       </main>
 
       {/* buat create template */}
@@ -163,7 +181,10 @@ const Workspace: React.FC = () => {
             aria-labelledby="templater-modal-title"
           >
             <h3 id="templater-modal-title" className="templater-modal-title">
-              {t("templater.selectAssetType", "Selfect asset type")}
+              {t(
+                "templater.selectAssetType",
+                "Selfect asset type"
+              )}
             </h3>
 
             <div className="templater-modal-body">
@@ -194,7 +215,7 @@ const Workspace: React.FC = () => {
                 className="templater-btn templater-btn--primary"
                 disabled={!assetType}
                 onClick={newProject}
-               >
+              >
                 {t("common.confirm", "Confirm")}
               </button>
             </div>

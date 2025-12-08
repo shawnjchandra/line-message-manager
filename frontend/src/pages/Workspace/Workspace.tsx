@@ -66,14 +66,27 @@ const Workspace: React.FC = () => {
   }, []);
 
     const [q, setQ] = useState("");
+    const [sortAZ, setSortAZ] = useState(false);
     const filtered = useMemo(() => {
       const s = q.trim().toLowerCase();
-      if (!s) return projects;
-
-      return projects.filter((p) =>
-        (p.title || "").toLowerCase().includes(s)
-      );
-    }, [q, projects]);
+      let result = projects;
+      
+      if (s) {
+        result = projects.filter((p) =>
+          (p.title || "").toLowerCase().includes(s)
+        );
+      }
+      
+      if (sortAZ) {
+        result = [...result].sort((a, b) => {
+          const titleA = (a.title || "").toLowerCase();
+          const titleB = (b.title || "").toLowerCase();
+          return titleA.localeCompare(titleB);
+        });
+      }
+      
+      return result;
+    }, [q, projects, sortAZ]);
   const [openModal, setOpenModal] = useState(false);
   const [assetType, setAssetType] = useState<"card" | null>(null);
 
@@ -130,6 +143,14 @@ const Workspace: React.FC = () => {
                   onChange={(e) => setQ(e.target.value)}
                   placeholder={t("templater.searchPlaceholder") as string}
                 />
+                <button
+                  type="button"
+                  className={`templater-sort-btn ${sortAZ ? "templater-sort-btn--active" : ""}`}
+                  onClick={() => setSortAZ(!sortAZ)}
+                  title="Sort A-Z"
+                >
+                  A-Z
+                </button>
               </div>
             </div>
           )}

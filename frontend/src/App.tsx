@@ -9,6 +9,7 @@ import './utils/i18n'
 import CustomNavbar from './components/Navbar/CustomNavbar';
 import Register from './pages/Register/Register';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import GlobalToastContainer from './components/GlobalToastContainer/GlobalToastContainer';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             </Route>
           </Switch>
           <TranslationButton/>
+          <GlobalToastContainer/>
     </Router>
    </>
   );

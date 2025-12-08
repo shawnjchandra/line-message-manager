@@ -9,6 +9,7 @@ interface CustomToastProps {
   title?: string;
   delay?: number;
   autohide?: boolean;
+  type?: 'warning' | 'error' | 'info' | 'success';
 }
 
 
@@ -18,7 +19,22 @@ export default function CustomToast({
     title,
     message, 
     delay=5000, 
-    autohide = true}: CustomToastProps) {
+    autohide = true,
+    type = 'info'}: CustomToastProps) {
+    
+    const getHeaderClass = () => {
+        switch(type) {
+            case 'error':
+                return 'toast-header-error';
+            case 'warning':
+                return 'toast-header-warning';
+            case 'success':
+                return 'toast-header-success';
+            default:
+                return 'toast-header-info';
+        }
+    };
+
     return (
         <div>
             <Toast
@@ -28,7 +44,7 @@ export default function CustomToast({
                 autohide={autohide}
             >
                 { title && (
-                        <Toast.Header>
+                        <Toast.Header className={getHeaderClass()}>
                             <strong>
                                 {title}
                             </strong>

@@ -138,6 +138,34 @@
   outline: none;
 }
 
+.templater-sort-btn {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 120ms ease, color 120ms ease;
+  margin-left: 4px;
+}
+
+.templater-sort-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.templater-sort-btn--active {
+  background: #0b63ce;
+  color: #ffffff;
+}
+
+.templater-sort-btn--active:hover {
+  background: #0953aa;
+}
+
 @media (max-width: 768px) {
   .templater-search-box {
     max-width: 100%;

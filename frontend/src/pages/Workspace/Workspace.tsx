@@ -31,10 +31,9 @@ const Workspace: React.FC = () => {
     const loadExistingProject = async ()=>{
       try {
         const loadedProjects = await ProjectService.getAll();
-      
         setProjects(loadedProjects);
       } catch (error) {
-        console.error("gagal load workspace")
+        console.error("gagal load workspace");
       }
     };
 
@@ -49,9 +48,9 @@ const Workspace: React.FC = () => {
       try {
         const users = await FileService.load<User[]>("users");
         if (users) {
-          const map = users.reduce<Record<number, string>>((acc, user) => {
+          const map = users.reduce<Record<string, string>>((acc, user) => {
             if (typeof user.id === "number") {
-              acc[user.id] = user.username || user.email;
+              acc[String(user.id)] = user.username || user.email;
             }
             return acc;
           }, {});
@@ -78,12 +77,12 @@ const Workspace: React.FC = () => {
   const [assetType, setAssetType] = useState<"card" | null>(null);
 
   const newProject = () => {
-    history.push("/editor")
+    history.push("/editor");
   };
 
-  const handleEdit = (id:number) => {
+  const handleEdit = (id: number) => {
     history.push(`/editor/${id}`);
-  }
+  };
 
   const formatTimestampLabel = (templateId: number | string): string => {
     const timestamp = Number(templateId);
@@ -212,6 +211,62 @@ const Workspace: React.FC = () => {
         )}
       </section>
 
+          <div className="templater-toolbar-right">
+            <span className="templater-count">
+              {t("templater.templatesFound", {
+                defaultValue: "{{count}} templates found",
+                count: filtered.length, 
+              })}
+            </span>
+
+            <button
+              type="button"
+              className="templater-create-btn"
+              onClick={newProject}
+            >
+              {t("templater.createTemplate", "Create new template")}
+            </button>
+          </div>
+        </section>
+
+        <section className="templater-grid">
+          {filtered.map((p) => {
+            const projectTitle =
+              p.title ||
+              t("templater.untitled", "Untitled template");
+            const ownerLabel =
+              p.ownerName ||
+              (typeof p.ownerName === "string" &&
+                userLookup[p.ownerName]) ||
+              t("templater.unknownOwner", "Unknown owner");
+            const timestamp = Number(p.templateId);
+            const timeLabel = Number.isFinite(timestamp)
+              ? new Date(timestamp).toLocaleString()
+              : t("templater.unknownTime", "Unknown time");
+
+            return (
+              <article
+                key={p.templateId}
+                className="templater-card"
+                onClick={() => handleEdit(p.templateId)}
+              >
+                <div className="templater-card-preview" />
+                <div className="templater-card-body">
+                  <h3 className="templater-card-title">
+                    {projectTitle}
+                  </h3>
+                  <p className="templater-card-meta">
+                    {t("templater.cardMeta", {
+                      defaultValue: "{{owner}}, {{time}}",
+                      owner: ownerLabel,
+                      time: timeLabel,
+                    })}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        </section>
       </main>
 
       {/* buat create template */}
@@ -229,7 +284,10 @@ const Workspace: React.FC = () => {
             aria-labelledby="templater-modal-title"
           >
             <h3 id="templater-modal-title" className="templater-modal-title">
-              {t("templater.selectAssetType", "Selfect asset type")}
+              {t(
+                "templater.selectAssetType",
+                "Selfect asset type"
+              )}
             </h3>
 
             <div className="templater-modal-body">
@@ -260,7 +318,7 @@ const Workspace: React.FC = () => {
                 className="templater-btn templater-btn--primary"
                 disabled={!assetType}
                 onClick={newProject}
-               >
+              >
                 {t("common.confirm", "Confirm")}
               </button>
             </div>

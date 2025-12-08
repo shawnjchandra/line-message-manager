@@ -10,6 +10,7 @@ import './Editor.scss';
 import { ProjectService } from '../../services/ProjectService';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useToastStore from '../../stores/toastStore';
 
 const MultiAssetManager: React.FC = () => {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ const MultiAssetManager: React.FC = () => {
   const [showTypeSelector, setShowTypeSelector] = useState<boolean>(false);
   const [insertAfterIndex, setInsertAfterIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+   const showToast = useToastStore((state) => state.showToast);  
   
   const { id } = useParams<{id:string}>();
   const [ currentProjectId, setCurrentProjectId] = useState<number | null>(null)
@@ -29,12 +31,12 @@ const MultiAssetManager: React.FC = () => {
   );
 
   useEffect(()=>{
-    console.log(id)
+    // console.log(id)
     if (id) {
       const loadExistingProject = async ()=>{
         try {
           const projectData = await ProjectService.getById(parseInt(id));
-          console.log(projectData)
+          // console.log(projectData)
           if (projectData) {
             setAssets(normalizeAssets(projectData.assets));
             setCurrentProjectId(projectData.templateId)
@@ -43,7 +45,7 @@ const MultiAssetManager: React.FC = () => {
             );
           }
         } catch (e){
-          console.error("Failed to load project")
+          // console.error("Failed to load project")
         }
       };
 
@@ -137,11 +139,24 @@ const MultiAssetManager: React.FC = () => {
     setLoading(true);
     try {
       await ProjectService.deleteProject(currentProjectId);
-      alert(t('editor.deleteTemplateSuccess', 'Template deleted successfully.'));
+      // alert(t('editor.deleteTemplateSuccess', 'Template deleted successfully.'));
+      showToast({
+          type: 'success',
+          message: t('editor.deleteTemplateSuccess', 'Template deleted successfully.'),
+          title: t('toast.success'),
+        });
+    
       history.push('/workspace');
+    
     } catch (error) {
-      console.error('Failed to delete template', error);
-      alert(t('editor.deleteTemplateError', 'Failed to delete template. Please try again.'));
+      // console.error('Failed to delete template', error);
+
+      // alert(t('editor.deleteTemplateError', 'Failed to delete template. Please try again.'));
+      showToast({
+          type: 'failed',
+          message: t('editor.deleteTemplateError', 'Failed to delete template. Please try again.'),
+          title: t('toast.failed'),
+        });
     } finally {
       setLoading(false);
     }
@@ -149,7 +164,11 @@ const MultiAssetManager: React.FC = () => {
 
   const handleSave = async (): Promise<void> => {
     if (!validateAllAssets(assets)) {
-      alert(t('editor.validationError'));
+      showToast({
+          type: 'failed',
+          message: t('editor.validationError'),
+          title: t('toast.error'),
+        });
       return;
     }
     setLoading(true);
@@ -162,10 +181,20 @@ const MultiAssetManager: React.FC = () => {
       );
 
       setCurrentProjectId(savedId);
-      alert('Assets saved successfully!');
+      showToast({
+          type: 'success',
+          message: t('editor.assetsSavedSuccessfully'),
+          title: t('toast.success'),
+        });
+
+
       history.push('/workspace');
     } catch (error) {
-      alert(t('editor.saveError'));
+      showToast({
+          type: 'failed',
+          message: t('editor.saveError'),
+          title: t('toast.error'),
+        });
     } finally {
       setLoading(false);
     }
@@ -184,7 +213,7 @@ const MultiAssetManager: React.FC = () => {
 
 
   return (
-    <div className="multi-asset-manager container-fluid p-4"> {/* Added container-fluid */}
+    <div className="multi-asset-manager container-fluid p-4">
       {isEditingExisting && (
         <div className="manager-back-wrapper">
           <button
@@ -276,8 +305,6 @@ const MultiAssetManager: React.FC = () => {
           )}
         </div>
 
-        {/* RIGHT COLUMN: The Live Preview */}
-        {/* d-none d-lg-block hides it on mobile to save space */}
         <div className="preview-sidebar">
           <div className="preview-fixed-wrapper">
              <h5>Live Preview</h5>

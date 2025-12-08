@@ -9,11 +9,12 @@ import './utils/i18n'
 import CustomNavbar from './components/Navbar/CustomNavbar';
 import Register from './pages/Register/Register';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-
+import GlobalToast from './components/GlobalToast/GlobalToast';
 function App() {
   return (
    <>
     <Router>
+        <GlobalToast/>
         <CustomNavbar/>
           <Switch>
             <Route exact path="/" component={Home}/>

@@ -90,7 +90,7 @@ function Register(){
 
     setErrors(newErrors as FormRegisterBase);
     
-    console.log(newErrors)
+    // console.log(newErrors)
     return Object.keys(newErrors).length 
     === 0;
   }

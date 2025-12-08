@@ -18,7 +18,6 @@ const Workspace: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
-  // Check authentication on mount and redirect if not authenticated
   useEffect(() => {
     const isTokenValid = authService.validateToken();
     if (!isAuthenticated || !isTokenValid) {
@@ -33,11 +32,10 @@ const Workspace: React.FC = () => {
         const loadedProjects = await ProjectService.getAll();
         setProjects(loadedProjects);
       } catch (error) {
-        console.error("gagal load workspace");
+        // console.error("gagal load workspace");
       }
     };
 
-    // Only load projects if authenticated
     if (isAuthenticated && authService.validateToken()) {
       loadExistingProject();
     }
@@ -57,7 +55,7 @@ const Workspace: React.FC = () => {
           setUserLookup(map);
         }
       } catch (error) {
-        console.error("gagal load users");
+        // console.error("gagal load users");
       }
     };
 
@@ -154,6 +152,7 @@ const Workspace: React.FC = () => {
         </section>
 
       <section className="templater-grid">
+        <div className="container">
         {filtered.length === 0 ? (
           <div className="templater-empty-state">
             {projects.length === 0 ? (
@@ -209,123 +208,14 @@ const Workspace: React.FC = () => {
             );
           })
         )}
+        </div>
       </section>
 
-          <div className="templater-toolbar-right">
-            <span className="templater-count">
-              {t("templater.templatesFound", {
-                defaultValue: "{{count}} templates found",
-                count: filtered.length, 
-              })}
-            </span>
-
-            <button
-              type="button"
-              className="templater-create-btn"
-              onClick={newProject}
-            >
-              {t("templater.createTemplate", "Create new template")}
-            </button>
-          </div>
-        </section>
-
-        <section className="templater-grid">
-          {filtered.map((p) => {
-            const projectTitle =
-              p.title ||
-              t("templater.untitled", "Untitled template");
-            const ownerLabel =
-              p.ownerName ||
-              (typeof p.ownerName === "string" &&
-                userLookup[p.ownerName]) ||
-              t("templater.unknownOwner", "Unknown owner");
-            const timestamp = Number(p.templateId);
-            const timeLabel = Number.isFinite(timestamp)
-              ? new Date(timestamp).toLocaleString()
-              : t("templater.unknownTime", "Unknown time");
-
-            return (
-              <article
-                key={p.templateId}
-                className="templater-card"
-                onClick={() => handleEdit(p.templateId)}
-              >
-                <div className="templater-card-preview" />
-                <div className="templater-card-body">
-                  <h3 className="templater-card-title">
-                    {projectTitle}
-                  </h3>
-                  <p className="templater-card-meta">
-                    {t("templater.cardMeta", {
-                      defaultValue: "{{owner}}, {{time}}",
-                      owner: ownerLabel,
-                      time: timeLabel,
-                    })}
-                  </p>
-                </div>
-              </article>
-            );
-          })}
-        </section>
+    
       </main>
-
-      {/* buat create template */}
-      {openModal && (
-        <>
-          <div
-            className="templater-modal-backdrop"
-            onClick={() => setOpenModal(false)}
-          />
-
-          <div
-            className="templater-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="templater-modal-title"
-          >
-            <h3 id="templater-modal-title" className="templater-modal-title">
-              {t(
-                "templater.selectAssetType",
-                "Selfect asset type"
-              )}
-            </h3>
-
-            <div className="templater-modal-body">
-              <label className="templater-radio">
-                <input
-                  type="radio"
-                  name="assetType"
-                  value="card"
-                  checked={assetType === "card"}
-                  onChange={() => setAssetType("card")}
-                />
-                <span className="templater-radio-label">
-                  {t("templater.card", "Card")}
-                </span>
-              </label>
-            </div>
-
-            <div className="templater-modal-actions">
-              <button
-                type="button"
-                className="templater-btn templater-btn--ghost"
-                onClick={() => setOpenModal(false)}
-              >
-                {t("common.cancel", "Cancel")}
-              </button>
-              <button
-                type="button"
-                className="templater-btn templater-btn--primary"
-                disabled={!assetType}
-                onClick={newProject}
-              >
-                {t("common.confirm", "Confirm")}
-              </button>
-            </div>
-          </div>
-        </>
-      )}
     </div>
+
+    
   );
 };
 

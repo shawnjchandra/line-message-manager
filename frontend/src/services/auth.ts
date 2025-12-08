@@ -68,7 +68,7 @@ export const authService = {
         try {
           return crypto.decryptObject(token);
         } catch (error) {
-          console.error('Failed to decrypt token:', error);
+          // console.error('Failed to decrypt token:', error);
           return null;
         }
       } else {
@@ -94,12 +94,12 @@ export const authService = {
         // Batas 30 menit
         const isExpired = Date.now() - tokenData.timestamp > 30 * 60 * 1000;
         
-        console.log("berhasil")
+        // console.log("berhasil")
         // Kalau diatas (true), berarti ga valid (false)
         // Dan sebaliknya
         return !isExpired;
       }else {
-        console.log("gagal")
+        // console.log("gagal")
         return false;
       }
     },

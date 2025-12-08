@@ -79,7 +79,8 @@
     "importJSON": "Import JSON",
     "importing": "Importing...",
     "importSuccess": "Import successful!",
-    "importError": "Failed to import JSON"
+    "importError": "Failed to import JSON",
+    "assetsSavedSuccessfully": "Assets saved successfully"
   },
   "form": {
     "imageAspectRatio": "Image Aspect Ratio",
@@ -141,7 +142,7 @@
     "untitled": "Untitled template",
     "unknownOwner": "Unknown owner",
     "unknownTime": "Unknown time",
-    "emptyTitle": "No templates created yet 😢",
+    "emptyTitle": "No templates created yet",
     "emptySubtitle": "Click the button below to create your first template.",
     "createFirstTemplate": "Create first template",
     "noTemplateFound": "No template found"
@@ -160,6 +161,11 @@
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm"
+  },
+  "toast": {
+    "success": "Success",
+    "failed": "Failed",
+    "error": "Error"
   }
 }
 

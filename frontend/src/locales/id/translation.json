@@ -142,7 +142,8 @@
     "unknownTime": "Waktu tidak diketahui",
     "emptyTitle": "Belum ada template yang dibuat 😢",
     "emptySubtitle": "Klik tombol dibawah ini untuk membuat template pertamamu.",
-    "createFirstTemplate": "Buat template pertama"
+    "createFirstTemplate": "Buat template pertama",
+    "noTemplateFound": "Tidak ada template yang ditemukan"
   },
   "home": {
     "title": "Selamat datang di Line Manager"

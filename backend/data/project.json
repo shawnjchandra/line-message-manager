@@ -1,0 +1,50 @@
+[
+  {
+    "templateId": 1765162019257,
+    "title": "test",
+    "userId": 5,
+    "ownerName": "siganteng",
+    "assets": [
+      {
+        "id": "asset-1765161999616-0.8529106662275032",
+        "type": "confirm",
+        "expanded": true,
+        "data": {
+          "title": "asda",
+          "altText": "adasd",
+          "actions": [
+            {
+              "label": "dadasd",
+              "action": "",
+              "message": ""
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "templateId": 1765162036730,
+    "title": "otot",
+    "userId": 5,
+    "ownerName": "siganteng",
+    "assets": [
+      {
+        "id": "asset-1765162026389-0.520576168041979",
+        "type": "confirm",
+        "expanded": true,
+        "data": {
+          "title": "adasd",
+          "altText": "asdasd",
+          "actions": [
+            {
+              "label": "da",
+              "action": "",
+              "message": "asd"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

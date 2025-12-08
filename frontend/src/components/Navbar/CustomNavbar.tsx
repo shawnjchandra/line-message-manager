@@ -20,7 +20,13 @@ function CustomNavbar() {
 
   const handleLogout = () => {
     logout();
-    history.replace(window.location.pathname);
+    // Redirect to login if on a protected route (workspace or editor)
+    const currentPath = window.location.pathname;
+    if (currentPath.startsWith('/workspace') || currentPath.startsWith('/editor')) {
+      history.replace('/login');
+    } else {
+      history.replace(currentPath);
+    }
   }
 
   const handleProfile = () => {

@@ -78,7 +78,9 @@
     "importJSON": "Impor JSON",
     "importing": "Mengimpor...",
     "importSuccess": "Berhasil mengimpor!",
-    "importError": "Gagal mengimpor JSON"
+    "importError": "Gagal mengimpor JSON",
+    "assetsSavedSuccessfully": "Aset berhasil disimpan!"
+
   },
   "form": {
     "imageAspectRatio": "Rasio Aspek Gambar",
@@ -159,5 +161,10 @@
   "common": {
     "cancel": "Batal",
     "confirm": "Ya"
+  },
+  "toast": {
+    "success": "Sukses",
+    "failed": "Gagal",
+    "error": "eror"
   }
 }

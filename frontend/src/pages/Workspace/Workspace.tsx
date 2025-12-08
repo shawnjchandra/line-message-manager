@@ -18,7 +18,6 @@ const Workspace: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [userLookup, setUserLookup] = useState<Record<string, string>>({});
 
-  // Check authentication on mount and redirect if not authenticated
   useEffect(() => {
     const isTokenValid = authService.validateToken();
     if (!isAuthenticated || !isTokenValid) {
@@ -31,14 +30,12 @@ const Workspace: React.FC = () => {
     const loadExistingProject = async ()=>{
       try {
         const loadedProjects = await ProjectService.getAll();
-      
         setProjects(loadedProjects);
       } catch (error) {
-        console.error("gagal load workspace")
+        // console.error("gagal load workspace");
       }
     };
 
-    // Only load projects if authenticated
     if (isAuthenticated && authService.validateToken()) {
       loadExistingProject();
     }
@@ -49,16 +46,16 @@ const Workspace: React.FC = () => {
       try {
         const users = await FileService.load<User[]>("users");
         if (users) {
-          const map = users.reduce<Record<number, string>>((acc, user) => {
+          const map = users.reduce<Record<string, string>>((acc, user) => {
             if (typeof user.id === "number") {
-              acc[user.id] = user.username || user.email;
+              acc[String(user.id)] = user.username || user.email;
             }
             return acc;
           }, {});
           setUserLookup(map);
         }
       } catch (error) {
-        console.error("gagal load users");
+        // console.error("gagal load users");
       }
     };
 
@@ -91,12 +88,12 @@ const Workspace: React.FC = () => {
   const [assetType, setAssetType] = useState<"card" | null>(null);
 
   const newProject = () => {
-    history.push("/editor")
+    history.push("/editor");
   };
 
-  const handleEdit = (id:number) => {
+  const handleEdit = (id: number) => {
     history.push(`/editor/${id}`);
-  }
+  };
 
   const formatTimestampLabel = (templateId: number | string): string => {
     const timestamp = Number(templateId);
@@ -176,6 +173,7 @@ const Workspace: React.FC = () => {
         </section>
 
       <section className="templater-grid">
+        <div className="container">
         {filtered.length === 0 ? (
           <div className="templater-empty-state">
             {projects.length === 0 ? (
@@ -231,64 +229,14 @@ const Workspace: React.FC = () => {
             );
           })
         )}
+        </div>
       </section>
 
+    
       </main>
-
-      {/* buat create template */}
-      {openModal && (
-        <>
-          <div
-            className="templater-modal-backdrop"
-            onClick={() => setOpenModal(false)}
-          />
-
-          <div
-            className="templater-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="templater-modal-title"
-          >
-            <h3 id="templater-modal-title" className="templater-modal-title">
-              {t("templater.selectAssetType", "Selfect asset type")}
-            </h3>
-
-            <div className="templater-modal-body">
-              <label className="templater-radio">
-                <input
-                  type="radio"
-                  name="assetType"
-                  value="card"
-                  checked={assetType === "card"}
-                  onChange={() => setAssetType("card")}
-                />
-                <span className="templater-radio-label">
-                  {t("templater.card", "Card")}
-                </span>
-              </label>
-            </div>
-
-            <div className="templater-modal-actions">
-              <button
-                type="button"
-                className="templater-btn templater-btn--ghost"
-                onClick={() => setOpenModal(false)}
-              >
-                {t("common.cancel", "Cancel")}
-              </button>
-              <button
-                type="button"
-                className="templater-btn templater-btn--primary"
-                disabled={!assetType}
-                onClick={newProject}
-               >
-                {t("common.confirm", "Confirm")}
-              </button>
-            </div>
-          </div>
-        </>
-      )}
     </div>
+
+    
   );
 };
 

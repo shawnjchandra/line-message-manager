@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom';
 import './styles/main.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { initConsoleInterceptor } from './utils/consoleInterceptor';
-
-// Initialize console interceptor early, before React renders
-initConsoleInterceptor();
 
 ReactDOM.render(
   // <React.StrictMode>

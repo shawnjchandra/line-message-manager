@@ -21,8 +21,6 @@ const useAuthStore = create<AuthState>((set) => ({
     }
 
     try {
-      // You need to re-fetch the user list to find the current user
-      // based on the token (email)
       const users= await FileService.load<User[]>('users');
       
       if (users){
@@ -31,11 +29,10 @@ const useAuthStore = create<AuthState>((set) => ({
       if (foundUser) {
         set({ isAuthenticated: true, user: foundUser });
       } else {
-        // Token exists but user not found in DB (weird state)
         set({ isAuthenticated: false, user: null });
       }}
     } catch (error) {
-      console.error("Failed to refresh user:", error);
+      // console.error("Failed to refresh user:", error);
       set({ isAuthenticated: false, user: null });
     }
   }

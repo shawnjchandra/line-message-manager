@@ -13,7 +13,7 @@ export const FileService = {
       return await response.json();
     }
      catch (error) {
-      console.error(`Error loading ${filename}:`, error);
+      // console.error(`Error loading ${filename}:`, error);
       return null;
     }
   },
@@ -32,7 +32,7 @@ export const FileService = {
 
       return response.ok;
     } catch (error) {
-      console.error(`Error saving ${filename}:`, error);
+      // console.error(`Error saving ${filename}:`, error);
       return false;
     }
   }

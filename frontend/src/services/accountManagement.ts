@@ -52,7 +52,7 @@ export const AccountManagement = {
           // users.splice(index,1)
           const remainingUsers = users.filter(u => u.email !== email);
 
-          console.log(remainingUsers);
+          // console.log(remainingUsers);
           await FileService.save("users",remainingUsers);
           authService.logout();
           return true;

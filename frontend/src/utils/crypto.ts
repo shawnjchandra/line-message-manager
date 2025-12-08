@@ -22,7 +22,7 @@ export const crypto = {
                 const charCode = data.charCodeAt(i) ^ sk?.charCodeAt(i % sk.length);
                 result += String.fromCharCode(charCode);
             }
-            console.log(sk,result, btoa(result))
+            // console.log(sk,result, btoa(result))
 
             return btoa(result);
         } catch (error) {
@@ -41,7 +41,7 @@ export const crypto = {
                 const charCode = decoded.charCodeAt(i) ^ sk?.charCodeAt(i % sk.length);
                 result += String.fromCharCode(charCode);
             }
-            console.log(result)
+            // console.log(result)
             return result;  
 
         } catch (error) {

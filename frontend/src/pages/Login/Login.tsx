@@ -9,6 +9,7 @@ import { authService } from '../../services/auth';
 import useAuthStore from '../../stores/authStore';
 import { FileService } from '../../services/FileService';
 import User from '../../types/User';
+import useToastStore from '../../stores/toastStore';
 
 interface FormLoginBase {
   email:string;
@@ -19,7 +20,6 @@ function Login() {
   const history = useHistory();
   const isMounted = useRef(true);
   const { t, i18n} = useTranslation();
-  const [showToast, setShowToast] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
   const [formData, setFormData] = useState<FormLoginBase>({
@@ -30,14 +30,9 @@ function Login() {
     email:'',
     password:''
   });
-  const [toastConfig, setToastConfig] = useState<CustomToastInterface>({
-    type:'',
-    message:'',
-    title:'',
-  });
 
   const { isAuthenticated, user, login, logout } = useAuthStore();
-  
+   const showToast = useToastStore((state) => state.showToast);  
 
   useEffect(()=>{
     return ()=>{
@@ -94,24 +89,24 @@ function Login() {
       if (user) {        
         login(user);
         // alert('Sukses');
-        setToastConfig({
+        showToast({
           type: 'success',
           message: t('login.successfullyLoggedIn'),
-          title: 'Success',
+          title: t('toast.success'),
         });
-        setShowToast(true);
+        //setShowToast(true);
 
         setTimeout(()=>{
           history.push('/');
 
         },1000)
       } else {
-        setToastConfig({
+        showToast({
           type: 'failed',
           message: t('login.invalidEmailOrPassword'),
           title: 'Error',
         });
-        setShowToast(true);
+        //setShowToast(true);
 
         setTimeout(()=>{
           setIsLoading(false);
@@ -120,12 +115,12 @@ function Login() {
 
     } catch (error){
       setLoginError(t('login.errorLogin'));
-      setToastConfig({
+      showToast({
           type: 'failed',
           message: t('login.failedToLogIn'),
           title: 'Error',
         });
-      setShowToast(true)
+      //setShowToast(true)
     } finally {
       if (isMounted.current) {
         
@@ -184,13 +179,7 @@ function Login() {
                )}
                
             </Form.Group>
-            {/* {loginError && (
-              <Form.Text 
-              role='alert'
-              className='error'>
-                {loginError}
-              </Form.Text>
-            )} */}
+
             <Button 
             variant="primary" 
             type="submit" 
@@ -204,13 +193,6 @@ function Login() {
           </Form>
         </Card.Body>
       </Card>
-
-      <CustomToast
-        show={showToast}
-        onClose={()=>setShowToast(false)}
-        message={toastConfig.message}
-        title={toastConfig.title}
-      />
     </Container>
   );
 }

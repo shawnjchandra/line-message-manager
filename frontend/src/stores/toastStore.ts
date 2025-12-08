@@ -1,31 +1,19 @@
 import create from 'zustand';
+import { CustomToastInterface } from '../components/CustomToast/CustomToastInterface';
 
-export interface ToastMessage {
-  id: string;
-  message: string;
-  title?: string;
-  type?: 'warning' | 'error' | 'info' | 'success';
-  delay?: number;
+interface ToastState extends CustomToastInterface {
+  show: boolean;
+  showToast: (config: CustomToastInterface) => void;
+  hideToast: () => void;
 }
 
-interface ToastState {
-  toasts: ToastMessage[];
-  addToast: (toast: Omit<ToastMessage, 'id'>) => void;
-  removeToast: (id: string) => void;
-}
-
-export const useToastStore = create<ToastState>((set) => ({
-  toasts: [],
-  addToast: (toast) => {
-    const id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
-    set((state) => ({
-      toasts: [...state.toasts, { ...toast, id }],
-    }));
-  },
-  removeToast: (id) => {
-    set((state) => ({
-      toasts: state.toasts.filter((toast) => toast.id !== id),
-    }));
-  },
+const useToastStore = create<ToastState>((set) => ({
+  show: false,
+  type: '',
+  message: '',
+  title: '',
+  showToast: (config) => set({ ...config, show: true }),
+  hideToast: () => set({ show: false }),
 }));
 
+export default useToastStore;

@@ -1,37 +1,35 @@
-import { useState } from "react";
 import { Toast} from "react-bootstrap";
+import { CustomToastInterface } from "./CustomToastInterface";
 import './CustomToast.scss';
 
-interface CustomToastProps {
+interface CustomToastProps extends Omit<CustomToastInterface, 'type'> {
   show: boolean;
   onClose: () => void;
-  message: string;
-  title?: string;
+  type?: 'success' | 'failed' | 'info' | '';
   delay?: number;
   autohide?: boolean;
-  type?: 'warning' | 'error' | 'info' | 'success';
 }
-
 
 export default function CustomToast({
     show,
     onClose,
     title,
     message, 
+    type = 'info',
     delay=5000, 
-    autohide = true,
-    type = 'info'}: CustomToastProps) {
+    autohide = true
+}: CustomToastProps) {
     
-    const getHeaderClass = () => {
+    const getToastClass = () => {
         switch(type) {
-            case 'error':
-                return 'toast-header-error';
-            case 'warning':
-                return 'toast-header-warning';
             case 'success':
-                return 'toast-header-success';
+                return 'toast-success';
+            case 'failed':
+                return 'toast-failed';
+            case 'info':
+                return 'toast-info';
             default:
-                return 'toast-header-info';
+                return '';
         }
     };
 
@@ -42,13 +40,12 @@ export default function CustomToast({
                 onClose={onClose}
                 delay={delay}
                 autohide={autohide}
+                className={getToastClass()}
             >
                 { title && (
-                        <Toast.Header className={getHeaderClass()}>
-                            <strong>
-                                {title}
-                            </strong>
-                        </Toast.Header>
+                    <strong>
+                        {title}
+                    </strong>
                     )
                 }
                 <Toast.Body>

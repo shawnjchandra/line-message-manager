@@ -1,7 +1,3 @@
-import { env } from "process";
-
-
-
 export const crypto = {
     async getKey(): Promise<CryptoKey> {
         const encoder = new TextEncoder();

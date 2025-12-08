@@ -125,20 +125,25 @@ $card-radius: 12px;
         }
       }
 
-      // Buttons
-      .action-btn {
-        width: 100%;
-        font-weight: bold;
-        border: 0;
-        background-color: $btn-bg-color;
-        color: $line-primary-color;
-        font-size: 13px;
-        padding: 8px;
-        border-radius: 4px;
-        cursor: pointer;
+      .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
 
-        &:hover {
-          filter: brightness(0.95);
+        .action-btn {
+          flex: 1 1 calc(50% - 0.25rem);
+          font-weight: bold;
+          border: 0;
+          background-color: $btn-bg-color;
+          color: $line-primary-color;
+          font-size: 13px;
+          padding: 8px;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            filter: brightness(0.95);
+          }
         }
       }
 
@@ -156,10 +161,11 @@ $card-radius: 12px;
 
         .btn-group-confirm {
           display: flex;
+          flex-wrap: wrap;
           gap: 0.5rem;
 
           .confirm-btn {
-            flex-grow: 1;
+            flex: 1 1 calc(50% - 0.25rem);
             font-weight: bold;
             border: 0;
             background-color: $btn-bg-color;

@@ -41,6 +41,8 @@
   "editor": {
     "title": "Pengelola Multi Aset",
     "createNewTemplate": "Buat Template Baru",
+    "templateTitle": "Judul template",
+    "enterTemplateTitle": "Masukkan judul template",
     "description": "Buat dan kelola aset LINE Anda",
     "createNewAsset": "Buat Aset Baru",
     "noAssetsYet": "Belum ada aset",
@@ -87,8 +89,8 @@
     "imageSize": "Ukuran Gambar",
     "selectSize": "Pilih ukuran",
     "imageBackgroundColor": "Warna Latar Gambar",
-    "title": "Judul",
-    "enterTitle": "Masukkan judul",
+    "titleForm": "Judul form",
+    "enterTitleForm": "Masukkan judul form",
     "altText": "Teks Alt",
     "enterAltText": "Masukkan teks alt",
     "description": "Deskripsi",
@@ -100,11 +102,17 @@
     "selectAction": "Pilih aksi",
     "actionButton1": "Tombol Aksi 1",
     "actionButton2": "Tombol Aksi 2",
+    "cardActionsTitle": "Tombol Aksi",
+    "confirmActionsTitle": "Tombol Aksi",
+    "actionButtonDynamic": "Tombol Aksi {{index}}",
+    "addActionButton": "Tambah tombol aksi",
+    "removeActionButton": "Hapus",
+    "actionButtonCount": "{{count}} / {{max}} tombol",
     "message": "Pesan",
     "enterMessage": "Masukkan pesan",
     "characters": "karakter"
   },
-    "templater": {
+  "templater": {
     "newProject": "Proyek baru",
     "allProjects": "Semua proyek",
     "menuAll": "Semua proyek",
@@ -131,7 +139,11 @@
     "cardMeta": "{{owner}}, {{time}}",
     "untitled": "Template tanpa judul",
     "unknownOwner": "Pemilik tidak diketahui",
-    "unknownTime": "Waktu tidak diketahui"
+    "unknownTime": "Waktu tidak diketahui",
+    "emptyTitle": "Belum ada template yang dibuat 😢",
+    "emptySubtitle": "Klik tombol dibawah ini untuk membuat template pertamamu.",
+    "createFirstTemplate": "Buat template pertama",
+    "noTemplateFound": "Tidak ada template yang ditemukan"
   },
   "home": {
     "title": "Selamat datang di Line Manager"

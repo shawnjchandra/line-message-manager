@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Asset } from '../../types/Asset';
-import { createNewAsset, setNestedValue, validateAllAssets } from '../../utils/AssetUtils';
+import { createNewAsset, normalizeAssets, setNestedValue, validateAllAssets } from '../../utils/AssetUtils';
 // import { saveAssets } from './api';
 import InitialState from './InitialState/InitialState';
 import TypeSelector from './TypeSelector/TypeSelector';
@@ -15,6 +15,7 @@ const MultiAssetManager: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [assets, setAssets] = useState<Asset[]>([]);
+  const [templateTitleInput, setTemplateTitleInput] = useState<string>("");
   const [showTypeSelector, setShowTypeSelector] = useState<boolean>(false);
   const [insertAfterIndex, setInsertAfterIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,6 +23,10 @@ const MultiAssetManager: React.FC = () => {
   const { id } = useParams<{id:string}>();
   const [ currentProjectId, setCurrentProjectId] = useState<number | null>(null)
   const isEditingExisting = Boolean(id);
+  const templateTitle = useMemo(
+    () => templateTitleInput.trim() || t('editor.createNewTemplate'),
+    [templateTitleInput, t]
+  );
 
   useEffect(()=>{
     console.log(id)
@@ -31,8 +36,11 @@ const MultiAssetManager: React.FC = () => {
           const projectData = await ProjectService.getById(parseInt(id));
           console.log(projectData)
           if (projectData) {
-            setAssets(projectData.assets);
+            setAssets(normalizeAssets(projectData.assets));
             setCurrentProjectId(projectData.templateId)
+            setTemplateTitleInput(
+              projectData.title || ""
+            );
           }
         } catch (e){
           console.error("Failed to load project")
@@ -147,7 +155,11 @@ const MultiAssetManager: React.FC = () => {
     setLoading(true);
     try {
       // await saveAssets(assets);
-      const savedId = await ProjectService.saveProjects(assets, currentProjectId);
+      const savedId = await ProjectService.saveProjects(
+        assets,
+        currentProjectId,
+        templateTitleInput
+      );
 
       setCurrentProjectId(savedId);
       alert('Assets saved successfully!');
@@ -173,13 +185,39 @@ const MultiAssetManager: React.FC = () => {
 
   return (
     <div className="multi-asset-manager container-fluid p-4"> {/* Added container-fluid */}
+      {isEditingExisting && (
+        <div className="manager-back-wrapper">
+          <button
+            type="button"
+            className="manager-back-btn"
+            onClick={handleCancel}
+          >
+            ← {t('editor.back', 'Back')}
+          </button>
+        </div>
+      )}
       <div className="manager-header mb-4">
-        <h1 className="manager-title">{t('editor.createNewTemplate')}</h1>
+        <h1 className="manager-title">{templateTitle}</h1>
       </div>
 
       <div className="row">
         <div className="col-lg-7 col-md-12">
           <div className="manager-content">
+            {assets.length > 0 && (
+              <div className="template-title-input form-group mb-3">
+                <label className="form-label" htmlFor="template-title-input">
+                  {t('editor.templateTitle')}
+                </label>
+                <input
+                  id="template-title-input"
+                  className="form-input"
+                  type="text"
+                  value={templateTitleInput}
+                  onChange={(e) => setTemplateTitleInput(e.target.value)}
+                  placeholder={t('editor.enterTemplateTitle') as string}
+                />
+              </div>
+            )}
             {assets.length === 0 ? (
               <InitialState onCreateAsset={() => handleShowTypeSelector()} />
             ) : (
@@ -216,14 +254,16 @@ const MultiAssetManager: React.FC = () => {
                   {t('editor.deleteTemplate', 'Delete Template')}
                 </button>
               )}
-              <button 
-                className="btn btn-secondary" 
-                onClick={handleCancel} 
-                disabled={loading}
-                type="button"
-              >
-                {isEditingExisting ? t('editor.back', 'Back') : t('editor.cancel')}
-              </button>
+              {!isEditingExisting && (
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={handleCancel} 
+                  disabled={loading}
+                  type="button"
+                >
+                  {t('editor.cancel')}
+                </button>
+              )}
               <button 
                 className="btn btn-primary" 
                 onClick={handleSave} 

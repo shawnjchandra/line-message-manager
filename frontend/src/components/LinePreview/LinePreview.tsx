@@ -3,6 +3,7 @@ import PhoneFrame from '../PhoneFrame/PhoneFrame';
 import { Send, Menu, User } from 'lucide-react';
 import { Asset } from '../../types/Asset'; 
 import LinePreviewProps from '../../types/LinePreviewProps';
+import { MAX_ACTION_BUTTONS } from '../../types/constants';
 import './LinePreview.scss';
 
 const ASPECT_RATIO_STYLES: Record<string, { aspectRatio: string; minHeight: string }> = {
@@ -29,8 +30,29 @@ const resolveImageStyle = (data: any) => {
 
 const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
 
+  const getCardActions = (data: any) => {
+    if (Array.isArray(data.actions) && data.actions.length) {
+      return data.actions.slice(0, MAX_ACTION_BUTTONS);
+    }
+
+    if (data.defaultAction) {
+      return [data.defaultAction];
+    }
+
+    return [];
+  };
+
+  const getConfirmActions = (data: any) => {
+    if (Array.isArray(data.actions) && data.actions.length) {
+      return data.actions.slice(0, MAX_ACTION_BUTTONS);
+    }
+
+    return [data.actionButton1, data.actionButton2].filter(Boolean).slice(0, MAX_ACTION_BUTTONS);
+  };
+
   const renderCard = (asset: Asset) => {
     const data = asset.data as any; 
+    const cardActions = getCardActions(data);
     
     const getAspectRatioStyle = (ratioName: string) => {
       switch (ratioName) {
@@ -72,9 +94,17 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
           <p className="card-desc">
             {data.description || data.text || "No description"}
           </p>
-          <button className="action-btn">
-            {data.defaultAction?.label || "Action"}
-          </button>
+          <div className="card-actions">
+            {cardActions.length > 0 ? (
+              cardActions.map((action: any, index: number) => (
+                <button key={`card-action-${index}`} className="action-btn">
+                  {action?.label || `Action ${index + 1}`}
+                </button>
+              ))
+            ) : (
+              <button className="action-btn">Action</button>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -82,6 +112,7 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
 
   const renderConfirm = (asset: Asset) => {
     const data = asset.data as any;
+    const confirmActions = getConfirmActions(data);
 
     return (
       <div key={asset.id} className="line-card confirm-layout">
@@ -90,12 +121,18 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
             {data.title || "Confirm?"}
           </h6>
           <div className="btn-group-confirm">
-            <button className="confirm-btn">
-              {data.actionButton1?.label || "Yes"}
-            </button>
-            <button className="confirm-btn">
-              {data.actionButton2?.label || "No"}
-            </button>
+            {confirmActions.length > 0 ? (
+              confirmActions.map((action: any, index: number) => (
+                <button key={`confirm-action-${index}`} className="confirm-btn">
+                  {action?.label || `Option ${index + 1}`}
+                </button>
+              ))
+            ) : (
+              <>
+                <button className="confirm-btn">Yes</button>
+                <button className="confirm-btn">No</button>
+              </>
+            )}
           </div>
         </div>
       </div>

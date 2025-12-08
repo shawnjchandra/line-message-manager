@@ -4,4 +4,4 @@ node_modules
 # Personal
 *.sh
 
-/backend/data/users.json
+backend/data/users.json

@@ -45,7 +45,7 @@ const MultiAssetManager: React.FC = () => {
             );
           }
         } catch (e){
-          // console.error("Failed to load project")
+          console.error(e)
         }
       };
 

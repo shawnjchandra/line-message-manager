@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { X, ChevronDown, ChevronRight, ChevronUp, Plus } from 'lucide-react';
 import { Asset } from '../../../types/Asset';
 import CardForm from '../Form/CardForm';

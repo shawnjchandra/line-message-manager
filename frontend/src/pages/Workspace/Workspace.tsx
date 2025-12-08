@@ -32,7 +32,7 @@ const Workspace: React.FC = () => {
         const loadedProjects = await ProjectService.getAll();
         setProjects(loadedProjects);
       } catch (error) {
-        // console.error("gagal load workspace");
+        console.error(error);
       }
     };
 
@@ -55,7 +55,7 @@ const Workspace: React.FC = () => {
           setUserLookup(map);
         }
       } catch (error) {
-        // console.error("gagal load users");
+        console.error(error);
       }
     };
 

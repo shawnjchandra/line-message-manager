@@ -1,47 +1,62 @@
 [
   {
-    "templateId": 1765162019257,
-    "title": "test",
-    "userId": 5,
-    "ownerName": "siganteng",
+    "templateId": 1765170329436,
+    "title": "asdddf",
+    "userId": 4,
+    "ownerName": "asd@gmail.com",
     "assets": [
       {
-        "id": "asset-1765161999616-0.8529106662275032",
-        "type": "confirm",
+        "id": "asset-1765170324956-0.25759334969487646",
+        "type": "card",
         "expanded": true,
         "data": {
-          "title": "asda",
-          "altText": "adasd",
+          "imageAspectRatio": "",
+          "image": null,
+          "imageSize": "",
+          "imageBackgroundColor": "#f58989",
+          "title": "asd",
+          "altText": "asd",
+          "description": "",
           "actions": [
             {
-              "label": "dadasd",
-              "action": "",
-              "message": ""
+              "label": "",
+              "action": ""
+            },
+            {
+              "label": "",
+              "action": ""
             }
           ]
         }
       }
-    ],
-    "ownerName": "ganesarsen@gmail.com"
+    ]
   },
   {
-    "templateId": 1765162036730,
-    "title": "otot",
-    "userId": 5,
-    "ownerName": "siganteng",
+    "templateId": 1765173058026,
+    "title": "contoh 1g",
+    "userId": 4,
+    "ownerName": "asd@gmail.com",
     "assets": [
       {
-        "id": "asset-1765162026389-0.520576168041979",
-        "type": "confirm",
+        "id": "asset-1765172845963-0.5004325799060486",
+        "type": "card",
         "expanded": true,
         "data": {
-          "title": "adasd",
-          "altText": "asdasd",
+          "imageAspectRatio": "",
+          "image": null,
+          "imageSize": "",
+          "imageBackgroundColor": "#f58989",
+          "title": "asd",
+          "altText": "asd",
+          "description": "",
           "actions": [
             {
-              "label": "da",
-              "action": "",
-              "message": "asd"
+              "label": "",
+              "action": ""
+            },
+            {
+              "label": "",
+              "action": ""
             }
           ]
         }

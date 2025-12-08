@@ -1,4 +1,4 @@
-import { Route, RouteProps } from "react-router-dom";
+import { RouteProps } from "react-router-dom";
 
 interface ProtectedRouteProps {
     component: React.ComponentType<RouteProps>;

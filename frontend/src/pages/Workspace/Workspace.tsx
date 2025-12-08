@@ -32,7 +32,7 @@ const Workspace: React.FC = () => {
         const loadedProjects = await ProjectService.getAll();
         setProjects(loadedProjects);
       } catch (error) {
-        // console.error("gagal load workspace");
+        console.error(error);
       }
     };
 
@@ -55,7 +55,7 @@ const Workspace: React.FC = () => {
           setUserLookup(map);
         }
       } catch (error) {
-        // console.error("gagal load users");
+        console.error(error);
       }
     };
 
@@ -71,8 +71,6 @@ const Workspace: React.FC = () => {
         (p.title || "").toLowerCase().includes(s)
       );
     }, [q, projects]);
-  const [openModal, setOpenModal] = useState(false);
-  const [assetType, setAssetType] = useState<"card" | null>(null);
 
   const newProject = () => {
     history.push("/editor");

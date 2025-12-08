@@ -40,5 +40,11 @@
     "email": "andreanathali24@gmail.com",
     "password": "Andrea25",
     "username": "si bro"
+  },
+  {
+    "id": 7,
+    "email": "test@unpar.ac.id",
+    "password": "123123123",
+    "username": "shawn"
   }
 ]

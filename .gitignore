@@ -3,3 +3,5 @@ node_modules
 
 # Personal
 *.sh
+
+backend/data/*.json

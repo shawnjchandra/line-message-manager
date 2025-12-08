@@ -56,7 +56,7 @@ function Login() {
 
     if(!formData.email) {
       newErrors.email = t('login.emailIsRequired');
-    } else if (!formData.email.includes('@') || !formData.email.endsWith('.com')  ) {
+    } else if (!formData.email.includes('@') || (!formData.email.endsWith('.com') && !formData.email.endsWith('unpar.ac.id')  ) ) {
        newErrors.email = t('login.pleaseUseTheCorrectEmailFormat');
     }
 

@@ -65,9 +65,6 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
       }
     };
 
-    const isContain = data.imageSize === 'Contain';
-    const imageClass = isContain ? 'size-contain' : 'size-cover';
-
     const ratioValue = getAspectRatioStyle(data.imageAspectRatio);
     const ratioStyle = ratioValue ? { aspectRatio: ratioValue } : undefined;
 
@@ -143,13 +140,11 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
     <div className="line-preview-wrapper">
       <PhoneFrame>
         <div className="chat-interface">
-          {/* Header */}
           <div className="chat-header">
              <Menu size={20} className="me-3" />
              <span className="header-title">Bot Preview</span>
           </div>
 
-          {/* Chat Area */}
           <div className="chat-body">
              <div className="bot-identity">
                <div className="avatar-circle">
@@ -173,7 +168,6 @@ const LinePreview: React.FC<LinePreviewProps> = ({ assets }) => {
              )}
           </div>
 
-          {/* Footer */}
           <div className="chat-footer">
             <div className="input-mock">
               <small>Enter a message...</small>

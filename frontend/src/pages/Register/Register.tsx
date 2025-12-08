@@ -17,7 +17,6 @@ interface FormRegisterBase {
 }
 
 
-
 function Register(){
   const history = useHistory();
   const isMounted = useRef(true);
@@ -60,6 +59,8 @@ function Register(){
     setRegisterError('');
   }
 
+  
+
   const validateForm = () : boolean => {
     const newErrors: Partial<FormRegisterBase> = {};
   
@@ -71,9 +72,10 @@ function Register(){
 
     if(!formData.email) {
       newErrors.email = t('register.emailIsRequired');
-    } else if (!formData.email.includes('@') || !formData.email.endsWith('.com')  ) {
+    } else if (!formData.email.includes('@') || (!formData.email.endsWith('unpar.ac.id') && !formData.email.endsWith('.com')) ) {
        newErrors.email = t('register.pleaseUseTheCorrectEmailFormat');
     }
+    console.log((!formData.email.includes('@') || !formData.email.endsWith('unpar.ac.id')));
   
     if(!formData.password) {
       newErrors.password = t('register.passwordIsRequired');

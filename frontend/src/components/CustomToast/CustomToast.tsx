@@ -42,12 +42,15 @@ export default function CustomToast({
                 autohide={autohide}
                 className={getToastClass()}
             >
-                { title && (
-                    <strong>
-                        {title}
-                    </strong>
-                    )
-                }
+                <Toast.Header>
+                    
+                    { title && (
+                        <strong>
+                            {title}
+                        </strong>
+                        )
+                    }
+                </Toast.Header> 
                 <Toast.Body>
                     {message}
                 </Toast.Body>

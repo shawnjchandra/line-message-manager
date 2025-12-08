@@ -1,0 +1,222 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import TranslationButton from "../../components/TranslationButton/TranslationButton";
+import "./Workspace.scss";
+import { useHistory } from "react-router-dom";
+import Project from "../../types/Project";
+import { ProjectService } from "../../services/ProjectService";
+import { FileService } from "../../services/FileService";
+import User from "../../types/User";
+import useAuthStore from "../../stores/authStore";
+import { authService } from "../../services/auth";
+
+const Workspace: React.FC = () => {
+  const history = useHistory();
+  const { t } = useTranslation();
+  const { isAuthenticated } = useAuthStore();
+
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [userLookup, setUserLookup] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const isTokenValid = authService.validateToken();
+    if (!isAuthenticated || !isTokenValid) {
+      history.replace("/login");
+      return;
+    }
+  }, [isAuthenticated, history]);
+
+  useEffect(()=>{
+    const loadExistingProject = async ()=>{
+      try {
+        const loadedProjects = await ProjectService.getAll();
+        setProjects(loadedProjects);
+      } catch (error) {
+        // console.error("gagal load workspace");
+      }
+    };
+
+    if (isAuthenticated && authService.validateToken()) {
+      loadExistingProject();
+    }
+  },[isAuthenticated])
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        const users = await FileService.load<User[]>("users");
+        if (users) {
+          const map = users.reduce<Record<string, string>>((acc, user) => {
+            if (typeof user.id === "number") {
+              acc[String(user.id)] = user.username || user.email;
+            }
+            return acc;
+          }, {});
+          setUserLookup(map);
+        }
+      } catch (error) {
+        // console.error("gagal load users");
+      }
+    };
+
+    loadUsers();
+  }, []);
+
+    const [q, setQ] = useState("");
+    const filtered = useMemo(() => {
+      const s = q.trim().toLowerCase();
+      if (!s) return projects;
+
+      return projects.filter((p) =>
+        (p.title || "").toLowerCase().includes(s)
+      );
+    }, [q, projects]);
+  const [openModal, setOpenModal] = useState(false);
+  const [assetType, setAssetType] = useState<"card" | null>(null);
+
+  const newProject = () => {
+    history.push("/editor");
+  };
+
+  const handleEdit = (id: number) => {
+    history.push(`/editor/${id}`);
+  };
+
+  const formatTimestampLabel = (templateId: number | string): string => {
+    const timestamp = Number(templateId);
+    if (!Number.isFinite(timestamp)) {
+      return t("templater.unknownTime", "Unknown time");
+    }
+
+    const date = new Date(timestamp);
+    const dateLabel = date.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const timeLabel = date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    return `${dateLabel}, ${timeLabel}`;
+  };
+
+  // Don't render if not authenticated
+  if (!isAuthenticated || !authService.validateToken()) {
+    return null;
+  }
+
+  return (
+    <div className="templater-bg">
+      <div className="templater-lang-switch">
+        <TranslationButton />
+      </div>
+
+      {/* MAIN */}
+      <main className="templater-main">
+        <section className="templater-toolbar">
+          {projects.length > 0 && (
+            <div className="templater-search">
+              <div className="templater-search-box">
+                <input
+                  id="templater-search"
+                  className="templater-search-input"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder={t("templater.searchPlaceholder") as string}
+                />
+              </div>
+            </div>
+          )}
+
+  <div className="templater-toolbar-right">
+    <span className="templater-count">
+      {t("templater.templatesFound", {
+        defaultValue: "{{count}} templates found",
+        count: filtered.length,
+      })}
+    </span>
+
+            {projects.length > 0 && (
+              <button
+                type="button"
+                className="templater-create-btn"
+                onClick={newProject}
+              >
+                {t("templater.createTemplate")}
+              </button>
+            )}
+          </div>
+        </section>
+
+      <section className="templater-grid">
+        <div className="container">
+        {filtered.length === 0 ? (
+          <div className="templater-empty-state">
+            {projects.length === 0 ? (
+              <>
+                <p className="templater-empty-title">
+                  {t("templater.emptyTitle") as string}
+                </p>
+                <button
+                  type="button"
+                  className="templater-create-btn templater-create-btn--large"
+                  onClick={newProject}
+                >
+                  {t("templater.createFirstTemplate")}
+                </button>
+              </>
+            ) : (
+              <p className="templater-empty-title">
+                {t("templater.noTemplateFound") as string}
+              </p>
+            )}
+          </div>
+        ) : (
+          filtered.map((p) => {
+            const explicitTitle =
+              typeof p.title === "string" ? p.title.trim() : "";
+            const projectTitle =
+              explicitTitle ||
+              (t("templater.untitled", "Untitled template") as string);
+            const ownerLabel =
+              p.ownerName ||
+              (typeof p.ownerName === "string" && userLookup[p.ownerName]) ||
+              (t("templater.unknownOwner", "Unknown owner") as string);
+            const timeLabel = formatTimestampLabel(p.templateId);
+
+            return (
+              <article
+                key={p.templateId}
+                className="templater-card"
+                onClick={() => handleEdit(p.templateId)}
+              >
+                <div className="templater-card-preview" />
+                <div className="templater-card-body">
+                  <h3 className="templater-card-title">{projectTitle}</h3>
+                  <p className="templater-card-meta">
+                    {t("templater.cardMeta", {
+                      defaultValue: "{{owner}}, {{time}}",
+                      owner: ownerLabel,
+                      time: timeLabel,
+                    })}
+                  </p>
+                </div>
+              </article>
+            );
+          })
+        )}
+        </div>
+      </section>
+
+    
+      </main>
+    </div>
+
+    
+  );
+};
+
+export default Workspace;

@@ -1,0 +1,31 @@
+.home-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.fars-logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.fars-center-logo {
+    width: 10vw;
+    height: 29vh;
+}
+
+.background-img {
+    width: 100vw;
+}
+
+.bg-container {
+    position: absolute;
+    top: 10%;
+}
+
+.home-titles {
+    z-index: 2;
+    top: 50px;
+    position: relative;
+}

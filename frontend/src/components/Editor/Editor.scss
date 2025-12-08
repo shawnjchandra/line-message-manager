@@ -1,0 +1,634 @@
+// Import variables dan mixins dari styles utama
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+// Reset
+* {
+  box-sizing: border-box;
+}
+
+// Main Container
+.multi-asset-manager {
+  min-height: 100vh;
+  background-color: $color-gray-50;
+  padding: $spacing-xl;
+
+  .manager-back-wrapper {
+    width: 100%;
+    margin-bottom: $spacing-md;
+    display: flex;
+    justify-content: flex-start;
+
+    .manager-back-btn {
+      @include button-base;
+      background-color: rgba($color-primary, 0.15);
+      border: 1px solid $color-primary;
+      color: $color-primary;
+      font-weight: 600;
+      padding: $spacing-sm $spacing-lg;
+      border-radius: $border-radius-md;
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-xs;
+
+      &:hover {
+        background-color: rgba($color-primary, 0.25);
+      }
+    }
+  }
+
+  .manager-header {
+    width: 100%;
+    margin: 0 0 $spacing-xl;
+
+    .manager-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: $color-gray-900;
+      margin: 0;
+    }
+  }
+
+  .manager-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+// Template title input (di luar .asset-form) disamakan dengan textbox lain
+.template-title-input {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $color-gray-700;
+
+    .required {
+      color: $color-danger;
+    }
+  }
+
+  .form-input {
+    @include form-input-base;
+  }
+}
+
+
+// Initial State
+.initial-state-container {
+  @include flex-center;
+  min-height: 400px;
+
+  .initial-create-button {
+    @include button-base;
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: 3rem 4rem;
+    background-color: $color-white;
+    border: 2px dashed $color-gray-300;
+    border-radius: $border-radius-lg;
+    font-size: 1.125rem;
+    color: $color-gray-700;
+
+    &:hover {
+      border-color: $color-primary;
+      background-color: $color-primary-light;
+      color: $color-primary;
+    }
+
+    .initial-create-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+}
+
+// Type Selector Modal
+.type-selector-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  @include flex-center;
+  z-index: 1000;
+
+  .type-selector-modal {
+    background-color: $color-white;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xl;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+    .type-selector-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $color-gray-900;
+      margin: 0 0 $spacing-lg;
+      text-align: center;
+    }
+
+    .type-selector-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-md;
+      margin-bottom: $spacing-md;
+
+      .type-selector-button {
+        @include button-base;
+        padding: $spacing-lg $spacing-md;
+        background-color: $color-gray-100;
+        border: 2px solid transparent;
+        border-radius: $border-radius-lg;
+        font-size: 1rem;
+        color: $color-gray-700;
+
+        &:hover {
+          background-color: $color-primary-light;
+          border-color: $color-primary;
+          color: $color-primary;
+        }
+      }
+    }
+
+    .type-selector-cancel {
+      @include button-base;
+      width: 100%;
+      padding: $spacing-sm;
+      background-color: $color-white;
+      border: 1px solid $color-gray-300;
+      border-radius: $border-radius-lg;
+      font-size: 0.875rem;
+      color: $color-gray-600;
+
+      &:hover {
+        background-color: $color-gray-50;
+      }
+    }
+  }
+}
+
+// Assets List
+.assets-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+// Asset Item
+.asset-item {
+  background-color: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+
+  .asset-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md $spacing-lg;
+    background-color: $color-gray-50;
+    border-bottom: 1px solid $color-gray-200;
+
+    .asset-expand-btn {
+      @include button-base;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      background: none;
+      font-size: 1rem;
+      color: $color-gray-900;
+      padding: 0;
+
+      &:hover {
+        color: $color-primary;
+      }
+
+      .asset-title {
+        font-size: 1rem;
+      }
+    }
+
+    .asset-actions {
+      display: flex;
+      gap: $spacing-sm;
+
+      .asset-action-btn {
+        @include button-base;
+        @include flex-center;
+        width: 2rem;
+        height: 2rem;
+        background-color: $color-white;
+        border: 1px solid $color-gray-300;
+        border-radius: $border-radius-sm;
+        color: $color-gray-600;
+
+        &:hover:not(:disabled) {
+          background-color: $color-gray-100;
+          border-color: $color-gray-400;
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+
+        &.asset-delete-btn:hover:not(:disabled) {
+          background-color: $color-danger-light;
+          border-color: $color-danger;
+          color: $color-danger;
+        }
+      }
+    }
+  }
+
+  .asset-body {
+    padding: $spacing-lg;
+  }
+}
+
+// Forms
+.asset-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    .form-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: $color-gray-700;
+
+      .required {
+        color: $color-danger;
+      }
+    }
+
+    .form-input {
+      @include form-input-base;
+    }
+
+    .form-select {
+      @include form-input-base;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.5rem;
+    }
+
+    .form-textarea {
+      @include form-input-base;
+      resize: vertical;
+      font-family: inherit;
+    }
+  }
+}
+
+// Image Upload
+.image-upload-container {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed $color-gray-300;
+  border-radius: $border-radius-sm;
+  overflow: hidden;
+  position: relative;
+
+  .image-upload-label {
+    @include flex-center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    color: $color-gray-600;
+    transition: $transition-base;
+
+    &:hover {
+      background-color: $color-gray-50;
+      color: $color-primary;
+    }
+
+    span {
+      margin-top: $spacing-sm;
+      font-size: 0.875rem;
+    }
+
+    .image-upload-input {
+      display: none;
+    }
+  }
+
+  .image-preview {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-remove-btn {
+      @include button-base;
+      @include flex-center;
+      position: absolute;
+      top: $spacing-sm;
+      right: $spacing-sm;
+      width: 1.75rem;
+      height: 1.75rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: $border-radius-sm;
+      color: $color-white;
+
+      &:hover {
+        background-color: rgba(239, 68, 68, 0.9);
+      }
+    }
+  }
+}
+
+// Color Picker
+.color-input-wrapper {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+
+  .color-picker {
+    width: 3rem;
+    height: 2.5rem;
+    border: 1px solid $color-gray-300;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+  }
+}
+
+// Sections
+.default-action-section,
+.action-button-section {
+  padding: $spacing-md;
+  background-color: $color-gray-50;
+  border-radius: $border-radius-sm;
+  border: 1px solid $color-gray-200;
+
+  .section-subtitle {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: $color-gray-900;
+    margin: 0 0 $spacing-md;
+  }
+}
+
+.action-button-section {
+  margin-top: $spacing-md;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.action-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.action-remove-btn {
+  @include button-base;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0;
+  background: none;
+  color: $color-danger;
+  font-size: 0.8125rem;
+
+  &:hover {
+    color: darken($color-danger, 10%);
+  }
+}
+
+.action-buttons-footer {
+  margin-top: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.action-add-btn {
+  @include button-base;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem $spacing-md;
+  background-color: $color-white;
+  border: 1px dashed $color-gray-300;
+  border-radius: $border-radius-sm;
+  font-size: 0.875rem;
+  color: $color-primary;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-light;
+    border-color: $color-primary;
+    color: $color-primary-dark;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.action-limit-text {
+  font-size: 0.8125rem;
+  color: $color-gray-500;
+}
+
+// Add Asset Below Button
+.add-asset-below-btn {
+  @include button-base;
+  @include flex-center;
+  gap: $spacing-sm;
+  width: 100%;
+  padding: $spacing-sm;
+  margin-top: $spacing-lg;
+  background-color: $color-white;
+  border: 2px dashed $color-gray-300;
+  border-radius: $border-radius-sm;
+  font-size: 0.875rem;
+  color: $color-gray-600;
+
+  &:hover {
+    background-color: $color-primary-light;
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
+
+// Manager Footer
+.manager-footer {
+  max-width: 1200px;
+  margin: $spacing-xl auto 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background-color: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $border-radius-lg;
+}
+
+// Buttons
+.btn {
+  @include button-base;
+  padding: 0.625rem $spacing-lg;
+  border-radius: $border-radius-sm;
+  font-size: 0.875rem;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.btn-secondary {
+    background-color: $color-white;
+    color: $color-gray-700;
+    border: 1px solid $color-gray-300;
+
+    &:hover:not(:disabled) {
+      background-color: $color-gray-50;
+    }
+  }
+
+  &.btn-primary {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-dark;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .multi-asset-manager {
+    padding: $spacing-md;
+
+    .manager-header {
+      margin-bottom: $spacing-md;
+
+      .manager-title {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .asset-form {
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: $spacing-md;
+    }
+  }
+
+  .type-selector-overlay {
+    .type-selector-modal {
+      .type-selector-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  .manager-footer {
+    flex-direction: column;
+    padding: $spacing-md;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .asset-item {
+    .asset-header {
+      flex-wrap: wrap;
+      gap: $spacing-sm;
+
+      .asset-expand-btn {
+        flex: 1;
+      }
+
+      .asset-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .initial-state-container {
+    .initial-create-button {
+      padding: 2rem 3rem;
+      font-size: 1rem;
+
+      .initial-create-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+}
+
+.preview-sidebar {
+  // --- Mobile Behavior (d-none) ---
+  display: none; 
+
+  // --- Desktop Behavior (lg breakpoint is usually 992px) ---
+  @media (min-width: 992px) {
+    // Show the element (d-lg-block)
+    display: block; 
+    
+    // Grid Width 5/12 = 41.66% (col-lg-5)
+    flex: 0 0 auto;
+    width: 41.66666667%;
+    
+    // Add standard Bootstrap gutter padding so it aligns with the left column
+    padding-left: 12px; 
+    padding-right: 12px;
+  }
+}
+
+// 2. The Sticky Wrapper (Replaces inline styles)
+.preview-fixed-wrapper {
+  position: fixed;
+  top: 15%;
+  right: 15%;
+  z-index: 100;
+  
+  // Smooth transition for resizing
+  transition: all 0.3s ease;
+
+  // Title styling
+  h5 {
+    text-align: center;
+    color: #6c757d; // Bootstrap secondary color
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+}

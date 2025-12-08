@@ -1,11 +1,10 @@
 @import '../../styles/variables';
 
 .toast {
-    position: fixed; 
-    top: 1%; 
-    right: 1%;
-    z-index: 9999;
     min-width: 300px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .toast-success {
@@ -42,7 +41,6 @@
 }
 
 .toast-header {
-    color:$danger;
     display: flex;
     justify-content: space-between;
 
@@ -55,6 +53,46 @@
             padding: 0 5px 0 5px;
             font-weight: bold;
         }
+    }
+}
+
+.toast-header-error {
+    color: $danger;
+    background-color: rgba(220, 53, 69, 0.1);
+
+    button {
+        background-color: $danger;
+        color: $white;
+    }
+}
+
+.toast-header-warning {
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.1);
+
+    button {
+        background-color: #ffc107;
+        color: $black;
+    }
+}
+
+.toast-header-success {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+
+    button {
+        background-color: #28a745;
+        color: $white;
+    }
+}
+
+.toast-header-info {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+
+    button {
+        background-color: #17a2b8;
+        color: $white;
     }
 }
 

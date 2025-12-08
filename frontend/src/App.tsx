@@ -30,6 +30,7 @@ function App() {
             </Route>
           </Switch>
           <TranslationButton/>
+          <GlobalToast/>
     </Router>
    </>
   );

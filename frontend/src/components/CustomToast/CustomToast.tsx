@@ -43,11 +43,9 @@ export default function CustomToast({
                 className={getToastClass()}
             >
                 { title && (
-                        <Toast.Header>
-                            <strong>
-                                {title}
-                            </strong>
-                        </Toast.Header>
+                    <strong>
+                        {title}
+                    </strong>
                     )
                 }
                 <Toast.Body>

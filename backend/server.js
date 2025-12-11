@@ -4,12 +4,12 @@ const Redis = require('ioredis');
 
 const app = express();
 
-// Initialize Redis with your URL
 const redis = new Redis(process.env.storage_REDIS_URL);
 
-// CORS configuration
 app.use(cors({
-    origin: '*',
+    origin: (origin, callback) => {
+        callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -18,7 +18,6 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-app.options('*', cors());
 
 app.get('/api/data/:filename', async (req, res) => {
     try {

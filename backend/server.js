@@ -19,18 +19,6 @@ app.options('*', (req, res) => {
     res.status(200).end();
 });
 
-const DATA_DIR = path.join(__dirname, 'data');
-
-if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR);
-}
-
-const getSafeFilePath = (filename) => {
-    const nameWithoutExt = filename.replace(/\.json$/i, '');
-    const safeName = path.basename(nameWithoutExt).replace(/[^a-zA-Z0-9\-_]/g, '');
-    return path.join(DATA_DIR, `${safeName}.json`);
-};
-
 app.get('/api/data/:filename', async (req, res) => {
     try {
         const data = await kv.get(req.params.filename);
@@ -42,20 +30,20 @@ app.get('/api/data/:filename', async (req, res) => {
 });
 
 
-app.post('/api/save/:filename', (req, res) => {
-    const filePath = getSafeFilePath(req.params.filename);
-    const content = req.body; // The JSON data sent from React
-
-    fs.writeFile(filePath, JSON.stringify(content, null, 2), (err) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false });
-        }
-        console.log(`Saved ${req.params.filename}.json`);
+app.post('/api/save/:filename', async (req, res) => {
+    try {
+        await kv.set(req.params.filename, req.body);
+        console.log(`Saved ${req.params.filename}`);
         res.json({ success: true });
-    });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.get('/', (req, res) => {
+    res.json({ message: 'API is running', status: 'ok' });
+});
+
 
 module.exports = app;

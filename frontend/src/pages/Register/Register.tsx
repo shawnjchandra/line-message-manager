@@ -8,6 +8,7 @@ import './Register.scss';
 import User from '../../types/User';
 import { authService } from '../../services/auth';
 import { FileService } from '../../services/FileService';
+import useToastStore from '../../stores/toastStore';
 
 interface FormRegisterBase {
   username: string;
@@ -21,9 +22,10 @@ function Register(){
   const history = useHistory();
   const isMounted = useRef(true);
   const { t, i18n} = useTranslation();
-  const [showToast, setShowToast] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [registerError, setRegisterError] = useState<string>('');
+   const showToast = useToastStore((state) => state.showToast);  
+
   const [formData, setFormData] = useState<FormRegisterBase>({
     username: '',
     email:'',
@@ -37,11 +39,6 @@ function Register(){
     password:'',
     confirmPassword:''
   })
-  const [toastConfig, setToastConfig] = useState<CustomToastInterface>({
-    type:'',
-    message:'',
-    title:'',
-  });
   
   useEffect(()=>{
     return ()=>{
@@ -92,7 +89,6 @@ function Register(){
 
     setErrors(newErrors as FormRegisterBase);
     
-    // console.log(newErrors)
     return Object.keys(newErrors).length 
     === 0;
   }
@@ -130,25 +126,25 @@ function Register(){
             formData.username.trim()
           );
           
-          setToastConfig({
-          type: 'success',
-          message: t('register.successfullyRegistered'),
-          title: 'Success',
+            showToast({
+            type: 'success',
+            message: t('register.successfullyRegistered'),
+            title: 'Success',
         });
-          setShowToast(true);
-            setTimeout(()=>{
-            history.push('/login');
-  
-          },3000)
+
+        setTimeout(()=>{
+          history.push('/login');
+
+        },2000)
+       
         }
     } catch (error) {
         setRegisterError(t('register.somethingWentWrong'))
-              setToastConfig({
+          showToast({
           type: 'failed',
           message:t('register.failedToRegister'),
           title: 'Error',
         });
-      setShowToast(true)
     } finally {
       if (isMounted.current) {
         setIsLoading(false);
@@ -268,12 +264,6 @@ return (
         </Card.Body>
       </Card>
 
-      <CustomToast
-        show={showToast}
-        onClose={()=>setShowToast(false)}
-        message={toastConfig.message}
-        title={toastConfig.title}
-      />
     </Container>
     )
 }

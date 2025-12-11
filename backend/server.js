@@ -1,49 +1,48 @@
-// server.js
 const express = require('express');
-const fs = require('fs');
 const cors = require('cors');
-const path = require('path');
-const { kv } = require('@vercel/kv');
+const Redis = require('ioredis');
 
 const app = express();
-const PORT = 3001;
 
+// Initialize Redis with your URL
+const redis = new Redis(process.env.storage_REDIS_URL);
+
+// CORS configuration
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-app.options('*', (req, res) => {
-    res.status(200).end();
-});
+app.options('*', cors());
 
 app.get('/api/data/:filename', async (req, res) => {
     try {
-        const data = await kv.get(req.params.filename);
-        res.json(data || []);
+        const data = await redis.get(req.params.filename);
+        res.json(data ? JSON.parse(data) : []);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to read data" });
+        console.error('Error reading from Redis:', err);
+        res.status(500).json({ error: "Failed to read data", details: err.message });
     }
 });
 
-
 app.post('/api/save/:filename', async (req, res) => {
     try {
-        await kv.set(req.params.filename, req.body);
+        await redis.set(req.params.filename, JSON.stringify(req.body));
         console.log(`Saved ${req.params.filename}`);
         res.json({ success: true });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false });
+        console.error('Error saving to Redis:', err);
+        res.status(500).json({ success: false, details: err.message });
     }
 });
 
 app.get('/', (req, res) => {
     res.json({ message: 'API is running', status: 'ok' });
 });
-
 
 module.exports = app;

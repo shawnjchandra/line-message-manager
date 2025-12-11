@@ -80,7 +80,7 @@ const CardForm: React.FC<CardFormProps> = ({ asset, onUpdate, onImageUpload, onR
             onChange={(e) => onUpdate('data.imageSize', e.target.value)}
             className="form-select"
           >
-            <option value="">{t('form.selectSize')}</option>
+            {/* <option value="">{t('form.selectSize')}</option> */}
             {IMAGE_SIZE_OPTIONS.map((option) => (
               <option key={option} value={option}>{option}</option>
             ))}

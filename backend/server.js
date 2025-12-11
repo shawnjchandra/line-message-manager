@@ -3,6 +3,7 @@ const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
 const path = require('path');
+const { kv } = require('@vercel/kv');
 
 const app = express();
 const PORT = 3001;
@@ -18,10 +19,8 @@ app.options('*', (req, res) => {
     res.status(200).end();
 });
 
-// 1. Define the BASE directory where all data lives
 const DATA_DIR = path.join(__dirname, 'data');
 
-// 2. Ensure the data folder exists on startup
 if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR);
 }
@@ -32,21 +31,16 @@ const getSafeFilePath = (filename) => {
     return path.join(DATA_DIR, `${safeName}.json`);
 };
 
-app.get('/api/data/:filename', (req, res) => {
-    const filePath = getSafeFilePath(req.params.filename);
-
-    if (!fs.existsSync(filePath)) {
-        return res.json([]); 
+app.get('/api/data/:filename', async (req, res) => {
+    try {
+        const data = await kv.get(req.params.filename);
+        res.json(data || []);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to read data" });
     }
-    console.log(filePath)
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ error: "Failed to read file" });
-        }
-        res.json(data ? JSON.parse(data) : []);
-    });
 });
+
 
 app.post('/api/save/:filename', (req, res) => {
     const filePath = getSafeFilePath(req.params.filename);

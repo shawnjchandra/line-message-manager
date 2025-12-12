@@ -116,6 +116,11 @@ function Register(){
       
       if(userExists)  {
         setRegisterError(t('register.registerError'));
+        showToast({
+            type: 'failed',
+            message: t('register.registerError'),
+            title: 'Email has been used',
+        });
         setIsLoading(false);
       } else {
           
@@ -126,7 +131,7 @@ function Register(){
             formData.username.trim()
           );
           
-            showToast({
+          showToast({
             type: 'success',
             message: t('register.successfullyRegistered'),
             title: 'Success',
@@ -139,8 +144,9 @@ function Register(){
        
         }
     } catch (error) {
-        setRegisterError(t('register.somethingWentWrong'))
-          showToast({
+        setRegisterError(t('register.somethingWentWrong'));
+
+        showToast({
           type: 'failed',
           message:t('register.failedToRegister'),
           title: 'Error',

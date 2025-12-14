@@ -9,6 +9,8 @@ import { FileService } from "../../services/FileService";
 import User from "../../types/User";
 import useAuthStore from "../../stores/authStore";
 import { authService } from "../../services/auth";
+import useToastStore from "../../stores/toastStore";
+import { Spinner } from "react-bootstrap";
 
 const Workspace: React.FC = () => {
   const history = useHistory();
@@ -17,6 +19,8 @@ const Workspace: React.FC = () => {
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [userLookup, setUserLookup] = useState<Record<string, string>>({});
+  const showToast = useToastStore((state) => state.showToast);  
+  const [isLoadiong, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const isTokenValid = authService.validateToken();
@@ -27,12 +31,23 @@ const Workspace: React.FC = () => {
   }, [isAuthenticated, history]);
 
   useEffect(()=>{
+    setIsLoading(true);
+    showToast({
+          type: 'info',
+          message: (<>
+            <Spinner animation="border" className="me-2" />  <span>Loading Data</span>
+          </>),
+          title: 'Syncing',
+          delay: 90000
+        });
     const loadExistingProject = async ()=>{
       try {
         const loadedProjects = await ProjectService.getAll();
         setProjects(loadedProjects);
       } catch (error) {
         console.error(error);
+      }finally{
+        setIsLoading(false);
       }
     };
 
@@ -173,7 +188,7 @@ const Workspace: React.FC = () => {
         </section>
 
       <section className="templater-grid">
-        <div className="container">
+        <div className="project-container">
         {filtered.length === 0 ? (
           <div className="templater-empty-state">
             {projects.length === 0 ? (

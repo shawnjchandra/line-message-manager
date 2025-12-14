@@ -6,6 +6,7 @@ import UserProfileProps from '../../types/UserProfileProps';
 import { AccountManagement } from '../../services/accountManagement';
 import { FileService } from '../../services/FileService';
 import User from '../../types/User';
+import { t } from 'i18next';
 
 const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
   const { user, login } = useAuthStore();
@@ -135,7 +136,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
     <>
       <Modal show={show} onHide={onHide} centered size="lg" className="user-profile-modal">
         <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold text-secondary">Account</Modal.Title>
+          <Modal.Title className="fw-bold text-secondary">{t('userProfile.account')}</Modal.Title>
         </Modal.Header>
         
         <Modal.Body className="p-5">
@@ -145,16 +146,17 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
             </div>
 
             <div className="user-info ms-4">
-              <h5 className="section-title">Profile</h5>
-              <p className="user-email mb-1">Username: {user?.username || '-'}</p>
+              <h5 className="section-title">{t('userProfile.profile')}</h5>
+              <p className="user-email mb-1">: {user?.username || '-'}</p>
               <button className="btn-link-action" onClick={openUsernameModal}>
-                Change username
+                {t('userProfile.changeUsername')}
               </button>
               <hr className="profile-divider" />
-              <p className="user-email mb-1">{user?.email}</p>
-              <div className="password-mask">******</div>
+              <p className="user-email mb-1">{t('login.email')}: {user?.email}</p>
+              <p>{t('login.password')}: <span className="password-mask">******</span></p>
+              
               <button className="btn-link-action" onClick={togglePass}>
-                Change password
+                {t('userProfile.changePassword')}
               </button>
             </div>
           </div>
@@ -162,22 +164,22 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
           <hr className="profile-divider" />
 
           <div className="mt-4">
-            <h5 className="section-title">Account Management</h5>
+            <h5 className="section-title">{t('userProfile.accountManagement')}</h5>
             <button className="btn-link-action text-danger" onClick={toggleDelete}>
-              Delete Account
+              {t('userProfile.deleteAccount')}
             </button>
           </div>
         </Modal.Body>
       </Modal>
 
       <Modal show={showPassModal} onHide={togglePass} centered style={{ zIndex: 1060 }}>
-        <Modal.Header closeButton>
-          <Modal.Title>Change password</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>{t('userProfile.changePassword')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group>
-              <Form.Label>New password</Form.Label>
+              <Form.Label>{t('userProfile.newPassword')}</Form.Label>
               <div className="d-flex align-items-center justify-content-between">
                  <Form.Control 
                   type="password" 
@@ -197,18 +199,21 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="dark" onClick={submitChange}>Save</Button>
+          <Button 
+          variant="light"
+          onClick={togglePass}>{t('userProfile.cancel')}</Button>
+          <Button variant="dark" onClick={submitChange}>{t('userProfile.save')}</Button>
         </Modal.Footer>
       </Modal>
 
       <Modal show={showUsernameModal} onHide={closeUsernameModal} centered style={{ zIndex: 1060 }}>
-        <Modal.Header closeButton>
-          <Modal.Title>Change username</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>{t('userProfile.changeUsername')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={submitUsernameChange}>
             <Form.Group>
-              <Form.Label>New username</Form.Label>
+              <Form.Label>{t('userProfile.newUsername')}</Form.Label>
               <div className="d-flex align-items-center justify-content-between">
                 <Form.Control
                   type="text"
@@ -227,28 +232,28 @@ const UserProfile: React.FC<UserProfileProps> = ({ show , onHide }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="light" onClick={closeUsernameModal}>Cancel</Button>
-          <Button variant="dark" onClick={submitUsernameChange}>Save</Button>
+          <Button variant="light" onClick={closeUsernameModal}>{t('userProfile.cancel')}</Button>
+          <Button variant="dark" onClick={submitUsernameChange}>{t('userProfile.save')}</Button>
         </Modal.Footer>
       </Modal>
 
       <Modal show={showDeleteModal} onHide={toggleDelete} centered style={{ zIndex: 1060 }}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Account</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>{t('userProfile.deleteAccount')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p className="text-muted">
-            Are you sure want to delete your account? This cannot be undone.
+            {t('userProfile.areYouSure')}
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button 
-          variant="light" 
-          onClick={toggleDelete}>Cancel</Button>
+          variant="light"
+          onClick={toggleDelete}>{t('userProfile.cancel')}</Button>
           <Button 
-          variant="danger"
+          variant="dark"
           onClick={submitDelete}
-          >Delete Account</Button>
+          >{t('userProfile.deleteAccount')}</Button>
         </Modal.Footer>
       </Modal>
     </>

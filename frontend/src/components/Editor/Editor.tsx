@@ -11,6 +11,7 @@ import { ProjectService } from '../../services/ProjectService';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useToastStore from '../../stores/toastStore';
+import { Spinner } from 'react-bootstrap';
 
 const MultiAssetManager: React.FC = () => {
   const { t } = useTranslation();
@@ -33,6 +34,15 @@ const MultiAssetManager: React.FC = () => {
   useEffect(()=>{
     // console.log(id)
     if (id) {
+      setLoading(true);
+      showToast({
+          type: 'info',
+          message: (<>
+            <Spinner animation="border" className="me-2" />  <span>Loading Data</span>
+          </>),
+          title: 'Syncing',
+          delay: 90000
+        });
       const loadExistingProject = async ()=>{
         try {
           const projectData = await ProjectService.getById(parseInt(id));
@@ -46,6 +56,8 @@ const MultiAssetManager: React.FC = () => {
           }
         } catch (e){
           console.error(e)
+        }finally{
+          setLoading(false);
         }
       };
 
@@ -163,6 +175,7 @@ const MultiAssetManager: React.FC = () => {
   };
 
   const handleSave = async (): Promise<void> => {
+    
     if (!validateAllAssets(assets)) {
       showToast({
           type: 'failed',
@@ -172,6 +185,14 @@ const MultiAssetManager: React.FC = () => {
       return;
     }
     setLoading(true);
+    showToast({
+              type: 'info',
+              message: (<>
+                <Spinner animation="border" className="me-2" />  <span>Loading Data</span>
+              </>),
+              title: 'Syncing',
+              delay: 90000
+            });
     try {
       // await saveAssets(assets);
       const savedId = await ProjectService.saveProjects(
@@ -213,7 +234,7 @@ const MultiAssetManager: React.FC = () => {
 
 
   return (
-    <div className="multi-asset-manager container-fluid p-4">
+    <div className="multi-asset-manager">
       {isEditingExisting && (
         <div className="manager-back-wrapper">
           <button
@@ -225,15 +246,15 @@ const MultiAssetManager: React.FC = () => {
           </button>
         </div>
       )}
-      <div className="manager-header mb-4">
+      <div className="manager-header">
         <h1 className="manager-title">{templateTitle}</h1>
       </div>
 
-      <div className="row">
-        <div className="col-lg-7 col-md-12">
+      <div className="asset-content">
+        <div className="asset-inner-stuff">
           <div className="manager-content">
             {assets.length > 0 && (
-              <div className="template-title-input form-group mb-3">
+              <div className="template-title-input form-group">
                 <label className="form-label" htmlFor="template-title-input">
                   {t('editor.templateTitle')}
                 </label>
@@ -272,7 +293,7 @@ const MultiAssetManager: React.FC = () => {
           </div>
 
           {assets.length > 0 && (
-            <div className="manager-footer mt-4 d-flex gap-2">
+            <div className="manager-footer">
               {isEditingExisting && currentProjectId && (
                 <button
                   className="btn btn-danger ms-auto"

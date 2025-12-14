@@ -20,7 +20,6 @@ function CustomNavbar() {
 
   const handleLogout = () => {
     logout();
-    // Redirect to login if on a protected route (workspace or editor)
     const currentPath = window.location.pathname;
     if (currentPath.startsWith('/workspace') || currentPath.startsWith('/editor')) {
       history.replace('/login');
@@ -43,7 +42,8 @@ function CustomNavbar() {
   }, []);
 
   return (
-    <><Navbar expand="lg" className="custom-navbar">
+    <>
+    <Navbar expand="lg" className="custom-navbar">
       <Container fluid className="navbar-inner-container">
         
         <Navbar.Brand href="/">

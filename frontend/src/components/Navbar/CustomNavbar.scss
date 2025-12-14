@@ -12,34 +12,41 @@
   position: sticky;  
   top: 0;            // Sticks to the very top edge
   z-index: 1020;
+  width: 100%;
 
   // 1. Control the Container Padding
   .navbar-inner-container {
-    padding-left: $nav-padding;
-    padding-right: $nav-padding;
+    max-width: 100%;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    display: flex;
+    align-items: center;
   }
 
   // 2. Logo Styling
   .fars-logo {
     height: 50px;
     width: auto;
-    margin-right: 20px; // Space between logo and links
   }
 
-  // 3. Left/Center Links
+  .navbar-collapse {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .nav-main-links {
-    // This is the Magic Trick:
-    // Setting margin-right to auto pushes the NEXT element (the profile)
-    // to the far right side of the screen.
     margin-right: auto; 
     
-    // Add gap between "Home" and "Workspace"
     display: flex;
     gap: 20px; 
+    align-items: center;
+    flex-shrink: 0;
 
     .nav-link {
       color: #333;
       font-size: 16px;
+      white-space: nowrap;
       
       &:hover {
         color: $fars-green;
@@ -51,6 +58,8 @@
   .nav-auth-profile {
     display: flex;
     align-items: center;
+     margin-left: auto; // Push to the right
+    flex-shrink: 0;
 
     // Styling the Email Dropdown
     #user-dropdown {
@@ -80,20 +89,6 @@
         color: white;
         &:hover { background-color: darken($fars-green, 10%); }
       }
-    }
-  }
-}
-
-// Mobile Responsiveness Fix
-// When the menu collapses on mobile, we don't want them side-by-side
-@media (max-width: 991px) {
-  .custom-navbar {
-    height: auto; // Allow height to grow when menu opens
-    padding: 1rem 0;
-
-    .nav-main-links {
-      margin-right: 0; // Reset the "push" margin on mobile
-      margin-bottom: 1rem; // Add space between links and profile
     }
   }
 }

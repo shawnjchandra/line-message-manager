@@ -1,11 +1,7 @@
 @import '../../styles/variables';
 
 // Variables (Fallback if not imported)
-$chat-bg-color: #849ebf;
-$header-bg-color: #232d3f;
-$line-primary-color: #42659a;
-$btn-bg-color: #f0f0f0;
-$card-radius: 12px;
+
 
 .line-preview-wrapper {
   display: flex;
@@ -30,6 +26,22 @@ $card-radius: 12px;
     .header-title {
       font-weight: bold;
     }
+  }
+  .action-btn{
+     flex: 1 1 calc(50% - 0.25rem);
+            font-weight: bold;
+            border: 0;
+            background-color: #197de1;
+            color: #f8f9fa;
+            font-size: 13px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+
+            &:hover {
+              filter: brightness(0.95);
+            }
   }
 
   /* --- Chat Body --- */
@@ -130,21 +142,7 @@ $card-radius: 12px;
         flex-wrap: wrap;
         gap: 0.5rem;
 
-        .action-btn {
-          flex: 1 1 calc(50% - 0.25rem);
-          font-weight: bold;
-          border: 0;
-          background-color: $btn-bg-color;
-          color: $line-primary-color;
-          font-size: 13px;
-          padding: 8px;
-          border-radius: 4px;
-          cursor: pointer;
-
-          &:hover {
-            filter: brightness(0.95);
-          }
-        }
+        
       }
 
       // Specifics for Confirm Card
@@ -184,7 +182,6 @@ $card-radius: 12px;
     }
   }
 
-  /* --- Footer --- */
   .chat-footer {
     background-color: white;
     padding: 0.5rem;

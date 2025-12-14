@@ -148,7 +148,9 @@
     "noTemplateFound": "No template found"
   },
   "home": {
-    "title": "Welcome to Line Manager"
+    "title": "Welcome to Line Manager",
+    "lets": "Let's get started",
+    "automation": "Automation for your LINE Template Message distribution on a whole another scale"
   },
   "navbar": {
     "home": "Home",
@@ -166,6 +168,23 @@
     "success": "Success",
     "failed": "Failed",
     "error": "Error"
+  },
+  "userProfile" :{
+    "changeUsername" : "Change Username",
+    "changePassword" : "Change Password",
+    "cancel" : "Cancel",
+    "save" : "Save",
+    "close" : "Close",
+    "enterNewPassword" : "Enter new password",
+    "FormatErrorPassword" : "Format Error: Password must be 6+ chars",
+    "UsernameMustBe" : "Username must be at least 3 characters",
+    "newUsername" : "New Username",
+    "newPassword" : "New Password",
+    "account" : "Account",
+    "accountManagement" : "Account Management",
+    "profile" : "Profile",
+    "deleteAccount" : "Delete Account",
+    "areYouSure" : "Are you sure want to delete your account? This cannot be undone."
   }
 }
 

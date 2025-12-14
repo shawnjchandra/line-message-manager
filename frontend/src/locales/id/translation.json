@@ -148,7 +148,10 @@
     "noTemplateFound": "Tidak ada template yang ditemukan"
   },
   "home": {
-    "title": "Selamat datang di Line Manager"
+    "title": "Selamat datang di Line Manager",
+    "lets": "Mari mulai",
+    "automation": "Otomatisasi distribusi pesan template LINE Anda pada skala yang jauh lebih besar"
+
   },
   "navbar": {
     "home": "Beranda",
@@ -166,5 +169,22 @@
     "success": "Sukses",
     "failed": "Gagal",
     "error": "eror"
+  },
+  "userProfile" :{
+    "changeUsername" : "Ganti Nama",
+    "changePassword" : "Ganti Kata Sandi",
+    "cancel" : "Batalkan",
+    "save" : "Simpan",
+    "close" : "Tutup",
+    "enterNewPassword" : "Masukkan kata sandi baru",
+    "FormatErrorPassword" : "Format Eror: Kata sandi harus lebih dari 6 karakter",
+    "UsernameMustBe" : "Nama harus lebih dari 3 huruf",
+    "newUsername" : "Nama Baru",
+    "newPassword" : "Kata Sandi Baru",
+    "account" : "Akun",
+    "accountManagement" : "Manajemen Akun",
+    "profile" : "Profil",
+    "deleteAccount" : "Hapus Akun",
+    "areYouSure" : "Yakin mau hapus akun? Aksi ini ga bisa di undo loh."
   }
 }

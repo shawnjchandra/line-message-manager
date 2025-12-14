@@ -96,6 +96,7 @@ function Register(){
   const handleSubmit = async (e: FormEvent) : Promise<void> => {
     e.preventDefault();
 
+    setIsLoading(true);
     const valid = validateForm();
 
     if(!valid) {
@@ -104,7 +105,6 @@ function Register(){
     } 
 
     
-    setIsLoading(true);
     setRegisterError('');
 
     try {
@@ -136,7 +136,7 @@ function Register(){
             message: t('register.successfullyRegistered'),
             title: 'Success',
         });
-
+        setIsLoading(false);
         setTimeout(()=>{
           history.push('/login');
 

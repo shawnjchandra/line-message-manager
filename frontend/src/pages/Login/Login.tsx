@@ -1,15 +1,13 @@
 import { ChangeEvent, FormEvent, useState, useRef, useEffect } from 'react';
 import { Container, Card, Form, Button, Spinner} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom'
-import CustomToast from '../../components/CustomToast/CustomToast';
-import { CustomToastInterface } from '../../components/CustomToast/CustomToastInterface';
 import { useTranslation } from 'react-i18next';
-import './Login.scss';
 import { authService } from '../../services/auth';
 import useAuthStore from '../../stores/authStore';
 import { FileService } from '../../services/FileService';
 import User from '../../types/User';
 import useToastStore from '../../stores/toastStore';
+import './Login.scss';
 
 interface FormLoginBase {
   email:string;
@@ -85,7 +83,7 @@ function Login() {
 
       if (users){
       const user = authService.login(formData.email, formData.password, users);
-
+      setIsLoading(true);
       if (user) {        
         login(user);
         // alert('Sukses');
@@ -94,8 +92,7 @@ function Login() {
           message: t('login.successfullyLoggedIn'),
           title: t('toast.success'),
         });
-        //setShowToast(true);
-
+        setIsLoading(false);
         setTimeout(()=>{
           history.push('/');
 
@@ -106,7 +103,6 @@ function Login() {
           message: t('login.invalidEmailOrPassword'),
           title: 'Error',
         });
-        //setShowToast(true);
 
         setTimeout(()=>{
           setIsLoading(false);
@@ -120,7 +116,6 @@ function Login() {
           message: t('login.failedToLogIn'),
           title: 'Error',
         });
-      //setShowToast(true)
     } finally {
       if (isMounted.current) {
         

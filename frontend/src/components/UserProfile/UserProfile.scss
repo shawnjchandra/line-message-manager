@@ -1,6 +1,44 @@
 @import '../../styles/variables';
+.btn{
+  cursor: pointer;
+}
 
-// Variables (tweak to match your theme)
+.close{
+  cursor: pointer;
+  border-radius: 10px;
+  font: large;
+  padding: 0 10px;
+  background-color: rgb(255, 68, 68);
+  border-style: hidden;
+  font-weight: 500;
+  gap: 10px;
+
+  &:hover{
+    background-color: rgb(212, 19, 19);
+    color: white;
+  }
+}
+
+.btn-light{
+  background-color: rgb(255, 68, 68);
+  color: white;
+  
+  &:hover{
+    background-color: rgb(212, 19, 19);
+    color: white;
+    
+  }
+}
+.btn-dark{
+  background-color: rgb(102, 247, 128);
+  color: white;
+  
+  &:hover{
+    background-color: rgb(71, 189, 92);
+    color: white;
+    
+  }
+}
 
 .profile-container {
   max-width: 800px; // Keeps it from stretching too wide
@@ -40,13 +78,14 @@
     color: #555;
   }
 
+
   .password-mask {
     background-color: #aaa;
     color: transparent;
     border-radius: 4px;
-    padding: 0 5px 2px 5px;
+    padding: 2px 5px;
     display: inline-block;
-    height: 12px;
+    height: auto;
     width: auto;
     margin-bottom: 8px;
     color:#000;
@@ -63,6 +102,7 @@
     text-decoration: none; // No underline by default
     cursor: pointer;
     transition: color 0.2s;
+    color: rgb(47, 172, 250);
 
     &:hover {
       text-decoration: underline;

@@ -33,6 +33,13 @@ cp env .env %% Jangan diganti  %%
 npm start
 ```
 
+## Lint Test (FRONTEND)
+
+Untuk menjalankan lint test pada Frontend dapat dilakukan
+```bash
+npm run lint
+```
+
 Setelah kedua proses berjalan, maka aplikasi dapat langsung digunakan
 
 Catatan: Email menerima domain email `.com` dan `unpar.ac.id`

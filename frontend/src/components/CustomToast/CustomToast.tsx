@@ -16,7 +16,7 @@ export default function CustomToast({
     title,
     message, 
     type = 'info',
-    delay=5000, 
+    delay, 
     autohide = true
 }: CustomToastProps) {
     
@@ -38,7 +38,7 @@ export default function CustomToast({
             <Toast
                 show={show}
                 onClose={onClose}
-                delay={delay}
+                delay={delay ? delay : 5000}
                 autohide={autohide}
                 className={getToastClass()}
             >

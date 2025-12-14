@@ -1,31 +1,116 @@
-.home-title-container {
-    display: flex;
-    justify-content: center;
+@import '../../styles/variables';
+@import '../../styles/mixins';
+// Variables
+
+.fars-pict{
+  width: 45%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+}
+
+
+// Base
+.home {
+  min-height: 90vh;
+  background-color: $white;
+  overflow-x: hidden;
+}
+
+
+// Buttons
+.btn {
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: $primary-color;
+  cursor: pointer;
+  border: none;
+  @include transition(all 0.3s ease);
+
+  &.btn-primary {
+    color: $white;
+
+    &:hover {
+      background-color: $primary-dark;
+    }
+  }
+
+  &.btn-large {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+
+  a{
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f0fdf4;
+    text-decoration: none;
+  }
+
+}
+
+// Hero Section
+.main-section {
+  position: relative;
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  overflow: hidden;
+
+ .hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
     align-items: center;
-    position: relative;
-}
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
 
-.fars-logo-container {
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $text-primary;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    color: $text-secondary;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
     display: flex;
-    justify-content: center;
-}
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
 
-.fars-center-logo {
-    width: 10vw;
-    height: 29vh;
-}
-
-.background-img {
-    width: 100vw;
-}
-
-.bg-container {
+  .wave-container {
     position: absolute;
-    top: 10%;
+    left: 0;
+    width: 100%;
+    color: $white;
+    line-height: 0;
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 
-.home-titles {
-    z-index: 2;
-    top: 50px;
-    position: relative;
+// Features Section
+.waves-divider {
+  padding: 2rem 0;
+  background-color: $white;
 }
+
+

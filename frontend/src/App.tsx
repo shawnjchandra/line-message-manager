@@ -10,6 +10,7 @@ import CustomNavbar from './components/Navbar/CustomNavbar';
 import Register from './pages/Register/Register';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import GlobalToast from './components/GlobalToast/GlobalToast';
+
 function App() {
   return (
    <>

@@ -96,6 +96,7 @@ function Register(){
   const handleSubmit = async (e: FormEvent) : Promise<void> => {
     e.preventDefault();
 
+    setIsLoading(true);
     const valid = validateForm();
 
     if(!valid) {
@@ -104,7 +105,6 @@ function Register(){
     } 
 
     
-    setIsLoading(true);
     setRegisterError('');
 
     try {
@@ -116,6 +116,11 @@ function Register(){
       
       if(userExists)  {
         setRegisterError(t('register.registerError'));
+        showToast({
+            type: 'failed',
+            message: t('register.registerError'),
+            title: 'Email has been used',
+        });
         setIsLoading(false);
       } else {
           
@@ -126,12 +131,12 @@ function Register(){
             formData.username.trim()
           );
           
-            showToast({
+          showToast({
             type: 'success',
             message: t('register.successfullyRegistered'),
             title: 'Success',
         });
-
+        setIsLoading(false);
         setTimeout(()=>{
           history.push('/login');
 
@@ -139,8 +144,9 @@ function Register(){
        
         }
     } catch (error) {
-        setRegisterError(t('register.somethingWentWrong'))
-          showToast({
+        setRegisterError(t('register.somethingWentWrong'));
+
+        showToast({
           type: 'failed',
           message:t('register.failedToRegister'),
           title: 'Error',

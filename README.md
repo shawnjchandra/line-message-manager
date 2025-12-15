@@ -43,3 +43,8 @@ npm run lint
 Setelah kedua proses berjalan, maka aplikasi dapat langsung digunakan
 
 Catatan: Email menerima domain email `.com` dan `unpar.ac.id`
+
+## Preview Online
+
+Berikut preview menggunakan vercel
+line-message-manager.vercel.app
